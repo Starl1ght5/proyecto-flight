@@ -1,9 +1,19 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@config "../tailwind.config.js";
 
 body{
     background-color: #EAF1F8;
+    font-family: Noto sans;
+}
+
+@theme {
+
+  --color-lilac: #431DA3;
+  --color-gold: #CFA14C;
+
+  --font-noto-sans: Noto Sans, serif;
 }
 
 @keyframes fadeIn {

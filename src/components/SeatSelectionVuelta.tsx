@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
-import { FaCouch } from "react-icons/fa";
 
 const SelectSeatsVuelta = () => {
   const [seats, setSeats] = useState([]);
@@ -52,7 +51,7 @@ const SelectSeatsVuelta = () => {
           disabled={!isAvailable}
           onClick={() => handleSeatSelection(seat.id)}
         >
-          <FaCouch className="text-2xl text-blueblack" />
+          <p className="text-2xl text-blueblack"></p>
         </button>
         {isAvailable && (
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full bg-lightblue text-bluemint text-sm font-semibold px-4 py-1 rounded-md shadow-2xl opacity-0 group-hover:opacity-100 transition">

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { FaCouch } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; 
+
 
 const SelectSeatsIda = () => {
   const [seats, setSeats] = useState([]);

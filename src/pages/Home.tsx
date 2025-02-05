@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { FaChevronDown } from 'react-icons/fa';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../src/assets/Alerofondo.jpeg';
+
 
 const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
   <div className="relative">
@@ -11,7 +11,7 @@ const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
       aria-haspopup="true"
       className="text-bluemint hover:text-yellow-500 flex items-center gap-2 transition duration-300 ease-in-out"
     >
-      {label} <FaChevronDown />
+      {label}
     </button>
     {isOpen && (
       <ul className="absolute bg-white text-black p-3 shadow-lg rounded-lg">
@@ -41,7 +41,7 @@ const HeroSection = () => {
   const [selectedPassenger, setSelectedPassenger] = useState('1 Adulto');
   const navigate = useNavigate();
 
-  const toggleDropdown = (menu) => {
+  {/*const toggleDropdown = (menu: boolean) => {
     setDropdownOpen((prev) => (prev === menu ? null : menu));
   };
 
@@ -63,7 +63,7 @@ const HeroSection = () => {
     );
   };
 
-  const getPassengerCount = (passengerType) => {
+  const getPassengerCount = (passengerType: Integer) => {
     const passengerMap = {
       '1 Adulto': 1,
       '2 Adultos': 2,
@@ -71,7 +71,7 @@ const HeroSection = () => {
       'Bebé': 1,
     };
     return passengerMap[passengerType] || 0;
-  };
+  };*/}
 
   return (
     <div
