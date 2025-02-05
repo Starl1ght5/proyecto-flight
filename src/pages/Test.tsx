@@ -1,3 +1,4 @@
+import LoginComponent from "../components/LoginComponent";
 import Navbar from "../components/Navbar";
 
 export default function Test () {
@@ -6,6 +7,7 @@ export default function Test () {
         <div>
             <Navbar />
             
+            <LoginComponent />
         </div>
     )
 }

@@ -12,8 +12,14 @@ body{
 
   --color-lilac: #431DA3;
   --color-gold: #CFA14C;
+  --color-blueblack: #002147;
+  --color-lightblue: #88BFFF;
 
   --font-noto-sans: Noto Sans, serif;
+
+  --font-extralight: 250;
+
+  --text-2-5xl: ;
 }
 
 @keyframes fadeIn {
