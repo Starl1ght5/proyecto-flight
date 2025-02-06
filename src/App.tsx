@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-//import LoginPage from "./pages/Login";
+import Home from "./Pages/Home";
+import LoginPage from "./Pages/Login";
 //import Profile from "./components/PerfilUser";
 //import ViajePopular from "./pages/ViajePopular";
 //import OfertasDestacadas from "./pages/OfertasDestacadas";
@@ -12,7 +12,7 @@ import Home from "./pages/Home";
 //import Pasajeros from "./components/Pasajeros";
 //import ConfirmarPago from "./components/ConfirmarPago";
 //import BoardingPass from "./components/BoardingPass";
-import Test from "./pages/Test";
+import Test from "./Pages/Test";
 
 
 export default function App() {
@@ -20,7 +20,8 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/*<Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        {/* 
         <Route path="/search-results" element={<FlightSelection />} />
         <Route path="/return-selection" element={<ReturnFlightSelection />} />
         <Route path="/seat-selection" element={<SeatSelectionIda />} />
