@@ -9,9 +9,13 @@ type FormFields = {
     password: string;
 }
 
-export default function LoginComponent () {
+interface ChildProps {
+    changeState: (value: boolean) => void;
+}
 
-    const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>();
+const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
+
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormFields>();
 
     const onSubmit = handleSubmit( async (data: FieldValues) => {
         try {
@@ -39,8 +43,17 @@ export default function LoginComponent () {
         }
     })
 
+    const changeParentState = () => {
+        changeState(false);
+    }
+
     return (
-        <motion.div className="py-6 px-8 rounded-2xl shadow-lg bg-white w-lg">
+        <motion.div 
+            className="py-6 px-8 rounded-2xl shadow-lg bg-white w-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+        >
             <Toaster richColors position="top-right" duration={4000} className="bg-white text-black" />
 
             <div className="flex justify-center -translate-y-4 -mb-1">
@@ -84,7 +97,7 @@ export default function LoginComponent () {
                     </div>
 
                     <div className="flex justify-center py-2">
-                        <motion.button type="submit" className="hover:cursor-pointer duration-200 hover:bg-gold bg-lilac text-bluemint py-3 w-5/6 rounded-lg text-lg font-semibold" >Continuar</motion.button>
+                        <motion.button type="submit" disabled={isSubmitting} className="hover:cursor-pointer duration-200 hover:bg-gold bg-lilac text-bluemint py-3 w-5/6 rounded-lg text-lg font-semibold" >Continuar</motion.button>
                     </div>
                 </div>
             </form>
@@ -100,10 +113,12 @@ export default function LoginComponent () {
 
             <div className="flex flex-row text-sm justify-center mt-5 gap-2" >
                 <p className="italic text-gray-600">No tienes una cuenta?</p>
-                <p className="text-lilac underline hover:cursor-pointer" >Registrate</p>
+                <p className="text-lilac underline hover:cursor-pointer" onClick={changeParentState} >Registrate</p>
             </div>
             
 
         </motion.div>
     )
 }
+
+export default LoginComponent;
