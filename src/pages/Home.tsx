@@ -41,7 +41,7 @@ const HeroSection = () => {
   const [selectedPassenger, setSelectedPassenger] = useState('1 Adulto');
   const navigate = useNavigate();
 
-  {/*const toggleDropdown = (menu: boolean) => {
+  const toggleDropdown = (menu: boolean) => {
     setDropdownOpen((prev) => (prev === menu ? null : menu));
   };
 
@@ -71,7 +71,7 @@ const HeroSection = () => {
       'Bebé': 1,
     };
     return passengerMap[passengerType] || 0;
-  };*/}
+  };
 
   return (
     <div
