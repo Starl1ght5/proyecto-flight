@@ -54,7 +54,7 @@ public class UserService {
 
 
     public boolean isEmailTaken (String requestedEmail) {
-        return userRepository.isEmailTaken(requestedEmail).isVerified();
+        return userRepository.isEmailTaken(requestedEmail) != null;
     }
 
 
