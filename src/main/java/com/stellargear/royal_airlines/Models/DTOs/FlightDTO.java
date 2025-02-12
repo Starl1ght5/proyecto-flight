@@ -1,29 +1,27 @@
-package com.stellargear.royal_airlines.Models.Entities;
+package com.stellargear.royal_airlines.Models.DTOs;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.joda.money.Money;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Setter
 @Getter
-public class Flight {
+@Setter
+public class FlightDTO {
 
-    @Id
     private String flightID;
     private String airline;
     private Money ticketPrice;
 
-    private Location departureLocation;
-    private Location arrivalLocation;
+    private LocationDTO departureLocation;
+    private LocationDTO arrivalLocation;
 
     private LocalDateTime departureDate;
     private LocalDateTime arrivalDate;
 
-    private List<Seat> availableSeats;
+    private List<SeatDTO> availableSeats;
 
-    public Flight () {}
+    public FlightDTO ()  {}
 }
