@@ -31,10 +31,10 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
                     const res = await response;
     
                     if (res.status === 202) {
-                        toast.success("Seccion iniciada correctamente!");
+                        toast.success("Cuenta creada exitosamente!");
                     
-                    } else if (res.status === 404) {
-                        toast.error("Correo y/o contraseña incorrectos", {
+                    } else if (res.status === 400) {
+                        toast.error("Este correo ya esta en uso", {
                             className: "bg-red-500 text-white rounded-lg shadow-lg"
                         });
                     }

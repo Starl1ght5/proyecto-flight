@@ -1,5 +1,6 @@
 import { useForm, type FieldValues } from "react-hook-form";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 type SearchFields = {
     origin: string;
@@ -13,10 +14,15 @@ export default function SearchComopnent () {
 
     const [ roundTrip, setRoundTrip ] = useState<boolean>(true);
 
+    const navigate = useNavigate();
+
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SearchFields>();
 
     const onSubmit = handleSubmit( async (data: FieldValues) => {
 
+        navigate(
+            `/search-results?origen=${data.origin}&destino=${data.destination}&ida=${data.departure}&vuelta=${data?.arrival}&passengers=${data.passengers}`
+          );
     })
 
 

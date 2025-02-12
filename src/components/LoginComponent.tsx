@@ -23,20 +23,21 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
-            })
+            });
 
             const res = await response;
 
             if (res.status === 202) {
                 toast.success("Seccion iniciada correctamente!");
-            } else if (res.status === 404) {
+                
+            } else if (res.status === 400) {
                 toast.error("Correo y/o contraseña incorrectos", {
                     className: "bg-red-500 text-white rounded-lg shadow-lg"
-                })
+                });
             }
 
         } catch (error) {
-            console.log(error)
+            console.log(error);
             toast.error("Error del servidor" , {
                 className: "bg-red-500 text-white rounded-lg shadow-lg"
             });
