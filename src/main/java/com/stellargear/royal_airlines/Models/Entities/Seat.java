@@ -11,6 +11,7 @@ public class Seat {
 
     @Id
     private String seatID;
+    private String seatNumber;
     private Money seatPrice;
     private boolean reserved;
 

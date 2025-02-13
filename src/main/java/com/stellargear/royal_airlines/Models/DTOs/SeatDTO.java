@@ -9,6 +9,7 @@ import org.joda.money.Money;
 public class SeatDTO {
 
     private String seatID;
+    private String seatNumber;
     private Money seatPrice;
     private boolean reserved;
 
