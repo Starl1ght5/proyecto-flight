@@ -1,14 +1,45 @@
 
-
 interface Flight {
     flight: FlightInfo;
+}
+
+interface Money {
+    currency: Currency;
+    amount: string;
+}
+
+interface Currency {
+    code: string;
+    numericCode: number;
+    decimalPlaces: number;
+}
+
+interface Seat {
+    seatID: string;
+    seatNumber: string;
+    seatPrice: Money;
+    reserved: boolean;
 }
 
 interface FlightInfo {
     flightID: string;
     airline: string;
-
+    ticketPrice: Money;
+    arrivalLocation: Location;
+    departureLocation: Location;
+    arrivalDate: Date;
+    departureDate: Date;
+    seatList: Array<Seat>;
 }
+
+interface Location {
+    locationID: string;
+    cityName: string;
+    countryName: string;
+    iataCode: string;
+    airportName: string;
+}
+
 
 export const FlightCard: React.FC<Flight> = ({  }) => {
 
