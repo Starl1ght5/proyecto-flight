@@ -19,23 +19,32 @@ public class SeatService {
     public List<Seat> generateSeats () {
 
         List<Seat> returnedList = new ArrayList<>();
+        char letter;
 
-        for (int i = 1; i < 180; i++) {
-            Seat newSeat = new Seat();
-            newSeat.setReserved(false);
+        for (int i = 1; i < 7; i++) {
 
-            if (i < 23) {
-                newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 30.00));
+            letter = (char) ('A' + i - 1);
 
-            } else if (i > 23 && i < 59) {
-                newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 20.00));
+            for (int e = 1; e < 31; e++) {
 
-            } else {
-                newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 10.00));
+                Seat newSeat = new Seat();
+                newSeat.setReserved(false);
+                newSeat.setSeatNumber(letter + "" + e);
+
+                if (i < 6) {
+                    newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 30.00));
+
+                } else if (i > 6 && i < 13) {
+                    newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 20.00));
+
+                } else {
+                    newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 10.00));
+                }
+
+                seatRepository.save(newSeat);
+                returnedList.add(newSeat);
             }
 
-            seatRepository.save(newSeat);
-            returnedList.add(newSeat);
         }
 
         return returnedList;
