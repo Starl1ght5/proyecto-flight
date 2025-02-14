@@ -9,6 +9,12 @@ public interface LocationRepository extends MongoRepository<Location, String> {
     @Query("{ 'locationID' : ?0 }")
     Location searchByID(String locationID);
 
+<<<<<<< HEAD
+=======
+    @Query("{ 'iataCode' : ?0 }")
+    Location searchByIataCode(String iataCode);
+
+>>>>>>> dde430b (More work)
     @Query("{ 'cityName' : ?0, 'airport': ?1, 'iataCode': ?2 }")
     Location checkForExistingLocation(String city, String airport, String iataCode);
 }

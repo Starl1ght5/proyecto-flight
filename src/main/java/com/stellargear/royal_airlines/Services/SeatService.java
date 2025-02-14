@@ -1,5 +1,9 @@
 package com.stellargear.royal_airlines.Services;
 
+<<<<<<< HEAD
+=======
+import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
+>>>>>>> dde430b (More work)
 import com.stellargear.royal_airlines.Models.Entities.Seat;
 import com.stellargear.royal_airlines.Repositories.SeatRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +52,30 @@ public class SeatService {
         }
 
         return returnedList;
+<<<<<<< HEAD
 
+=======
+    }
+
+    public SeatDTO objectToDto (Seat requestedObject) {
+        SeatDTO returnedDto = new SeatDTO();
+
+        returnedDto.setSeatID(requestedObject.getSeatID());
+        returnedDto.setSeatNumber(requestedObject.getSeatNumber());
+        returnedDto.setSeatPrice(requestedObject.getSeatPrice());
+        returnedDto.setReserved(requestedObject.isReserved());
+
+        return returnedDto;
+    }
+
+    public List<SeatDTO> objectListToDto (List<Seat> requestedList) {
+        List<SeatDTO> returnedList = new ArrayList<>();
+
+        for (Seat seat : requestedList) {
+            returnedList.add(objectToDto(seat));
+        }
+
+        return returnedList;
+>>>>>>> dde430b (More work)
     }
 }
