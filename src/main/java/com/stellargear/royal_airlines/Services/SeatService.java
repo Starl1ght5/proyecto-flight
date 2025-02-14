@@ -1,9 +1,7 @@
 package com.stellargear.royal_airlines.Services;
 
-<<<<<<< HEAD
-=======
+
 import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
->>>>>>> dde430b (More work)
 import com.stellargear.royal_airlines.Models.Entities.Seat;
 import com.stellargear.royal_airlines.Repositories.SeatRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,9 +50,6 @@ public class SeatService {
         }
 
         return returnedList;
-<<<<<<< HEAD
-
-=======
     }
 
     public SeatDTO objectToDto (Seat requestedObject) {
@@ -76,6 +71,5 @@ public class SeatService {
         }
 
         return returnedList;
->>>>>>> dde430b (More work)
     }
 }

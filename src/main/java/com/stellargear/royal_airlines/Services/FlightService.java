@@ -10,14 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
-import java.time.LocalDateTime;
-=======
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> dde430b (More work)
 
 @Service
 @RequiredArgsConstructor
@@ -40,9 +37,6 @@ public class FlightService {
 
         flightRepository.save(newFlight);
 
-<<<<<<< HEAD
-        return new ResponseEntity<>("Flight created!" ,HttpStatus.ACCEPTED);
-=======
         return new ResponseEntity<>("Flight created!", HttpStatus.ACCEPTED);
     }
 
@@ -86,7 +80,6 @@ public class FlightService {
         }
 
         return returnedList;
->>>>>>> dde430b (More work)
     }
 
 }

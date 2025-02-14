@@ -38,13 +38,10 @@ public class LocationService {
         return locationRepository.searchByID(requestedID);
     }
 
-<<<<<<< HEAD
-=======
     public Location searchByIataCode (String requestedCode) {
         return locationRepository.searchByIataCode(requestedCode);
     }
 
->>>>>>> dde430b (More work)
     public boolean locationAlreadyPresent (LocationDTO infoToCheck) {
         return locationRepository.checkForExistingLocation(infoToCheck.getCityName(), infoToCheck.getAirportName(), infoToCheck.getIataCode()) != null;
     }
