@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
 import { FlightCard } from '../Components/FlightCard';
+import Navbar from '../Components/Navbar';
 
 export default function SearchResults() {
 
-    const [ Flights, setFlights ] = useEffect([]);
+    const [ Flights, setFlights ] = useState([]);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -19,11 +20,13 @@ export default function SearchResults() {
 
     useEffect(() => {
 
+        {/*&arrival=${arrival} queda fuera por ahora*/}
+
         const fetchRequestedFlights = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/flights/search?origin=${origin}&destination=${destination}&departure=${departure}&arrival=${arrival}`, {
+                const response = await fetch(`http://localhost:8080/api/flights/search?origin=${origin}&destination=${destination}&departure=${departure}`, {
                     method: 'GET'
-                });
+                    });
 
                 const res = await response.json();
                 setFlights(res);
@@ -39,14 +42,16 @@ export default function SearchResults() {
 
         fetchRequestedFlights();
         
-    }, [])
+    }, [Flights, departure, destination, origin, setFlights])
 
     return (
         <div>
             <Toaster richColors position="top-right" duration={4000} className="bg-white text-black" />
 
-            <div className="flex flex-col gap-4 py-6 px-4">
-                {Flights?.map(element => {
+            <Navbar />
+
+            <div className="flex flex-col gap-4 py-6 px-4 items-center">
+                {Flights?.map((element) => {
 
                     return (
                         <FlightCard flight={element} />

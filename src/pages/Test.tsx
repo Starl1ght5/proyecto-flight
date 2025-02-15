@@ -1,4 +1,3 @@
-import { FlightCard } from "../Components/FlightCard";
 import Navbar from "../Components/Navbar";
 import SearchComponent from "../Components/SearchComponent";
 
@@ -11,7 +10,6 @@ export default function Test () {
             <div className="p-4 gap-3 flex flex-col justify-center items-center">
                 <SearchComponent />
 
-                <FlightCard />
             </div>
         </div>
     )
