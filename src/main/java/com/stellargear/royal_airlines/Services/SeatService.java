@@ -34,13 +34,13 @@ public class SeatService {
                 newSeat.setSeatNumber(letter + "" + e);
 
                 if (i < 6) {
-                    newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 30.00));
+                    newSeat.setSeatPrice(30.00);
 
                 } else if (i > 6 && i < 13) {
-                    newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 20.00));
+                    newSeat.setSeatPrice(20.00);
 
                 } else {
-                    newSeat.setSeatPrice(Money.of(CurrencyUnit.USD, 10.00));
+                    newSeat.setSeatPrice(10.00);
                 }
 
                 seatRepository.save(newSeat);
@@ -57,7 +57,7 @@ public class SeatService {
 
         returnedDto.setSeatID(requestedObject.getSeatID());
         returnedDto.setSeatNumber(requestedObject.getSeatNumber());
-        returnedDto.setSeatPrice(requestedObject.getSeatPrice());
+        returnedDto.setSeatPrice(Money.of(CurrencyUnit.USD, requestedObject.getSeatPrice()));
         returnedDto.setReserved(requestedObject.isReserved());
 
         return returnedDto;

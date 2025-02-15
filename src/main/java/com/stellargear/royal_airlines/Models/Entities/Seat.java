@@ -12,7 +12,7 @@ public class Seat {
     @Id
     private String seatID;
     private String seatNumber;
-    private Money seatPrice;
+    private double seatPrice;
     private boolean reserved;
 
     public Seat () {}

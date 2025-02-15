@@ -15,7 +15,7 @@ public class Flight {
     @Id
     private String flightID;
     private String airline;
-    private Money ticketPrice;
+    private double ticketPrice;
 
     private Location departureLocation;
     private Location arrivalLocation;

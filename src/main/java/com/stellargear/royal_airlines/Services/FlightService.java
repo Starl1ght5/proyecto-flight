@@ -2,6 +2,7 @@ package com.stellargear.royal_airlines.Services;
 
 import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
+import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Repositories.FlightRepository;
 import lombok.RequiredArgsConstructor;
 import org.joda.money.CurrencyUnit;
@@ -10,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class FlightService {
     public ResponseEntity<?> addNewFlight(String airlineName, double price, String departureID, String arrivalID) {
         Flight newFlight = new Flight();
         newFlight.setAirline(airlineName);
-        newFlight.setTicketPrice(Money.of(CurrencyUnit.USD, price));
+        newFlight.setTicketPrice(price);
         newFlight.setDepartureLocation(locationService.searchByID(departureID));
         newFlight.setArrivalLocation(locationService.searchByID(arrivalID));
         newFlight.setDepartureDate(LocalDateTime.now());
@@ -40,11 +41,16 @@ public class FlightService {
         return new ResponseEntity<>("Flight created!", HttpStatus.ACCEPTED);
     }
 
-    public List<FlightDTO> searchFlights (String departureIataCode, String arrivalIataCode, LocalDateTime date) {
-        LocalDateTime startOfDay = date.toLocalDate().atStartOfDay();
-        LocalDateTime endOfDay = date.toLocalDate().atTime(23, 59, 59, 999999999);
+    public List<FlightDTO> searchFlights (String departureIataCode, String arrivalIataCode, String date) {
+        LocalDate convertedDate = LocalDate.parse(date);
 
-        return objectListToDto(flightRepository.searchFlights(locationService.searchByIataCode(departureIataCode), locationService.searchByIataCode(arrivalIataCode), startOfDay, endOfDay));
+        LocalDateTime startOfDay = convertedDate.atStartOfDay();
+        LocalDateTime endOfDay = convertedDate.atTime(23, 59, 59, 999999999);
+
+        Location start = locationService.searchByIataCode(departureIataCode);
+        Location end = locationService.searchByIataCode(arrivalIataCode);
+
+        return objectListToDto(flightRepository.searchFlights(start, end, startOfDay, endOfDay));
     }
 
     public String calculateTimeDifference(LocalDateTime start, LocalDateTime finish) {
@@ -53,7 +59,7 @@ public class FlightService {
         long hours = timeBetween.toHours() % 24;
         long minutes = timeBetween.toMinutes() % 60;
 
-        return "h" + hours + " m" + minutes;
+        return  hours + "h " + minutes + "m";
     }
 
     public FlightDTO objectToDto (Flight requestedObject) {
@@ -61,7 +67,7 @@ public class FlightService {
 
         returnedDto.setFlightID(requestedObject.getFlightID());
         returnedDto.setAirline(requestedObject.getAirline());
-        returnedDto.setTicketPrice(requestedObject.getTicketPrice());
+        returnedDto.setTicketPrice(Money.of(CurrencyUnit.USD, requestedObject.getTicketPrice()));
         returnedDto.setArrivalDate(requestedObject.getArrivalDate());
         returnedDto.setDepartureDate(requestedObject.getDepartureDate());
         returnedDto.setDepartureLocation(locationService.objectToDto(requestedObject.getDepartureLocation()));
