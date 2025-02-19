@@ -5,7 +5,7 @@ import LoginPage from "./Pages/Login";
 //import ViajePopular from "./pages/ViajePopular";
 //import OfertasDestacadas from "./pages/OfertasDestacadas";
 //import Alojamientos from "./pages/Alojamientos";
-import SearchResutls from "./Pages/SearchResults";
+import SearchResutls from "./Pages/FlightSelection";
 //import ReturnFlightSelection from "./components/ReturnFlightSelection";
 //import SeatSelectionIda from "./components/SeatSelectionIda";
 //import SelectSeatsVuelta from "./components/SeatSelectionVuelta";

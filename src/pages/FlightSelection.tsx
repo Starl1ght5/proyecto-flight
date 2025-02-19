@@ -8,6 +8,8 @@ export default function SearchResults() {
 
     const [ Flights, setFlights ] = useState([]);
 
+    const [ reservedFlight, setReservedFlight ] = useState(false);
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -50,14 +52,26 @@ export default function SearchResults() {
 
             <Navbar />
 
-            <div className="flex flex-col gap-4 py-6 px-4 items-center">
-                {Flights?.map((element) => {
+            {!reservedFlight ? (
+                <div className="px-10 pt-8">
+                    <h1 className="text-2-5xl">Elige un vuelo de ida</h1>
+                    
+                    <div className="flex flex-col gap-4 py-6 px-4 items-center">
+                        {Flights?.map((element) => {
 
-                    return (
-                        <FlightCard flight={element} />
-                    )
-                })}
-            </div>
+                        return (
+                            <FlightCard flight={element} />
+                        )
+                    })}
+                    </div>
+                </div>
+            ) : (
+                <div>
+
+                </div>
+            )}
+
+           
         </div>
     )
 }

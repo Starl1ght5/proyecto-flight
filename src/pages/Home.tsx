@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../src/assets/Alerofondo.jpeg';
+import Navbar from '../Components/Navbar';
 
 
 const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
@@ -74,20 +75,20 @@ const HeroSection = () => {
   };
 
   return (
-    <div
-      className="relative h-[80vh] bg-cover bg-center"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
-    >
-      <div className="absolute inset-0 bg-blueblack bg-opacity-10"></div>
-      <div className="relative text-center text-blueblack pt-20">
-        <h1 className="text-6xl font-extrabold tracking-wide drop-shadow-lg">
-          Viaja a cualquier lugar sin preocupaciones
-        </h1>
-        <p className="mt-6 text-blueblack text-2xl drop-shadow-lg">
-          Encuentra hotel y vuelos con la mejor experiencia.
-        </p>
+    <div>
+        <Navbar />
 
-        <div className="mt-40 bg-bluemint bg-opacity-20 p-8 rounded-xl shadow-2xl max-w-5xl mx-auto text-black">
+        <div className="relative h-[80vh] bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+          <div className="absolute inset-0 bg-blueblack bg-opacity-10"></div>
+          <div className="relative text-center text-blueblack pt-20">
+            <h1 className="text-6xl font-extrabold tracking-wide drop-shadow-lg">
+            Viaja a cualquier lugar sin preocupaciones
+            </h1>
+            <p className="mt-6 text-blueblack text-2xl drop-shadow-lg">
+            Encuentra hotel y vuelos con la mejor experiencia.
+            </p>
+
+          <div className="mt-40 bg-bluemint bg-opacity-20 p-8 rounded-xl shadow-2xl max-w-5xl mx-auto text-black">
           <div className="flex justify-between gap-6 mb-6">
             <Dropdown
               label={selectedTripType}
@@ -128,30 +129,32 @@ const HeroSection = () => {
               name="destino"
               type="text"
               placeholder="Destino (Ej: Pereira)"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              id="ida"
-              name="ida"
-              type="date"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              id="vuelta"
-              name="vuelta"
-              type="date"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              disabled={selectedTripType === 'Solo Ida'}
-            />
-            <div className="col-span-4 flex justify-center mt-6">
-              <button className="bg-gold hover:bg-yellow-600 text-bluemint py-3 px-6 rounded-full transition duration-300">
-                Buscar
-              </button>
-            </div>
-          </form>
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                id="ida"
+                name="ida"
+                type="date"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                id="vuelta"
+                name="vuelta"
+                type="date"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                disabled={selectedTripType === 'Solo Ida'}
+              />
+              <div className="col-span-4 flex justify-center mt-6">
+                <button className="bg-gold hover:bg-yellow-600 text-bluemint py-3 px-6 rounded-full transition duration-300">
+                  Buscar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
+    
   );
 };
 
