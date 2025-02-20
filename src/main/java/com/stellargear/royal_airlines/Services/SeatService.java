@@ -4,9 +4,8 @@ package com.stellargear.royal_airlines.Services;
 import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Models.Entities.Seat;
 import com.stellargear.royal_airlines.Repositories.SeatRepository;
+import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import java.util.List;
 public class SeatService {
 
     private final SeatRepository seatRepository;
+    private final MoneyExchange moneyExchange;
 
     public List<Seat> generateSeats () {
 
@@ -57,7 +57,7 @@ public class SeatService {
 
         returnedDto.setSeatID(requestedObject.getSeatID());
         returnedDto.setSeatNumber(requestedObject.getSeatNumber());
-        returnedDto.setSeatPrice(Money.of(CurrencyUnit.USD, requestedObject.getSeatPrice()));
+        returnedDto.setSeatPrice(moneyExchange.convertUSDtoCOP(requestedObject.getSeatPrice()));
         returnedDto.setReserved(requestedObject.isReserved());
 
         return returnedDto;

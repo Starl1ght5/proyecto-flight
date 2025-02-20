@@ -4,9 +4,8 @@ import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
 import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Repositories.FlightRepository;
+import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +23,8 @@ public class FlightService {
     private final FlightRepository flightRepository;
     private final LocationService locationService;
     private final SeatService seatService;
+    private final MoneyExchange moneyExchange;
+    private final FeeService feeService;
 
 
     public ResponseEntity<?> addNewFlight(String airlineName, double price, String departureID, String arrivalID) {
@@ -35,6 +36,7 @@ public class FlightService {
         newFlight.setDepartureDate(LocalDateTime.now());
         newFlight.setArrivalDate(LocalDateTime.now().plusHours(2));
         newFlight.setAvailableSeats(seatService.generateSeats());
+        newFlight.setAvailableFees(feeService.getFees());
 
         flightRepository.save(newFlight);
 
@@ -67,12 +69,13 @@ public class FlightService {
 
         returnedDto.setFlightID(requestedObject.getFlightID());
         returnedDto.setAirline(requestedObject.getAirline());
-        returnedDto.setTicketPrice(Money.of(CurrencyUnit.USD, requestedObject.getTicketPrice()));
+        returnedDto.setTicketPrice(moneyExchange.convertUSDtoCOP(requestedObject.getTicketPrice()));
         returnedDto.setArrivalDate(requestedObject.getArrivalDate());
         returnedDto.setDepartureDate(requestedObject.getDepartureDate());
         returnedDto.setDepartureLocation(locationService.objectToDto(requestedObject.getDepartureLocation()));
         returnedDto.setArrivalLocation(locationService.objectToDto(requestedObject.getArrivalLocation()));
         returnedDto.setAvailableSeats(seatService.objectListToDto(requestedObject.getAvailableSeats()));
+        returnedDto.setAvailableFees(feeService.objectListToDto(requestedObject.getAvailableFees(), requestedObject.getTicketPrice()));
         returnedDto.setDuration(calculateTimeDifference(requestedObject.getDepartureDate(), requestedObject.getArrivalDate()));
 
         return returnedDto;

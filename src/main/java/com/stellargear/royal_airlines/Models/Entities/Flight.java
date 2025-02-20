@@ -24,6 +24,7 @@ public class Flight {
     private LocalDateTime arrivalDate;
 
     private List<Seat> availableSeats;
+    private List<Fee> availableFees;
 
     public Flight () {}
 }

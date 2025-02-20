@@ -23,6 +23,7 @@ public class FlightDTO {
     private LocalDateTime arrivalDate;
 
     private List<SeatDTO> availableSeats;
+    private List<FeeDTO> availableFees;
 
     public FlightDTO ()  {}
 }
