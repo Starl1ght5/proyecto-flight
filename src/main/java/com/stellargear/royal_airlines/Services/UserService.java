@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,10 +21,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> registerNewUser (UserDTO registeringUserInfo) {
 
         boolean emailTaken = isEmailTaken(registeringUserInfo.getEmail());
@@ -31,9 +35,10 @@ public class UserService {
             User newUser = new User();
             newUser.setEmail(registeringUserInfo.getEmail());
             newUser.setPassword(encoder.encode(registeringUserInfo.getPassword()));
-            newUser.setVerified(false);
 
             userRepository.save(newUser);
+
+            emailService.sendVerificationEmail(newUser.getEmail(), newUser.getVerificationCode());
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
@@ -47,6 +52,23 @@ public class UserService {
 
         if (authentication.isAuthenticated()) {
             return new ResponseEntity<>(jwtService.generateToken(loginInfo.getEmail()), HttpStatus.ACCEPTED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ResponseEntity<?> verifyUser (String token) {
+        User requestingUser = userRepository.searchFromToken(token);
+
+        if (requestingUser != null) {
+
+            requestingUser.setVerified(true);
+            requestingUser.setVerificationCode("");
+
+            userRepository.save(requestingUser);
+
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

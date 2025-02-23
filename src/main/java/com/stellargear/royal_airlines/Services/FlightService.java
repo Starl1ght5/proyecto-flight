@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -27,6 +29,7 @@ public class FlightService {
     private final FeeService feeService;
 
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> addNewFlight(String airlineName, double price, String departureID, String arrivalID) {
         Flight newFlight = new Flight();
         newFlight.setAirline(airlineName);

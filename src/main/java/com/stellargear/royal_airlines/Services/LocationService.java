@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +16,7 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> addNewLocation (LocationDTO newLocationInfo) {
 
         boolean alreadyExists = locationAlreadyPresent(newLocationInfo);

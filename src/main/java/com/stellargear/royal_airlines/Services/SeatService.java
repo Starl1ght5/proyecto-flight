@@ -7,6 +7,8 @@ import com.stellargear.royal_airlines.Repositories.SeatRepository;
 import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class SeatService {
     private final SeatRepository seatRepository;
     private final MoneyExchange moneyExchange;
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Seat> generateSeats () {
 
         List<Seat> returnedList = new ArrayList<>();

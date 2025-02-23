@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
+import java.util.UUID;
+
 @Setter
 @Getter
 public class User {
@@ -13,7 +15,12 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private boolean verified;
 
-    public User () {}
+    private boolean verified;
+    private String verificationCode;
+
+    public User () {
+        this.verified = false;
+        this.verificationCode = UUID.randomUUID().toString();
+    }
 }
