@@ -20,6 +20,7 @@ public class MoneyExchange {
 
     public Money calculateFees (double fees, double basePrice) {
         Money amount = Money.of(CurrencyUnit.USD, basePrice);
-        return amount.multipliedBy(fees, RoundingMode.DOWN);
+        Money totalPrice = amount.multipliedBy(fees, RoundingMode.DOWN);
+        return totalPrice.convertedTo(CurrencyUnit.of("COP"), COP_EXCHANGE_RATE, RoundingMode.DOWN);
     }
 }
