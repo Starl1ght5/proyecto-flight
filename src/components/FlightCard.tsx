@@ -1,50 +1,8 @@
 import { motion } from 'framer-motion';
 import { useState } from "react";
+import { Flight, Fee } from '../Types';
 
-interface Flight {
-    flight: FlightInfo;
-}
-
-interface Money {
-    currency: Currency;
-    amount: string;
-}
-
-interface Currency {
-    code: string;
-    numericCode: number;
-    decimalPlaces: number;
-}
-
-interface Seat {
-    seatID: string;
-    seatNumber: string;
-    seatPrice: Money;
-    reserved: boolean;
-}
-
-interface FlightInfo {
-    flightID: string;
-    airline: string;
-    ticketPrice: Money;
-    duration: string;
-    arrivalLocation: Location;
-    departureLocation: Location;
-    arrivalDate: Array<number>;
-    departureDate: Array<number>;
-    seatList: Array<Seat>;
-}
-
-interface Location {
-    locationID: string;
-    cityName: string;
-    countryName: string;
-    iataCode: string;
-    airportName: string;
-}
-
-
-export const FlightCard: React.FC<Flight> = ({ flight }) => {
+export const FlightCard: React.FC<Flight> = ({ flight, returnInfo, returnFee }) => {
 
     const [ open, setOpen ] = useState(false);
 
@@ -62,8 +20,17 @@ export const FlightCard: React.FC<Flight> = ({ flight }) => {
         hour12: true
     })
 
+    const formattedBase = (flight.availableFees[0].price.amount).toLocaleString("es-CO");
+    const formattedComplete = (flight.availableFees[1].price.amount).toLocaleString("es-CO");
+    const formattedRoyal = (flight.availableFees[2].price.amount).toLocaleString("es-CO");
+
     const changeState = () => {
         setOpen(prevState => !prevState);
+    }
+
+    const sendInfo = (selectedFee: Fee) => {
+        returnInfo(flight);
+        returnFee(selectedFee)
     }
 
     return (
@@ -102,7 +69,7 @@ export const FlightCard: React.FC<Flight> = ({ flight }) => {
             
                     <div className="flex flex-col">
                         <p className="text-sm">Por persona desde</p>
-                        <h1 className="text-2xl" >COP {flight.ticketPrice.amount}</h1>
+                        <h1 className="text-2xl" >COP {formattedBase}</h1>
                     </div>
                 </div>
 
@@ -113,11 +80,16 @@ export const FlightCard: React.FC<Flight> = ({ flight }) => {
             </div>
 
             {open && 
-                <div className="bg-gray-200 px-8 pb-6">
+                <div className="bg-gray-200 px-8 pb-10 rounded-b-lg">
                     <h3 className="text-center my-3">Tarifas disponibles</h3>
 
-                    <div className="flex flex-row justify-center">
-                        <div className="bg-white px-8 py-6 w-86 rounded-lg shadow-lg">
+                    <div className="flex flex-row justify-center gap-3">
+
+                        {/*Tarifa 1*/}
+                        <motion.div className="bg-white px-8 py-6 w-86 rounded-lg shadow-lg hover:scale-105 duration-150"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}>
                             <h2 className="text-2xl mb-4.5">Basic</h2>
 
                             <div className="flex flex-col gap-2 text-sm font-light">
@@ -147,7 +119,7 @@ export const FlightCard: React.FC<Flight> = ({ flight }) => {
                                     <p className="text-gray-600" >Seleccion de asientos estandar</p>
                                 </div>
                                 <div className="flex flex-row gap-1 items-center">
-                                <span className="icon-[mingcute--warning-fill] size-5 bg-red-900" />
+                                    <span className="icon-[mingcute--warning-fill] size-5 bg-red-900" />
                                     <div>
                                       <p className="text-red-900">Cambio de asiento con cargo + diferencia de precio</p>  
                                     </div>
@@ -159,7 +131,129 @@ export const FlightCard: React.FC<Flight> = ({ flight }) => {
                                 </div>
 
                             </div>
-                        </div>
+
+                            <div className="flex flex-col mt-6 text-sm font-light" >
+                                <h2 className="text-xl font-normal" >COP {formattedBase}</h2>
+                                <p>Por pasajero</p>
+                                <p className="italic" >Incluye tarifas e impuestos*</p>
+                            </div>
+
+                            <button className="w-full justify-end hover:cursor-pointer mt-4 font-extralight border-2 border-black rounded-xl px-5 py-3" onClick={() => sendInfo(flight.availableFees[0])} >Seleccionar</button>
+                        </motion.div>
+
+
+                        {/*Tarifa 2*/}
+                        <motion.div className="bg-white px-8 py-6 w-86 rounded-lg shadow-lg hover:scale-105 duration-150" 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}>
+                            <h2 className="text-2xl mb-4.5">Complete</h2>
+
+                            <div className="flex flex-col gap-2 text-sm font-light">
+
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Bolso o mochila pequeña</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Equipaje de mano 10kg</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Equipaje de bodeja 20kg</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Embarque prioritario</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-gray-400" />
+                                    <p className="text-gray-600">Reembolso antes del vuelo</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-gray-400" />
+                                    <p className="text-gray-600" >Seleccion de asientos estandar</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                <span className="icon-[mingcute--warning-fill] size-5 bg-red-900" />
+                                    <div>
+                                      <p className="text-red-900">Cambio de asiento con cargo + diferencia de precio</p>  
+                                    </div>
+                                    
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[mdi--cards] size-4 bg-lilac" />
+                                    <p>Acumula 5 Royal Miles por dolar</p>
+                                </div>
+
+                            </div>
+
+                            <div className="flex flex-col mt-6 text-sm font-light" >
+                                <h2 className="text-xl font-normal" >COP {formattedComplete}</h2>
+                                <p>Por pasajero</p>
+                                <p className="italic" >Incluye tarifas e impuestos*</p>
+                            </div>
+
+                            <button className="w-full justify-end hover:cursor-pointer mt-4 font-extralight border-2 border-black rounded-xl px-5 py-3" onClick={() => sendInfo(flight.availableFees[1])}>Seleccionar</button>
+                        </motion.div>
+
+
+                        {/*Tarifa 3*/}
+                        <motion.div className="bg-white px-8 py-6 w-86 rounded-lg shadow-lg hover:scale-105 duration-150"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}>
+                            <h2 className="text-2xl mb-4.5 text-gold">Royal</h2>
+
+                            <div className="flex flex-col gap-2 text-sm font-light">
+
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Bolso o mochila pequeña</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Equipaje de mano 13kg</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Equipaje de bodeja 25kg</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Embarque prioritario</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Reembolso antes del vuelo</p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[fluent--checkmark-circle-12-filled] size-4 bg-lilac" />
+                                    <p>Asientos en primera fila <span className="text-gray-600" >o donde quieras</span></p>
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                <span className="icon-[fluent--checkmark-circle-12-filled] size-5 bg-lilac" />
+                                    <div>
+                                      <p>Cambio de asiento sin cargo + diferencia de precio</p>  
+                                    </div>
+                                    
+                                </div>
+                                <div className="flex flex-row gap-1 items-center">
+                                    <span className="icon-[mdi--cards] size-4 bg-lilac" />
+                                    <p>Acumula 8 Royal Miles por dolar</p>
+                                </div>
+
+                            </div>
+
+                            <div className="flex flex-col mt-6 text-sm font-light" >
+                                <h2 className="text-xl font-normal text-gold" >COP {formattedRoyal}</h2>
+                                <p>Por pasajero</p>
+                                <p className="italic" >Incluye tarifas e impuestos*</p>
+                            </div>
+
+                            <button className="w-full justify-end hover:cursor-pointer mt-4 font-extralight border-2 border-black rounded-xl px-5 py-3" onClick={() => sendInfo(flight.availableFees[2])}>Seleccionar</button>
+                        </motion.div>
 
                     </div>
                 </div>

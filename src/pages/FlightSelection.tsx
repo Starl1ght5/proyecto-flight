@@ -3,12 +3,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
 import { FlightCard } from '../Components/FlightCard';
 import Navbar from '../Components/Navbar';
+import { FlightInfo, Fee } from '../Types';
 
 export default function SearchResults() {
 
     const [ Flights, setFlights ] = useState([]);
 
-    const [ reservedFlight, setReservedFlight ] = useState(false);
+    const [ reservedFlight, setReservedFlight ] = useState([]);
+    const [ reservedFee, setReservedFee ] = useState([])
+    const [ selected, setSelected ] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -46,13 +49,22 @@ export default function SearchResults() {
         
     }, [Flights, departure, destination, origin, setFlights])
 
+    const reciveFlight = (info: FlightInfo) => {
+        setReservedFlight(info);
+        setSelected(true);
+    }
+
+    const reciveFee = (fee: Fee) => {
+        setReservedFee(fee);
+    }
+
     return (
         <div>
             <Toaster richColors position="top-right" duration={4000} className="bg-white text-black" />
 
             <Navbar />
 
-            {!reservedFlight ? (
+            {!selected ? (
                 <div className="px-10 pt-8">
                     <h1 className="text-2-5xl">Elige un vuelo de ida</h1>
                     
@@ -60,7 +72,7 @@ export default function SearchResults() {
                         {Flights?.map((element) => {
 
                         return (
-                            <FlightCard flight={element} />
+                            <FlightCard flight={element} returnInfo={reciveFlight} returnFee={reciveFee} />
                         )
                     })}
                     </div>
