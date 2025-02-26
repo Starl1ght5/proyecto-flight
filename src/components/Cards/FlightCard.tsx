@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { useState } from "react";
-import { Flight, Fee } from '../Types';
+import { Flight, Fee, ReservedFlight } from '../../Types';
 
-export const FlightCard: React.FC<Flight> = ({ flight, returnInfo, returnFee }) => {
+export const FlightCard: React.FC<Flight> = ({ flight, returnInfo }) => {
 
     const [ open, setOpen ] = useState(false);
 
@@ -11,14 +11,14 @@ export const FlightCard: React.FC<Flight> = ({ flight, returnInfo, returnFee }) 
         hour: '2-digit',
         minute: '2-digit',
         hour12: true
-    })
+    });
 
     const arrDate = new Date(flight.arrivalDate[0], flight.arrivalDate[1], flight.arrivalDate[2], flight.arrivalDate[3], flight.arrivalDate[4], flight.arrivalDate[5], flight.arrivalDate[6]);
     const formattedArrDate = arrDate.toLocaleTimeString("es-CO", {
         hour: '2-digit',
         minute: '2-digit',
         hour12: true
-    })
+    });
 
     const formattedBase = (flight.availableFees[0].price.amount).toLocaleString("es-CO");
     const formattedComplete = (flight.availableFees[1].price.amount).toLocaleString("es-CO");
@@ -26,12 +26,15 @@ export const FlightCard: React.FC<Flight> = ({ flight, returnInfo, returnFee }) 
 
     const changeState = () => {
         setOpen(prevState => !prevState);
-    }
+    };
 
     const sendInfo = (selectedFee: Fee) => {
-        returnInfo(flight);
-        returnFee(selectedFee)
-    }
+        const object: ReservedFlight = {
+            flight: flight,
+            fee: selectedFee
+        };
+        returnInfo(object);
+    };
 
     return (
         <motion.div className="w-7xl rounded-lg shadow-xl bg-white flex flex-col hover:shadow-2xl duration-200"

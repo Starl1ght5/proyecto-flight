@@ -1,9 +1,14 @@
 
 export interface Flight {
     flight: FlightInfo;
-    returnInfo: (flight: FlightInfo) => void;
-    returnFee: (fee: Fee) => void;
+    returnInfo: (flight: ReservedFlight) => void;
 }
+
+export interface ReservedFlight {
+    flight: FlightInfo;
+    fee: Fee;
+}
+
 
 export interface Money {
     currency: Currency;

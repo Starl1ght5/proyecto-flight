@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
-import { FlightCard } from '../Components/FlightCard';
+import { FlightCard } from '../Components/Cards/FlightCard';
 import Navbar from '../Components/Navbar';
-import { FlightInfo, Fee } from '../Types';
+import { ReservedFlight } from '../Types';
+import { ReservedCard } from '../Components/Cards/ReservedCard';
 
 export default function SearchResults() {
 
     const [ Flights, setFlights ] = useState([]);
 
-    const [ reservedFlight, setReservedFlight ] = useState([]);
-    const [ reservedFee, setReservedFee ] = useState([])
+    const [ reservedFlight, setReservedFlight ] = useState<ReservedFlight[]>([]);
+    const [ formattedDate, setFormattedDate ] = useState<string>();
     const [ selected, setSelected ] = useState(false);
 
     const navigate = useNavigate();
@@ -49,14 +50,23 @@ export default function SearchResults() {
         
     }, [Flights, departure, destination, origin, setFlights])
 
-    const reciveFlight = (info: FlightInfo) => {
-        setReservedFlight(info);
+    const reciveFlight = (info: ReservedFlight) => {
+        setReservedFlight([...reservedFlight, info]);
         setSelected(true);
+        formatDate(info.flight.departureDate);
     }
 
-    const reciveFee = (fee: Fee) => {
-        setReservedFee(fee);
+    const formatDate = (date: Array<number>) => {
+        const depDate = new Date(date[0], date[1], date[2], date[3], date[4], date[5], date[6]);
+        const formattedDepDate = new Intl.DateTimeFormat('es-CO', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long'
+        }).format(depDate);
+        setFormattedDate(formattedDepDate);
     }
+
+
 
     return (
         <div>
@@ -72,13 +82,44 @@ export default function SearchResults() {
                         {Flights?.map((element) => {
 
                         return (
-                            <FlightCard flight={element} returnInfo={reciveFlight} returnFee={reciveFee} />
+                            <FlightCard flight={element} returnInfo={reciveFlight} />
                         )
                     })}
                     </div>
                 </div>
             ) : (
-                <div>
+                <div className="px-10 pt-8">
+                    <h1 className="text-2-5xl">Detalles de tu viaje</h1>
+
+                    <div className="flex flex-row gap-2 mt-4 items-center" >
+                        <h2>Vuelo de ida:</h2>
+
+                        <div className="flex flex-row gap-2" >
+                            <p className="font-semibold" >{reservedFlight[0].flight.departureLocation.cityName}</p>
+                            <p>a</p>
+                            <p className="font-semibold" >{reservedFlight[0].flight.arrivalLocation.cityName}</p>
+                        </div>
+
+                        <span className="icon-[icon-park-outline--dot]" />
+
+                        <p>{reservedFlight[0].fee.feeName}</p>
+
+                        <span className="icon-[icon-park-outline--dot]" />
+
+                        <p>{formattedDate}</p>
+                        
+                    </div>
+
+                    <div>
+                        {reservedFlight?.map((element) => {
+
+                            const { flight, fee } = element;
+
+                            return (
+                                <ReservedCard flight={flight} fee={fee} />
+                            )
+                        })}
+                    </div>
 
                 </div>
             )}
