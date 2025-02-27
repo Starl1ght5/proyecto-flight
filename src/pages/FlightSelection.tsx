@@ -5,6 +5,7 @@ import { FlightCard } from '../Components/Cards/FlightCard';
 import Navbar from '../Components/Navbar';
 import { ReservedFlight } from '../Types';
 import { ReservedCard } from '../Components/Cards/ReservedCard';
+import { motion } from 'framer-motion';
 
 export default function SearchResults() {
 
@@ -66,7 +67,10 @@ export default function SearchResults() {
         setFormattedDate(formattedDepDate);
     }
 
-
+    const reset = () => {
+        setReservedFlight([]);
+        setSelected(false);
+    }
 
     return (
         <div>
@@ -88,40 +92,71 @@ export default function SearchResults() {
                     </div>
                 </div>
             ) : (
-                <div className="px-10 pt-8">
+                <motion.div className="px-10 pt-8"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }} >
                     <h1 className="text-2-5xl">Detalles de tu viaje</h1>
 
-                    <div className="flex flex-row gap-2 mt-4 items-center" >
-                        <h2>Vuelo de ida:</h2>
+                    <div className="mx-4" >
+                        <div className="flex flex-row gap-2 mt-4 items-center" >
+                            <h2>Vuelo de ida:</h2>
 
-                        <div className="flex flex-row gap-2" >
-                            <p className="font-semibold" >{reservedFlight[0].flight.departureLocation.cityName}</p>
-                            <p>a</p>
-                            <p className="font-semibold" >{reservedFlight[0].flight.arrivalLocation.cityName}</p>
+                            <div className="flex flex-row gap-2" >
+                                <p className="font-semibold" >{reservedFlight[0].flight.departureLocation.cityName}</p>
+                                <p>a</p>
+                                <p className="font-semibold" >{reservedFlight[0].flight.arrivalLocation.cityName}</p>
+                            </div>
+
+                            <span className="icon-[icon-park-outline--dot]" />
+
+                            <p>{reservedFlight[0].fee.feeName}</p>
+
+                            <span className="icon-[icon-park-outline--dot]" />
+
+                            <p>{formattedDate}</p>
+                        
                         </div>
 
-                        <span className="icon-[icon-park-outline--dot]" />
+                        <div className="mt-5" >
+                            {reservedFlight?.map((element) => {
 
-                        <p>{reservedFlight[0].fee.feeName}</p>
+                                const { flight, fee } = element;
 
-                        <span className="icon-[icon-park-outline--dot]" />
-
-                        <p>{formattedDate}</p>
-                        
+                                return (
+                                    <ReservedCard flight={flight} fee={fee} reset={reset} />
+                                )})}
+                        </div>
                     </div>
 
-                    <div>
-                        {reservedFlight?.map((element) => {
+                    <div className="flex flex-row justify-end mx-4 mt-7" >
+                        <div className="flex flex-col w-96" >
+                            <div className="flex flex-col bg-white shadow-lg rounded-lg px-7 py-5" >
 
-                            const { flight, fee } = element;
+                                <div className="flex flex-row font-light justify-between">
+                                    <h3>Total reserva</h3>
+                                    <p>COP 100.000</p>
+                                </div>
 
-                            return (
-                                <ReservedCard flight={flight} fee={fee} />
-                            )
-                        })}
+                                <div className="flex flex-row font-light justify-between">
+                                    <h3>Impuestos, tasas y tarifas</h3>
+                                    <p>COP 100.000</p>
+                                </div>
+
+                                <hr className="my-3" />
+
+                                <div className="flex flex-row justify-between">
+                                    <h3 className="text-xl font-extralight" >Total</h3>
+                                    <p>COP 100.000</p>
+                                </div>
+                            </div>
+
+                            <button className="mt-5 mx-6 bg-lilac px-6 py-3 text-white text-xl rounded-lg hover:cursor-pointer hover:bg-gold hover:scale-105 duration-200 text-center" >Continuar</button>
+                        </div>
                     </div>
+                    
 
-                </div>
+                </motion.div>
             )}
 
            

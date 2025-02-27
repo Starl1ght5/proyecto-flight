@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from '../../src/assets/Alerofondo.jpeg';
+import backgroundImage from '../assets/Alerofondo.jpeg';
 import Navbar from '../Components/Navbar';
 
 

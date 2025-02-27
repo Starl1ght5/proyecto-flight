@@ -7,6 +7,7 @@ export interface Flight {
 export interface ReservedFlight {
     flight: FlightInfo;
     fee: Fee;
+    reset: () => void;
 }
 
 

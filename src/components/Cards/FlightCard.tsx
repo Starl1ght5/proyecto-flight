@@ -20,9 +20,9 @@ export const FlightCard: React.FC<Flight> = ({ flight, returnInfo }) => {
         hour12: true
     });
 
-    const formattedBase = (flight.availableFees[0].price.amount).toLocaleString("es-CO");
-    const formattedComplete = (flight.availableFees[1].price.amount).toLocaleString("es-CO");
-    const formattedRoyal = (flight.availableFees[2].price.amount).toLocaleString("es-CO");
+    const formattedBase = (flight.availableFees[0].price.amount).toLocaleString();
+    const formattedComplete = (flight.availableFees[1].price.amount).toLocaleString();
+    const formattedRoyal = (flight.availableFees[2].price.amount).toLocaleString();
 
     const changeState = () => {
         setOpen(prevState => !prevState);
@@ -31,7 +31,8 @@ export const FlightCard: React.FC<Flight> = ({ flight, returnInfo }) => {
     const sendInfo = (selectedFee: Fee) => {
         const object: ReservedFlight = {
             flight: flight,
-            fee: selectedFee
+            fee: selectedFee,
+            reset: () => {},
         };
         returnInfo(object);
     };

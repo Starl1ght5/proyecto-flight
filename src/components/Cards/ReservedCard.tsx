@@ -1,6 +1,6 @@
 import { ReservedFlight } from '../../Types';
 
-export const ReservedCard: React.FC<ReservedFlight> = ({ flight, fee }) => {
+export const ReservedCard: React.FC<ReservedFlight> = ({ flight, fee, reset }) => {
 
     const depDate = new Date(flight.departureDate[0], flight.departureDate[1], flight.departureDate[2], flight.departureDate[3], flight.departureDate[4], flight.departureDate[5], flight.departureDate[6]);
     const formattedDepDate = depDate.toLocaleTimeString("es-CO", {
@@ -16,7 +16,11 @@ export const ReservedCard: React.FC<ReservedFlight> = ({ flight, fee }) => {
         hour12: true
     });
 
-    const formattedFee = (fee.price.amount).toLocaleString("es-CO");
+    const formattedFee = (fee.price.amount).toLocaleString();
+
+    const resetSelection = () => {
+        reset();
+    }
 
     return (
         <div className="bg-white rounded-lg shadow-lg px-10 py-6" >
@@ -45,7 +49,7 @@ export const ReservedCard: React.FC<ReservedFlight> = ({ flight, fee }) => {
                     <p>COP {formattedFee}</p>
                 </div>
 
-                <button>
+                <button className="hover:cursor-pointer hover:underline" onClick={resetSelection}>
                     Editar seleccion
                 </button>
 
