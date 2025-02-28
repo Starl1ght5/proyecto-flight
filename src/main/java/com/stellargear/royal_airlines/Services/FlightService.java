@@ -1,9 +1,11 @@
 package com.stellargear.royal_airlines.Services;
 
 import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
+import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
 import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Repositories.FlightRepository;
+import com.stellargear.royal_airlines.Utils.GlobalLogger;
 import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,8 @@ public class FlightService {
 
         flightRepository.save(newFlight);
 
-        return new ResponseEntity<>("Flight created!", HttpStatus.ACCEPTED);
+        GlobalLogger.getLogger().info("Flight successfully created!, id: {}", newFlight.getFlightID());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     public List<FlightDTO> searchFlights (String departureIataCode, String arrivalIataCode, String date) {
@@ -65,6 +67,37 @@ public class FlightService {
         long minutes = timeBetween.toMinutes() % 60;
 
         return  hours + "h " + minutes + "m";
+    }
+
+    public List<LocationDTO> getLocationsWithCheapestPrice (int nOfLocations) {
+        List<Location> locationsToSearch = locationService.searchXLocations(nOfLocations);
+        List<LocationDTO> returnedList = new ArrayList<>();
+
+        for (Location toSearch : locationsToSearch) {
+            List<Flight> flightsToSearch = flightRepository.searchFlightsForLocation(toSearch.getLocationID());
+
+            if (!flightsToSearch.isEmpty()) {
+                Flight cheapestFlightForLocation = calculateCheapest(flightsToSearch);
+
+                Location locationInfo = cheapestFlightForLocation.getArrivalLocation();
+                LocationDTO returnedInfo = locationService.objectToDto(locationInfo);
+                returnedInfo.setCheapestPrice(moneyExchange.convertUSDtoCOP(cheapestFlightForLocation.getTicketPrice()));
+
+                returnedList.add(returnedInfo);
+
+            } else {
+                GlobalLogger.getLogger().error("No flights were found for location: {}", toSearch.getCityName());
+            }
+
+        }
+
+        return returnedList;
+    }
+
+    public Flight calculateCheapest (List<Flight> listToSearch) {
+        return listToSearch.stream()
+                .min(Comparator.comparingDouble(Flight::getTicketPrice))
+                .orElseThrow(NoSuchElementException::new);
     }
 
     public FlightDTO objectToDto (Flight requestedObject) {

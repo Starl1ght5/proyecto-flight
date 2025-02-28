@@ -34,4 +34,10 @@ public class FlightController {
     public List<FlightDTO> searchFlights (@RequestParam String origin, @RequestParam String destination, @RequestParam String departure) {
         return flightService.searchFlights(origin, destination, departure);
     }
+
+    @GetMapping(path = "/api/locations/search")
+    public List<LocationDTO> searchLocations (@RequestParam String number) {
+        int n = Integer.parseInt(number);
+        return flightService.getLocationsWithCheapestPrice(n);
+    }
 }

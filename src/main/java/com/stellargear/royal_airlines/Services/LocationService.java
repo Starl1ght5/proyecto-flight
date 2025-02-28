@@ -3,12 +3,17 @@ package com.stellargear.royal_airlines.Services;
 import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
 import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Repositories.LocationRepository;
+import com.stellargear.royal_airlines.Utils.GlobalLogger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +41,36 @@ public class LocationService {
         return new ResponseEntity<>( "This airport already exists", HttpStatus.BAD_REQUEST);
     }
 
+    public List<Location> searchXLocations (int number) {
+        List<Location> locations = locationRepository.findAll();
+        List<Location> returnedList = new ArrayList<>();
+        Random numberPicker = new Random();
+
+        for (Location location : locations) {
+
+            if (location.isFeatured()) {
+                if (returnedList.size() < number) {
+                    returnedList.add(location);
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if (returnedList.size() < number) {
+            int missingEntries = number - returnedList.size();
+
+            for (int i = 0; i < missingEntries; i++) {
+                Location newEntry = locations.remove(numberPicker.nextInt(1, locations.size() - 1));
+
+                if (!returnedList.contains(newEntry)) {
+                    returnedList.add(newEntry);
+                }
+            }
+        }
+        return returnedList;
+    }
+
 
     public Location searchByID (String requestedID) {
         return locationRepository.searchByID(requestedID);
@@ -56,6 +91,8 @@ public class LocationService {
         returnedDto.setCountryName(requestedObject.getCountryName());
         returnedDto.setIataCode(requestedObject.getIataCode());
         returnedDto.setAirportName(requestedObject.getAirportName());
+        returnedDto.setFeatured(requestedObject.isFeatured());
+
         return returnedDto;
     }
 }

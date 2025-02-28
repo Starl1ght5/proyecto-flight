@@ -14,6 +14,7 @@ public class Location {
     private String countryName;
     private String iataCode;
     private String airportName;
+    private boolean featured;
 
     public Location () {}
 }
