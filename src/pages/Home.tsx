@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from '../assets/Alerofondo.jpeg';
+import bg from '../assets/Alerofondo.jpeg';
 import Navbar from '../Components/Navbar';
+import { LocationInfo } from "../Types";
+import { LocationCard } from "../Components/Cards/LocationCard";
+import Footer from '../Components/Footer';
 
 
 const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
@@ -41,10 +44,26 @@ const HeroSection = () => {
   const [selectedClass, setSelectedClass] = useState('Economy');
   const [selectedPassenger, setSelectedPassenger] = useState('1 Adulto');
   const navigate = useNavigate();
+  const [ locations, setLocations ] = useState<LocationInfo[]>([]);
 
   const toggleDropdown = (menu: boolean) => {
     setDropdownOpen((prev) => (prev === menu ? null : menu));
   };
+
+      useEffect(() => {
+          const fetchLocations = async () => {
+              try {
+                  const response = await fetch("http://localhost:8080/api/locations/search?number=6");
+                  const res = await response.json();
+                  setLocations(res);
+  
+              } catch (e) {
+                  console.log(e);
+              }
+          }
+  
+          fetchLocations();
+      }, [])
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -78,8 +97,8 @@ const HeroSection = () => {
     <div>
         <Navbar />
 
-        <div className="relative h-[80vh] bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
-          <div className="absolute inset-0 bg-blueblack bg-opacity-10"></div>
+        <div className="relative h-[80vh] bg-cover bg-center bg-[url(src/assets/Alerofondo.jpeg)]">
+          <div className="absolute inset-0 bg-opacity-10"></div>
           <div className="relative text-center text-blueblack pt-20">
             <h1 className="text-6xl font-extrabold tracking-wide drop-shadow-lg">
             Viaja a cualquier lugar sin preocupaciones
@@ -88,7 +107,7 @@ const HeroSection = () => {
             Encuentra hotel y vuelos con la mejor experiencia.
             </p>
 
-          <div className="mt-40 bg-bluemint bg-opacity-20 p-8 rounded-xl shadow-2xl max-w-5xl mx-auto text-black">
+          <div className="mt-40 bg-bluemint bg-opacity-20 p-8 rounded-xl -translate-y-25 shadow-2xl max-w-5xl mx-auto text-black">
           <div className="flex justify-between gap-6 mb-6">
             <Dropdown
               label={selectedTripType}
@@ -153,6 +172,25 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      <div className="p-4 gap-3 flex flex-col justify-center items-center mt-20">
+
+        <div className="py-4 flex flex-col items-center" >
+          <h2 className="text-2-5xl font-semibold text-center" >Descubre tu proximo viaje</h2>
+          <hr className="h-px my-2 bg-lilac border-0 w-[200%] "/>
+        </div>
+        
+        <div className="grid grid-cols-3 gap-3">
+        {locations?.map((element) => {
+                              
+          return (
+            <LocationCard location={element} />
+          )})}
+        </div>
+      </div>
+
+      <Footer />
+      
     </div>
     
   );

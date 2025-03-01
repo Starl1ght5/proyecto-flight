@@ -4,6 +4,10 @@ export interface Flight {
     returnInfo: (flight: ReservedFlight) => void;
 }
 
+export interface LocationInfo {
+    location: Location;
+}
+
 export interface ReservedFlight {
     flight: FlightInfo;
     fee: Fee;
@@ -48,6 +52,8 @@ export interface Location {
     countryName: string;
     iataCode: string;
     airportName: string;
+    featured: boolean;
+    cheapestPrice: Money;
 }
 
 export interface Fee {

@@ -1,14 +1,31 @@
-import { Location } from "../../Types";
+import { useNavigate } from "react-router-dom";
+import { LocationInfo } from "../../Types";
+import miami from "../../assets/miami.jpeg";
 
-export const LocationCard: React.FC<Location> = ({ location }) => {
+export const LocationCard: React.FC<LocationInfo> = ({ location }) => {
+
+    const formattedPrice = (location.cheapestPrice.amount).toLocaleString();
+
+    const navigate = useNavigate()
+
+    const redirectToFlightSelection = () => {
+        navigate(`/search-results?origen=CTG&destino=${location.iataCode}&ida=2025-02-28`);
+    }
 
     return (
-        <div className="bg-white rounded-lg shadow-lg hover:cursor-pointer hover:scale-105 hover:shadow-xl duration-200" >
-            <div>
-
+        <div className="bg-white rounded-lg shadow-lg hover:cursor-pointer hover:scale-105 hover:shadow-xl duration-200 w-96 h-80" onClick={redirectToFlightSelection} >
+            <div className="rounded-t-lg" >
+                <img src={miami} alt={location.cityName} className="w-full h-48 object-cover rounded-t-lg" />
             </div>
-            <div>
-
+            <div className="flex flex-col px-3 py-3 gap-2">
+                <div className="flex flex-row" >
+                    <h1 className="text-2xl font-semibold">{location.cityName}</h1>
+                </div>
+                <div className="flex flex-col" >
+                    <p className="text-sm font-light" >Viajes desde</p>
+                    <h2 className="text-xl" >COP {formattedPrice}</h2>
+                    <p className="text-xs italic" >Tasas e impuestos incluidos*</p>
+                </div>
             </div>
         </div>
     )

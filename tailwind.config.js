@@ -10,7 +10,7 @@ export default {
     extend: {},
 
     backgroundImage:{
-      'hero':"url('../../src/assets/Alerofondo.jpeg')",
+      'hero':"url('../src/assets/Alerofondo.jpeg')",
 
 
       'bangkok':"url('../../src/assets/bangkok.jpg')",

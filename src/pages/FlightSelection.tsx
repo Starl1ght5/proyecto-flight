@@ -6,6 +6,7 @@ import Navbar from '../Components/Navbar';
 import { ReservedFlight } from '../Types';
 import { ReservedCard } from '../Components/Cards/ReservedCard';
 import { motion } from 'framer-motion';
+import Footer from '../Components/Footer';
 
 export default function SearchResults() {
 
@@ -79,7 +80,10 @@ export default function SearchResults() {
             <Navbar />
 
             {!selected ? (
-                <div className="px-10 pt-8">
+                <motion.div className="px-10 pt-8"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }} >
                     <h1 className="text-2-5xl">Elige un vuelo de ida</h1>
                     
                     <div className="flex flex-col gap-4 py-6 px-4 items-center">
@@ -90,7 +94,7 @@ export default function SearchResults() {
                         )
                     })}
                     </div>
-                </div>
+                </motion.div>
             ) : (
                 <motion.div className="px-10 pt-8"
                     initial={{ opacity: 0, y: 10 }}
@@ -159,7 +163,7 @@ export default function SearchResults() {
                 </motion.div>
             )}
 
-           
+            <Footer />
         </div>
     )
 }
