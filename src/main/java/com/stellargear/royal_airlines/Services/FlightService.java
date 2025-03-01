@@ -35,12 +35,12 @@ public class FlightService {
         Flight newFlight = new Flight();
         newFlight.setAirline(airlineName);
         newFlight.setTicketPrice(price);
-        newFlight.setDepartureLocation(locationService.searchByID(departureID));
-        newFlight.setArrivalLocation(locationService.searchByID(arrivalID));
+        newFlight.setDepartureLocationID(departureID);
+        newFlight.setArrivalLocationID(arrivalID);
         newFlight.setDepartureDate(LocalDateTime.now());
         newFlight.setArrivalDate(LocalDateTime.now().plusHours(2));
-        newFlight.setAvailableSeats(seatService.generateSeats());
-        newFlight.setAvailableFees(feeService.getFees());
+        newFlight.setAvailableSeatIDs(seatService.generateSeats());
+        newFlight.setAvailableFeeIDs(feeService.getFees());
 
         flightRepository.save(newFlight);
 
@@ -54,8 +54,8 @@ public class FlightService {
         LocalDateTime startOfDay = convertedDate.atStartOfDay();
         LocalDateTime endOfDay = convertedDate.atTime(23, 59, 59, 999999999);
 
-        Location start = locationService.searchByIataCode(departureIataCode);
-        Location end = locationService.searchByIataCode(arrivalIataCode);
+        String start = locationService.searchByIataCode(departureIataCode);
+        String end = locationService.searchByIataCode(arrivalIataCode);
 
         return objectListToDto(flightRepository.searchFlights(start, end, startOfDay, endOfDay));
     }
@@ -79,7 +79,7 @@ public class FlightService {
             if (!flightsToSearch.isEmpty()) {
                 Flight cheapestFlightForLocation = calculateCheapest(flightsToSearch);
 
-                Location locationInfo = cheapestFlightForLocation.getArrivalLocation();
+                Location locationInfo = locationService.searchByID(cheapestFlightForLocation.getArrivalLocationID());
                 LocationDTO returnedInfo = locationService.objectToDto(locationInfo);
                 returnedInfo.setCheapestPrice(moneyExchange.convertUSDtoCOP(cheapestFlightForLocation.getTicketPrice()));
 
@@ -108,10 +108,10 @@ public class FlightService {
         returnedDto.setTicketPrice(moneyExchange.convertUSDtoCOP(requestedObject.getTicketPrice()));
         returnedDto.setArrivalDate(requestedObject.getArrivalDate());
         returnedDto.setDepartureDate(requestedObject.getDepartureDate());
-        returnedDto.setDepartureLocation(locationService.objectToDto(requestedObject.getDepartureLocation()));
-        returnedDto.setArrivalLocation(locationService.objectToDto(requestedObject.getArrivalLocation()));
-        returnedDto.setAvailableSeats(seatService.objectListToDto(requestedObject.getAvailableSeats()));
-        returnedDto.setAvailableFees(feeService.objectListToDto(requestedObject.getAvailableFees(), requestedObject.getTicketPrice()));
+        returnedDto.setDepartureLocation(locationService.findAndConvertObject(requestedObject.getDepartureLocationID()));
+        returnedDto.setArrivalLocation(locationService.findAndConvertObject(requestedObject.getArrivalLocationID()));
+        returnedDto.setAvailableSeats(seatService.searchAndConvertList(requestedObject.getAvailableSeatIDs()));
+        returnedDto.setAvailableFees(feeService.searchAndConvertList(requestedObject.getAvailableFeeIDs(), requestedObject.getTicketPrice()));
         returnedDto.setDuration(calculateTimeDifference(requestedObject.getDepartureDate(), requestedObject.getArrivalDate()));
 
         return returnedDto;

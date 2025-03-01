@@ -2,7 +2,6 @@ package com.stellargear.royal_airlines.Repositories;
 
 import com.stellargear.royal_airlines.Models.Entities.Flight;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import com.stellargear.royal_airlines.Models.Entities.Location;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.time.LocalDateTime;
@@ -10,9 +9,9 @@ import java.util.List;
 
 public interface FlightRepository extends MongoRepository<Flight, String> {
 
-    @Query("{ 'departureLocation' : ?0, 'arrivalLocation' : ?1, 'departureDate' : { '$gte' : ?2, '$lte' : ?3 } }")
-    List<Flight> searchFlights (Location departure, Location arrival, LocalDateTime startDate, LocalDateTime endDate);
+    @Query("{ 'departureLocationID' : ?0, 'arrivalLocationID' : ?1, 'departureDate' : { '$gte' : ?2, '$lte' : ?3 } }")
+    List<Flight> searchFlights (String departureID, String arrivalID, LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query("{ 'arrivalLocation.locationID' : ?0 }")
+    @Query("{ 'arrivalLocationID' : ?0 }")
     List<Flight> searchFlightsForLocation (String arrivalID);
 }

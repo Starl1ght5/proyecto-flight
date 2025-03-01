@@ -21,9 +21,9 @@ public class SeatService {
     private final MoneyExchange moneyExchange;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<Seat> generateSeats () {
+    public List<String> generateSeats () {
 
-        List<Seat> returnedList = new ArrayList<>();
+        List<String> returnedList = new ArrayList<>();
         char letter;
 
         for (int i = 1; i < 7; i++) {
@@ -37,22 +37,36 @@ public class SeatService {
                 newSeat.setSeatNumber(letter + "" + e);
 
                 if (i < 6) {
-                    newSeat.setSeatPrice(30.00);
+                    newSeat.setSeatPrice(15.00);
 
                 } else if (i > 6 && i < 13) {
-                    newSeat.setSeatPrice(20.00);
+                    newSeat.setSeatPrice(9.00);
 
                 } else {
-                    newSeat.setSeatPrice(10.00);
+                    newSeat.setSeatPrice(5.00);
                 }
 
                 seatRepository.save(newSeat);
-                returnedList.add(newSeat);
+                returnedList.add(newSeat.getSeatID());
             }
 
         }
 
         return returnedList;
+    }
+
+    public List<SeatDTO> searchAndConvertList (List<String> requestedList) {
+        List<Seat> objectList = new ArrayList<>();
+
+        for (String s : requestedList) {
+            objectList.add(searchByID(s));
+        }
+
+        return objectListToDto(objectList);
+    }
+
+    public Seat searchByID (String requestedID) {
+        return seatRepository.searchByID(requestedID);
     }
 
     public SeatDTO objectToDto (Seat requestedObject) {

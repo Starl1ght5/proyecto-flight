@@ -71,13 +71,18 @@ public class LocationService {
         return returnedList;
     }
 
+    public LocationDTO findAndConvertObject (String requestedID) {
+        Location searchedObject = searchByID(requestedID);
+        return objectToDto(searchedObject);
+    }
 
     public Location searchByID (String requestedID) {
         return locationRepository.searchByID(requestedID);
     }
 
-    public Location searchByIataCode (String requestedCode) {
-        return locationRepository.searchByIataCode(requestedCode);
+    public String searchByIataCode (String requestedCode) {
+        Location returnedLocation = locationRepository.searchByIataCode(requestedCode);
+        return returnedLocation.getLocationID();
     }
 
     public boolean locationAlreadyPresent (LocationDTO infoToCheck) {

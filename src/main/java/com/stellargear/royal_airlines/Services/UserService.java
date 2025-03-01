@@ -3,7 +3,9 @@ package com.stellargear.royal_airlines.Services;
 import com.stellargear.royal_airlines.Models.DTOs.UserDTO;
 import com.stellargear.royal_airlines.Models.Entities.User;
 import com.stellargear.royal_airlines.Repositories.UserRepository;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
@@ -51,7 +53,9 @@ public class UserService {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPassword()));
 
         if (authentication.isAuthenticated()) {
-            return new ResponseEntity<>(jwtService.generateToken(loginInfo.getEmail()), HttpStatus.ACCEPTED);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.SET_COOKIE, jwtService.generateCookie(loginInfo.getEmail()).toString());
+            return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

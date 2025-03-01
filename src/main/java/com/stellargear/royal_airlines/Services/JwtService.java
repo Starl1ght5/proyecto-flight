@@ -1,11 +1,13 @@
 package com.stellargear.royal_airlines.Services;
 
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
@@ -44,6 +46,16 @@ public class JwtService {
                 .signWith(getKey())
                 .compact();
 
+    }
+
+    public ResponseCookie generateCookie (String username) {
+        return ResponseCookie.from("RoyalUserToken", generateToken(username))
+                .secure(false)
+                .httpOnly(true)
+                .path("/")
+                .sameSite("Strict")
+                .maxAge(3600)
+                .build();
     }
 
     private SecretKey getKey() {

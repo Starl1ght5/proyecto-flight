@@ -2,14 +2,15 @@ package com.stellargear.royal_airlines.Models.Entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.joda.money.Money;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
 @Getter
+@Document(collection = "Flights")
 public class Flight {
 
     @Id
@@ -17,14 +18,14 @@ public class Flight {
     private String airline;
     private double ticketPrice;
 
-    private Location departureLocation;
-    private Location arrivalLocation;
+    private String departureLocationID;
+    private String arrivalLocationID;
 
     private LocalDateTime departureDate;
     private LocalDateTime arrivalDate;
 
-    private List<Seat> availableSeats;
-    private List<Fee> availableFees;
+    private List<String> availableSeatIDs;
+    private List<String> availableFeeIDs;
 
     public Flight () {}
 }

@@ -17,8 +17,33 @@ public class FeeService {
     private final FeeRepository feeRepository;
     private final MoneyExchange moneyExchange;
 
-    public List<Fee> getFees () {
-        return feeRepository.findAll();
+    public List<String> getFees () {
+        List<Fee> repoFees = feeRepository.findAll();
+        return getIDs(repoFees);
+    }
+
+    public List<String> getIDs (List<Fee> requestedList) {
+        List<String> returnedList = new ArrayList<>();
+
+        for (Fee fee : requestedList) {
+            returnedList.add(fee.getFeeID());
+        }
+
+        return returnedList;
+    }
+
+    public List<FeeDTO> searchAndConvertList (List<String> requestedList, double price) {
+        List<Fee> objectList = new ArrayList<>();
+
+        for (String s : requestedList) {
+            objectList.add(searchByID(s));
+        }
+
+        return objectListToDto(objectList, price);
+    }
+
+    public Fee searchByID (String requestedID) {
+        return feeRepository.searchByID(requestedID);
     }
 
     public FeeDTO objectToDto (Fee requestedObject, double ticketPrice) {
