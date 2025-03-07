@@ -13,6 +13,7 @@ import SearchResutls from "./Pages/FlightSelection";
 //import ConfirmarPago from "./components/ConfirmarPago";
 //import BoardingPass from "./components/BoardingPass";
 import Test from "./Pages/Test";
+import SeatSelection from "./Pages/SeatSelection";
 
 
 export default function App() {
@@ -22,9 +23,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/search-results" element={<SearchResutls />} />
+        <Route path="/seat-selection" element={<SeatSelection />} />
         {/* 
         <Route path="/return-selection" element={<ReturnFlightSelection />} />
-        <Route path="/seat-selection" element={<SeatSelectionIda />} />
+        
         <Route path="/vuelta" element={<SelectSeatsVuelta />} />
         <Route path="/pasajeros" element={<Pasajeros />} />
         <Route path="/confirmar-pago" element={<ConfirmarPago />} />

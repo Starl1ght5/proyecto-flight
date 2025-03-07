@@ -34,7 +34,7 @@ export default function SearchResults() {
             try {
                 const response = await fetch(`http://localhost:8080/api/flights/search?origin=${origin}&destination=${destination}&departure=${departure}`, {
                     method: 'GET'
-                    });
+                });
 
                 const res = await response.json();
                 setFlights(res);

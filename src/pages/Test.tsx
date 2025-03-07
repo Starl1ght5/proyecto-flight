@@ -3,6 +3,7 @@ import Navbar from "../Components/Navbar";
 import SearchComponent from "../Components/SearchComponent";
 import { LocationInfo } from "../Types";
 import { LocationCard } from "../Components/Cards/LocationCard";
+import SeatCard from "../Components/Cards/SeatCard";
 
 export default function Test () {
 
@@ -38,6 +39,10 @@ export default function Test () {
                         )
                     })}
                 </div>
+
+                <SeatCard />
+                <SeatCard />
+                <SeatCard />
 
             </div>
         </div>

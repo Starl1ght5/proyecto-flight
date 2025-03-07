@@ -8,6 +8,10 @@ export interface LocationInfo {
     location: Location;
 }
 
+export interface SeatInfo {
+    seat: Seat;
+}
+
 export interface ReservedFlight {
     flight: FlightInfo;
     fee: Fee;
