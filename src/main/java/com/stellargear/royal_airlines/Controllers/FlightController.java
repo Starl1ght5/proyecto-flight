@@ -2,6 +2,7 @@ package com.stellargear.royal_airlines.Controllers;
 
 import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
 import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
+import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Services.FlightService;
 import com.stellargear.royal_airlines.Services.LocationService;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +40,10 @@ public class FlightController {
     public List<LocationDTO> searchLocations (@RequestParam String number) {
         int n = Integer.parseInt(number);
         return flightService.getLocationsWithCheapestPrice(n);
+    }
+
+    @GetMapping(path = "/api/seats/search")
+    public List<SeatDTO> searchSeats (@RequestParam String flightID) {
+        return flightService.getSeatsForFlight(flightID);
     }
 }

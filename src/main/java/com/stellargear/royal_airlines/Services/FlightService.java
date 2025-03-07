@@ -2,6 +2,7 @@ package com.stellargear.royal_airlines.Services;
 
 import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
 import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
+import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
 import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Repositories.FlightRepository;
@@ -41,6 +42,7 @@ public class FlightService {
         newFlight.setArrivalDate(LocalDateTime.now().plusHours(2));
         newFlight.setAvailableSeatIDs(seatService.generateSeats());
         newFlight.setAvailableFeeIDs(feeService.getFees());
+        newFlight.setStatus("Active");
 
         flightRepository.save(newFlight);
 
@@ -67,6 +69,12 @@ public class FlightService {
         long minutes = timeBetween.toMinutes() % 60;
 
         return  hours + "h " + minutes + "m";
+    }
+
+    public List<SeatDTO> getSeatsForFlight (String flightID) {
+        Flight searchedFlight = flightRepository.searchByID(flightID);
+
+        return seatService.searchAndConvertList(searchedFlight.getAvailableSeatIDs());
     }
 
     public List<LocationDTO> getLocationsWithCheapestPrice (int nOfLocations) {
@@ -99,6 +107,13 @@ public class FlightService {
                 .min(Comparator.comparingDouble(Flight::getTicketPrice))
                 .orElseThrow(NoSuchElementException::new);
     }
+
+    public boolean checkFlightForDiscount (String flightToCheck) {
+        Flight check = flightRepository.searchByID(flightToCheck);
+        return check.isDiscounted();
+    }
+
+
 
     public FlightDTO objectToDto (Flight requestedObject) {
         FlightDTO returnedDto = new FlightDTO();

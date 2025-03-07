@@ -14,4 +14,7 @@ public interface FlightRepository extends MongoRepository<Flight, String> {
 
     @Query("{ 'arrivalLocationID' : ?0 }")
     List<Flight> searchFlightsForLocation (String arrivalID);
+
+    @Query("{ 'flightID' : ?0 }")
+    Flight searchByID(String flightID);
 }

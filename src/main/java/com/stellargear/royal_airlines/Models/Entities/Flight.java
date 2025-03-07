@@ -27,5 +27,10 @@ public class Flight {
     private List<String> availableSeatIDs;
     private List<String> availableFeeIDs;
 
+    private boolean discounted;
+    private double discountPercentage;
+
+    private String status;
+
     public Flight () {}
 }
