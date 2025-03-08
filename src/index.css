@@ -10,7 +10,7 @@ body{
 
 @theme {
 
-  --color-lilac: #431DA3;
+  --color-lilac: #4B0082;
   --color-gold: #CFA14C;
   --color-blueblack: #002147;
   --color-lightblue: #88BFFF;
@@ -18,6 +18,10 @@ body{
   --color-bluedark: #3F7FC8;
   --color-blue: #0051FF;
   --color-bluemint: #EAF1F8;
+  --color-purple2: #431DA3;
+  --color-purple-dark: #4B0082;
+  --color-purple: #800080;
+  --color-purple-light: #D8BFD8;
 
   --font-noto-sans: Noto Sans, serif;
 

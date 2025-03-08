@@ -23,7 +23,7 @@ export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }} >
-                        <div className="bg-white shadow-lg rotate-45 size-4 translate-y-14 place-self-center z-8 absolute border-b border-r border-black" >
+                        <div className="bg-white shadow-lg rotate-45 size-4 translate-y-13.5 place-self-center z-8 absolute border-b border-r border-black" >
                         </div>
                         <p className="italic font-extralight" >Este asiento no esta disponible</p>
                     

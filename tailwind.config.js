@@ -11,8 +11,6 @@ export default {
 
     backgroundImage:{
       'hero':"url('../src/assets/Alerofondo.jpeg')",
-
-
       'bangkok':"url('../../src/assets/bangkok.jpg')",
       'borabora':"url('../../src/assets/borabora.jpeg')",
       'ottawa':"url('../../src/assets/bottawa.jpg')",

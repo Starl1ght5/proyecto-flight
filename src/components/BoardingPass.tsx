@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { FaPlaneDeparture, FaPlaneArrival } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const BoardingPass = () => {
@@ -89,7 +88,7 @@ const BoardingPass = () => {
                 whileHover={{ scale: 1.1 }}
                 className="flex flex-col items-center"
               >
-                <FaPlaneDeparture className="text-6xl mb-2" />
+                <span className="icon-[fa--plane] text-6xl mb-2" />
                 <span className="text-lg">Salida</span>
                 <span className="text-xl font-bold">{flightDetails.departureCity}</span>
                 <span className="text-lg">{flightDetails.departureTime}</span>
@@ -99,7 +98,7 @@ const BoardingPass = () => {
                 whileHover={{ scale: 1.1 }}
                 className="flex flex-col items-center"
               >
-                <FaPlaneArrival className="text-6xl mb-2" />
+                <span className="icon-[tabler--plane-arrival] text-6xl mb-2" />
                 <span className="text-lg">Llegada</span>
                 <span className="text-xl font-bold">{flightDetails.arrivalCity}</span>
                 <span className="text-lg">{flightDetails.arrivalTime}</span>
