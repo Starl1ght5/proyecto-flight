@@ -7,6 +7,7 @@ import { ReservedFlight } from '../Types';
 import { ReservedCard } from '../Components/Cards/ReservedCard';
 import { motion } from 'framer-motion';
 import Footer from '../Components/Footer';
+import { Helmet } from "react-helmet";
 
 export default function SearchResults() {
 
@@ -73,14 +74,26 @@ export default function SearchResults() {
         setSelected(false);
     }
 
+    const next = () => {
+        navigate(`/seat-selection?id=${reservedFlight[0].flight.flightID}`)
+    }
+
     return (
-        <div>
+        <motion.div className='flex flex-col'
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}>
+
             <Toaster richColors position="top-right" duration={4000} className="bg-white text-black" />
+
+            <Helmet>
+                <title>Seleccion de vuelo - Royal Airlines</title>
+            </Helmet>
 
             <Navbar />
 
             {!selected ? (
-                <motion.div className="px-10 pt-8"
+                <motion.div className="px-10 pt-8 min-h-screen"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }} >
@@ -155,7 +168,9 @@ export default function SearchResults() {
                                 </div>
                             </div>
 
-                            <button className="mt-5 mx-6 bg-lilac px-6 py-3 text-white text-xl rounded-lg hover:cursor-pointer hover:bg-gold hover:scale-105 duration-200 text-center" >Continuar</button>
+                            <button className="mt-5 mx-6 bg-lilac px-6 py-3 text-white text-xl rounded-lg hover:cursor-pointer hover:bg-gold hover:scale-105 duration-200 text-center" 
+                                onClick={next}
+                            >Continuar</button>
                         </div>
                     </div>
                     
@@ -164,6 +179,6 @@ export default function SearchResults() {
             )}
 
             <Footer />
-        </div>
+        </motion.div>
     )
 }

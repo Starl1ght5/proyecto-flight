@@ -10,7 +10,7 @@ import SearchResutls from "./Pages/FlightSelection";
 //import SeatSelectionIda from "./components/SeatSelectionIda";
 //import SelectSeatsVuelta from "./components/SeatSelectionVuelta";
 //import Pasajeros from "./components/Pasajeros";
-//import ConfirmarPago from "./components/ConfirmarPago";
+import ConfirmarPago from "./Components/ConfirmarPago";
 //import BoardingPass from "./components/BoardingPass";
 import Test from "./Pages/Test";
 import SeatSelection from "./Pages/SeatSelection";
@@ -28,8 +28,9 @@ export default function App() {
         <Route path="/return-selection" element={<ReturnFlightSelection />} />
         
         <Route path="/vuelta" element={<SelectSeatsVuelta />} />
-        <Route path="/pasajeros" element={<Pasajeros />} />
+        <Route path="/pasajeros" element={<Pasajeros />} />*/}
         <Route path="/confirmar-pago" element={<ConfirmarPago />} />
+        {/*
         <Route path="/boarding-pass" element={<BoardingPass />} />
 
         <Route path="/profile" element={<Profile />} />

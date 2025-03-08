@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { FaCcVisa, FaPaypal, FaApple, FaGooglePay, FaBuilding } from "react-icons/fa";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +38,7 @@ const ConfirmarPago = () => {
             className={`p-6 rounded-xl cursor-pointer flex items-center justify-between bg-gray-100 hover:bg-lightblue transition-all duration-300 ${paymentMethod === "creditCard" ? "border-4 border-bluemint" : ""}`}
           >
             <div className="flex items-center">
-              <FaCcVisa className="w-10 h-10 text-blueblack" />
+              <span className="icon-[fa--cc-visa] w-10 h-10 text-blueblack" />
               <span className="ml-4 text-lg font-semibold text-blueblack">Tarjeta de Crédito/Débito</span>
             </div>
             {paymentMethod === "creditCard" && <span className="text-bluemint text-2xl">✔</span>}
@@ -51,7 +50,7 @@ const ConfirmarPago = () => {
             className={`p-6 rounded-xl cursor-pointer flex items-center justify-between bg-gray-100 hover:bg-lightblue transition-all duration-300 ${paymentMethod === "pse" ? "border-4 border-bluemint" : ""}`}
           >
             <div className="flex items-center">
-              <FaBuilding className="w-10 h-10 text-blueblack" />
+              <span className="icon-[fa--building] w-10 h-10 text-blueblack" />
               <span className="ml-4 text-lg font-semibold text-blueblack">PSE</span>
             </div>
             {paymentMethod === "pse" && <span className="text-bluemint text-2xl">✔</span>}
@@ -63,7 +62,7 @@ const ConfirmarPago = () => {
             className={`p-6 rounded-xl cursor-pointer flex items-center justify-between bg-gray-100 hover:bg-lightblue transition-all duration-300 ${paymentMethod === "paypal" ? "border-4 border-bluemint" : ""}`}
           >
             <div className="flex items-center">
-              <FaPaypal className="w-10 h-10 text-blueblack" />
+              <span className="icon-[fa--paypal] w-10 h-10 text-blueblack" />
               <span className="ml-4 text-lg font-semibold text-blueblack">PayPal</span>
             </div>
             {paymentMethod === "paypal" && <span className="text-bluemint text-2xl">✔</span>}
@@ -75,7 +74,7 @@ const ConfirmarPago = () => {
             className={`p-6 rounded-xl cursor-pointer flex items-center justify-between bg-gray-100 hover:bg-lightblue transition-all duration-300 ${paymentMethod === "applePay" ? "border-4 border-bluemint" : ""}`}
           >
             <div className="flex items-center">
-              <FaApple className="w- 10 h-10 text-blueblack" />
+              <span className="icon-[fa--apple] w-10 h-10 text-blueblack" />
               <span className="ml-4 text-lg font-semibold text-blueblack">Apple Pay</span>
             </div>
             {paymentMethod === "applePay" && <span className="text-bluemint text-2xl">✔</span>}
@@ -87,7 +86,7 @@ const ConfirmarPago = () => {
             className={`p-6 rounded-xl cursor-pointer flex items-center justify-between bg-gray-100 hover:bg-lightblue transition-all duration-300 ${paymentMethod === "googlePay" ? "border-4 border-bluemint" : ""}`}
           >
             <div className="flex items-center">
-              <FaGooglePay className="w-10 h-10 text-blueblack" />
+              <span className="icon-[simple-icons--googlepay] w-10 h-10 text-blueblack" />
               <span className="ml-4 text-lg font-semibold text-blueblack">Google Pay</span>
             </div>
             {paymentMethod === "googlePay" && <span className="text-bluemint text-2xl">✔</span>}

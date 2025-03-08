@@ -5,6 +5,7 @@ import Navbar from '../Components/Navbar';
 import { LocationInfo } from "../Types";
 import { LocationCard } from "../Components/Cards/LocationCard";
 import Footer from '../Components/Footer';
+import { Helmet } from "react-helmet";
 
 
 const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
@@ -95,17 +96,18 @@ const HeroSection = () => {
 
   return (
     <div>
+
+        <Helmet>
+          <title>Royal Airlines</title>
+        </Helmet>
+
         <Navbar />
 
         <div className="relative h-[80vh] bg-cover bg-center bg-[url(src/assets/Alerofondo.jpeg)]">
           <div className="absolute inset-0 bg-opacity-10"></div>
           <div className="relative text-center text-blueblack pt-20">
-            <h1 className="text-6xl font-extrabold tracking-wide drop-shadow-lg">
-            Viaja a cualquier lugar sin preocupaciones
-            </h1>
-            <p className="mt-6 text-blueblack text-2xl drop-shadow-lg">
-            Encuentra hotel y vuelos con la mejor experiencia.
-            </p>
+            <h1 className="text-5xl font-extrabold text-white mb-8 drop-shadow-lg">Descubre el mundo con nosotros</h1>
+            <p className="text-lg text-white mb-8 drop-shadow-md">Reserva tu vuelo al mejor precio y empieza tu próxima aventura</p>
 
           <div className="mt-40 bg-bluemint bg-opacity-20 p-8 rounded-xl -translate-y-25 shadow-2xl max-w-5xl mx-auto text-black">
           <div className="flex justify-between gap-6 mb-6">

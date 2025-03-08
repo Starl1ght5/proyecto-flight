@@ -3,7 +3,7 @@ import Navbar from "../Components/Navbar";
 import SearchComponent from "../Components/SearchComponent";
 import { LocationInfo } from "../Types";
 import { LocationCard } from "../Components/Cards/LocationCard";
-import SeatCard from "../Components/Cards/SeatCard";
+import { SeatCard } from "../Components/Cards/SeatCard";
 
 export default function Test () {
 
