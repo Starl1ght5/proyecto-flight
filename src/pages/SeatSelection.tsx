@@ -98,52 +98,93 @@ export default function SeatSelection () {
                     <div className="flex flex-row" >
 
                         <div className="flex flex-row justify-center gap-2">
+
+                            {/* Row A - Fila A */}
                             <div className="flex flex-col justify-center gap-1" >
-                                <p className="text-center font-extralight text-lg">A</p>
+                                <p className="text-center font-light text-lg">A</p>
                                 {seatRowA?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
                                     )})}
                             </div>
 
+                            {/* Row B - Fila B */} 
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-extralight text-lg">B</p>
+                                <p className="text-center font-light text-lg">B</p>
                                 {seatRowB?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
                                     )})}
                             </div>
-
+                            
+                            {/* Row C - Fila C */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-extralight text-lg">C</p>
+                                <p className="text-center font-light text-lg">C</p>
                                 {seatRowC?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
                                     )})}
                             </div>
                         </div>
-
-                        <div className="w-18"></div>
+                        
+                        {/* Pasillo */}
+                        <div className="mx-7 flex flex-col text-center gap-9 mt-12 font-light">
+                            {/* Temporal, mientras se me ocurre algo mejor para eso */}
+                            <p>1</p>
+                            <p>2</p>
+                            <p>3</p>
+                            <p>4</p>
+                            <p>5</p>
+                            <p>6</p>
+                            <p>7</p>
+                            <p>8</p>
+                            <p>9</p>
+                            <p>10</p>
+                            <p>11</p>
+                            <p>12</p>
+                            <p>13</p>
+                            <p>14</p>
+                            <p>15</p>
+                            <p>16</p>
+                            <p>17</p>
+                            <p>18</p>
+                            <p>19</p>
+                            <p>20</p>
+                            <p>21</p>
+                            <p>22</p>
+                            <p>23</p>
+                            <p>24</p>
+                            <p>25</p>
+                            <p>26</p>
+                            <p>27</p>
+                            <p>28</p>
+                            <p>29</p>
+                            <p>30</p>
+                        </div>
 
                         <div className="flex flex-row justify-center gap-2">
+
+                            {/* Row D - Fila D */}
                             <div className="flex flex-col justify-center gap-1" >
-                                <p className="text-center font-extralight text-lg">D</p>
+                                <p className="text-center font-light text-lg">D</p>
                                 {seatRowD?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
                                     )})}
                             </div>
-
+                            
+                            {/* Row E - Fila E */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-extralight text-lg">E</p>
+                                <p className="text-center font-light text-lg">E</p>
                                 {seatRowE?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
                                     )})}
                             </div>
 
+                            {/* Row F - Fila F */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-extralight text-lg">F</p>
+                                <p className="text-center font-light text-lg">F</p>
                                 {seatRowF?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -153,7 +194,8 @@ export default function SeatSelection () {
 
                     </div>
                 </div>
-
+                
+                {/* Selection div */}
                 <div className="bg-white rounded-lg shadow-lg flex flex-col absolute right-0 mt-16 px-3 py-5 gap-2 min-h-96 justify-between" >
                     
                     <div className="flex flex-col gap-2" >
@@ -162,14 +204,19 @@ export default function SeatSelection () {
                         <div className="bg-white min-h-20 w-sm shadow-lg flex flex-col rounded-lg px-5 py-4 items-center">
 
                             <div className="flex flex-row items-center justify-between w-full" >
+
+                                {/* Passenger List div - Div Lista de pasajeros */}
                                 <div className="flex flex-row gap-2 items-center" >
+
                                     <div className="bg-lilac px-3 py-2 text-white rounded-lg shadow-lg" >
+
                                         {selected ? (
                                             <p>{selectedSeat[0].seatNumber}</p>
                                         ) : (
                                             <p>?</p>
                                         )}
                                     </div>
+                                    
                                     <div className="flex flex-col" >
                                         <h3>Pasajero 1</h3>
                                         {selected ? (

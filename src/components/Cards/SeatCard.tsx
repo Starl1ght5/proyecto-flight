@@ -17,8 +17,13 @@ export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }} >
+            
+            {/* Hover div */}
             {hovered && (
                 seat.reserved ? (
+
+                    /// Appears when the seat is reserved
+                    /// Aparece cuando el asient esta reservado
                     <motion.div className="z-9 flex flex-col absolute bg-white rounded-lg shadow-lg -translate-y-23 px-5 py-3.5 text-center w-40 border border-black"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -29,6 +34,9 @@ export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
                     
                     </motion.div>
                 ) : (
+
+                    /// Appears when the seat is avaliable
+                    /// Aparece cuando el asiento esta disponible
                     <motion.div className="z-9 flex flex-col absolute bg-white rounded-lg shadow-lg -translate-y-24 px-5 py-3.5 text-center w-38 border border-black"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -48,12 +56,16 @@ export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
             )}
 
             {seat.reserved ? (
+
+                /// Reserved seat - Asiento reservado
                 <div className="bg-white p-3 rounded-lg shadow-lg group border scale-90 border-gray-500"
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}>
                     <span className="icon-[ic--baseline-chair] size-6 duration-300 bg-gray-600 group-hover:bg-red" />  
                 </div>
             ) : (
+
+                /// Available seat - Asiento dispobible
                 <div className="bg-white p-3 rounded-lg shadow-lg group border scale-90 border-gray-500"
                     onClick={sendInfo}
                     onMouseEnter={() => setHovered(true)}

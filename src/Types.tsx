@@ -1,3 +1,18 @@
+export const ImagePaths = new Map<string, string>([
+    [ "miami", "/src/assets/miami.jpeg" ],
+    [ "bogota", "/src/assets/bogota.jpg" ],
+    [ "cali", "/src/assets/cali.jpg" ],
+    [ "monteria", "/src/assets/monteria.jpg" ],
+    [ "nueva york", "/src/assets/nuevayork.jpg" ],
+    [ "paris", "/src/assets/paris.jpg" ],
+    [ "pasto", "/src/assets/pasto.jpg" ],
+    [ "pereira", "/src/assets/pereira.jpg" ],
+    [ "armenia", "/src/assets/armenia.jpg" ],
+    [ "londres", "/src/assets/londres.png" ],
+    [ "sidney", "/src/assets/sidney.jpg" ],
+    [ "tokyo", "/src/assets/tokyo.webp" ],
+    [ "medellin", "/src/assets/medellin.jpg" ]
+])
 
 export interface Flight {
     flight: FlightInfo;
