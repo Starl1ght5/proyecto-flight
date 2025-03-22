@@ -68,7 +68,7 @@ const Pasajeros = () => {
                 value={formData.nombre}
                 onChange={handleChange}
                 placeholder="Nombre"
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               />
             </div>
             <div className="flex flex-col">
@@ -78,7 +78,7 @@ const Pasajeros = () => {
                 value={formData.apellido}
                 onChange={handleChange}
                 placeholder="Apellido"
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               />
             </div>
             <div className="flex flex-col">
@@ -87,7 +87,7 @@ const Pasajeros = () => {
                 name="fechaNacimiento"
                 value={formData.fechaNacimiento}
                 onChange={handleChange}
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               />
             </div>
             <div className="flex flex-col">
@@ -95,7 +95,7 @@ const Pasajeros = () => {
                 name="genero"
                 value={formData.genero}
                 onChange={handleChange}
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               >
                 <option value="">Género</option>
                 <option value="Masculino">Masculino</option>
@@ -108,7 +108,7 @@ const Pasajeros = () => {
                 name="nacionalidad"
                 value={formData.nacionalidad}
                 onChange={handleChange}
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               >
                 <option value="Colombia">Colombia</option>
                 <option value="Ecuador">Ecuador</option>
@@ -120,7 +120,7 @@ const Pasajeros = () => {
                 name="tipoDocumento"
                 value={formData.tipoDocumento}
                 onChange={handleChange}
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               >
                 <option value="Cédula de Identidad">Cédula de Identidad</option>
                 <option value="Pasaporte">Pasaporte</option>
@@ -133,7 +133,7 @@ const Pasajeros = () => {
                 value={formData.numeroDocumento}
                 onChange={handleChange}
                 placeholder="Número de documento"
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               />
             </div>
             <div className="flex flex-col">
@@ -143,7 +143,7 @@ const Pasajeros = () => {
                 value={formData.pasajeroFrecuente}
                 onChange={handleChange}
                 placeholder="N° de pasajero frecuente (opcional)"
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               />
             </div>
             <div className="flex flex-col">
@@ -153,7 +153,7 @@ const Pasajeros = () => {
                 value={formData.aerolinea}
                 onChange={handleChange}
                 placeholder="Aerolinea"
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               />
             </div>
           </div>
@@ -167,13 +167,13 @@ const Pasajeros = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email"
-                className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
               />
             </div>
             <div className="flex space-x-4">
               <div className="flex flex-col w-1/4">
                 <select
-                  className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                  className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
                 >
                   <option value="+57">+57</option>
                   <option value="+56">+56</option>
@@ -189,7 +189,7 @@ const Pasajeros = () => {
                   value={formData.telefono}
                   onChange={handleChange}
                   placeholder="Número"
-                  className="p-4 border-2 border-lightblue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
+                  className="p-4 border-2 border-purple2  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue w-full"
                 />
               </div>
             </div>
@@ -197,7 +197,7 @@ const Pasajeros = () => {
 
           <button
             type="submit"
-            className="w-full bg-lightblue text-bluemint py-3 rounded-lg font-semibold hover:bg-bluedark transition"
+            className="w-full bg-purple text-bluemint py-3 rounded-lg font-semibold hover:bg-purple2 transition"
           >
             Confirmar datos
           </button>

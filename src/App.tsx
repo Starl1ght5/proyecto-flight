@@ -6,11 +6,14 @@ import LoginPage from "./Pages/Login";
 //import OfertasDestacadas from "./pages/OfertasDestacadas";
 import SearchResutls from "./Pages/FlightSelection";
 //import ReturnFlightSelection from "./components/ReturnFlightSelection";
-//import Pasajeros from "./components/Pasajeros";
+//import SeatSelectionIda from "./components/SeatSelectionIda";
+//import SelectSeatsVuelta from "./components/SeatSelectionVuelta";
+import Pasajeros from "./components/Pasajeros";
 import ConfirmarPago from "./Components/ConfirmarPago";
 import BoardingPass from "./components/BoardingPass";
 import Test from "./Pages/Test";
 import SeatSelection from "./Pages/SeatSelection";
+
 
 export default function App() {
   return (
@@ -30,6 +33,7 @@ export default function App() {
         <Route path="/viaje-popular" element={<ViajePopular />} />
         <Route path="/ofertas-destacadas" element={<OfertasDestacadas />} /> */}
 
+        <Route path="/pasajeros" element={<Pasajeros/>} />
         <Route path="/test" element={<Test />} />
       </Routes>
     </Router>

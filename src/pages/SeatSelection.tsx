@@ -74,7 +74,7 @@ export default function SeatSelection () {
     }
 
     const next = () => {
-        navigate("/confirmar-pago");
+        navigate("/pasajeros");
     }
 
     const reset = () => {
@@ -94,7 +94,7 @@ export default function SeatSelection () {
 
             <div className="flex flex-row justify-center" >
 
-                <div className="px-7 py-9 w-lg rounded-lg mt-16 shadow-2xl flex flex-col items-center">
+                <div className="px-7 py-9 w-lg rounded-lg mt-16 bg-white/50 backdrop-blur-md  shadow-2xl flex flex-col items-center">
                     <div className="flex flex-row" >
 
                         <div className="flex flex-row justify-center gap-2">
@@ -104,7 +104,7 @@ export default function SeatSelection () {
                                 <p className="text-center font-light text-lg">A</p>
                                 {seatRowA?.map(element => {
                                     return (
-                                        <SeatCard seat={element} returnInfo={reciveInfo} />
+                                        <SeatCard  seat={element} returnInfo={reciveInfo} />
                                     )})}
                             </div>
 

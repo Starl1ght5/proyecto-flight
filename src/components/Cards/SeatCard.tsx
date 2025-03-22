@@ -61,7 +61,7 @@ export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
                 <div className="bg-white p-3 rounded-lg shadow-lg group border scale-90 border-gray-500"
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}>
-                    <span className="icon-[ic--baseline-chair] size-6 duration-300 bg-gray-600 group-hover:bg-red" />  
+                    <span className="icon-[streamline--shopping-catergories-chair-design-lounge-furniture-chair-interior-decorate-armchair-decoration] size-7 duration-300 bg-red-500" />  
                 </div>
             ) : (
 
@@ -70,7 +70,7 @@ export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
                     onClick={sendInfo}
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}>
-                    <span className="icon-[ic--baseline-chair] size-6 duration-300 group-hover:bg-lilac" />  
+                    <span className="icon-[streamline--shopping-catergories-chair-design-lounge-furniture-chair-interior-decorate-armchair-decoration] size-7 duration-300 bg-indigo-500 group-hover:bg-purple-dark" />  
                 </div>
             )}
             
