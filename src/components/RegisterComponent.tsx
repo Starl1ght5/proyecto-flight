@@ -1,7 +1,7 @@
 import { useForm, type FieldValues } from "react-hook-form";
 import { motion } from 'framer-motion';
 import { Toaster, toast } from 'sonner';
-import Logo from "../assets/LogoRoyal.png";
+import Logo from "../assets/LogoRoyal.webp";
 
 type FormFields = {
     email: string;

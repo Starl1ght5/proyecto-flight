@@ -1,17 +1,17 @@
 export const ImagePaths = new Map<string, string>([
-    [ "miami", "/src/assets/miami.jpeg" ],
-    [ "bogota", "/src/assets/bogota.jpg" ],
-    [ "cali", "/src/assets/cali.jpg" ],
-    [ "monteria", "/src/assets/monteria.jpg" ],
-    [ "nueva york", "/src/assets/nuevayork.jpg" ],
-    [ "paris", "/src/assets/paris.jpg" ],
-    [ "pasto", "/src/assets/pasto.jpg" ],
-    [ "pereira", "/src/assets/pereira.jpg" ],
-    [ "armenia", "/src/assets/armenia.jpg" ],
-    [ "londres", "/src/assets/londres.png" ],
-    [ "sidney", "/src/assets/sidney.jpg" ],
+    [ "miami", "/src/assets/miami.webp" ],
+    [ "bogota", "/src/assets/bogota.webp" ],
+    [ "cali", "/src/assets/cali.webp" ],
+    [ "monteria", "/src/assets/monteria.webp" ],
+    [ "nueva york", "/src/assets/nuevayork.webp" ],
+    [ "paris", "/src/assets/paris.webp" ],
+    [ "pasto", "/src/assets/pasto.webp" ],
+    [ "pereira", "/src/assets/pereira.webp" ],
+    [ "armenia", "/src/assets/armenia.webp" ],
+    [ "londres", "/src/assets/londres.webp" ],
+    [ "sidney", "/src/assets/sidney.webp" ],
     [ "tokyo", "/src/assets/tokyo.webp" ],
-    [ "medellin", "/src/assets/medellin.jpg" ]
+    [ "medellin", "/src/assets/medellin.webp" ]
 ])
 
 export interface Flight {

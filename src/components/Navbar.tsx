@@ -164,7 +164,7 @@ export default function Navbar () {
             </div>
           ) : (
             <button
-              className="bg-gold border-2 transition box-border border-hidden hover:border-white hover:border-solid duration-300 ease-in-out text-white px-8 py-2 ml-3 rounded-lg shadow-md text-sm hover:cursor-pointer"
+              className="bg-gold border-2 transition box-border border-hidden hover:border-white hover:border-solid duration-300 ease-in-out font-semibold text-white px-8 py-2 ml-3 rounded-lg shadow-md text-sm hover:cursor-pointer"
               onClick={goToLogin}
             >
               Iniciar Sesion

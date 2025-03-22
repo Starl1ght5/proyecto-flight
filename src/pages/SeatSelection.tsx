@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../Components/Footer";
+import Footer from "../Components/FooterComponent";
 import Navbar from "../Components/Navbar";
 import { Seat } from "../Types";
 import { Toaster, toast } from 'sonner';
