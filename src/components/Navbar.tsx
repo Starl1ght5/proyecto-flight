@@ -1,16 +1,29 @@
 import { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
 export default function Navbar () {
 
-  const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [ cookie, removeCookie ] = useCookies(['RoyalUserToken']);
+
+  const [ dropdownOpen, setDropdownOpen ] = useState(null);
+  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    setIsAuthenticated(!!token);
-  }, []);
+
+    const checkCookie = () => {
+      const doesCookieExist = !cookie.RoyalUserToken || cookie.RoyalUserToken === "";
+
+      if (doesCookieExist) {
+        setIsAuthenticated(false);
+      } else {
+        setIsAuthenticated(true)
+      }
+    }
+
+    checkCookie();
+  }, [cookie])
 
   const toggleDropdown = (menu) => {
     setDropdownOpen((prev) => (prev === menu ? null : menu));
@@ -37,17 +50,16 @@ export default function Navbar () {
   };
 
   const goToOfertasDestinos = () => {
-    navigate('/ofertas-destinos'); // Cambia esta ruta según tu configuración
+    navigate('/ofertas-destinos');
   };
 
   const goToCentroAyuda = () => {
-    navigate('/centro-ayuda'); // Cambia esta ruta según tu configuración
+    navigate('/centro-ayuda');
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
     setIsAuthenticated(false);
-    navigate('/login');
+    removeCookie('RoyalUserToken', "");
   };
 
   return (
