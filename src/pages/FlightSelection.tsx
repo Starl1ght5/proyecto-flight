@@ -3,15 +3,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
 import { FlightCard } from '../Components/Cards/FlightCard';
 import Navbar from '../Components/Navbar';
-import { ReservedFlight } from '../Types';
+import { ReservedFlight, FlightInfo } from '../Types';
 import { ReservedCard } from '../Components/Cards/ReservedCard';
 import { motion } from 'framer-motion';
-import Footer from '../Components/Footer';
+import Footer from '../Components/FooterComponent';
 import { Helmet } from "react-helmet";
 
 export default function SearchResults() {
 
-    const [ Flights, setFlights ] = useState([]);
+    const [ Flights, setFlights ] = useState<FlightInfo[]>([]);
 
     const [ reservedFlight, setReservedFlight ] = useState<ReservedFlight[]>([]);
     const [ formattedDate, setFormattedDate ] = useState<string>();
@@ -50,8 +50,28 @@ export default function SearchResults() {
         }
 
         fetchRequestedFlights();
-        
+
     }, [Flights, departure, destination, origin, setFlights])
+
+    useEffect(() => {
+        const sortByCheapest = () => {
+            const sortedArr = [...Flights].sort((a, b) => parseInt(a.ticketPrice.amount) - parseInt(b.ticketPrice.amount));
+            setFlights(sortedArr);
+        }
+
+        const sortByEarliest = () => {
+            const sortedArr = [...Flights].sort(compareDates);
+            setFlights(sortedArr);
+        }
+
+        const compareDates = (arr1: FlightInfo, arr2: FlightInfo) => {
+            const date1 = new Date(arr1.departureDate[0], arr1.departureDate[1], arr1.departureDate[2], arr1.departureDate[3], arr1.departureDate[4], arr1.departureDate[5], arr1.departureDate[6]);
+            const date2 = new Date(arr2.departureDate[0], arr2.departureDate[1], arr2.departureDate[2], arr2.departureDate[3], arr2.departureDate[4], arr2.departureDate[5], arr2.departureDate[6]);
+            return date1.getTime() - date2.getTime();
+        }
+
+        sortByCheapest();
+    }, [Flights])
 
     const reciveFlight = (info: ReservedFlight) => {
         setReservedFlight([...reservedFlight, info]);
@@ -78,6 +98,7 @@ export default function SearchResults() {
         navigate(`/seat-selection?id=${reservedFlight[0].flight.flightID}`)
     }
 
+
     return (
         <motion.div className='flex flex-col'
             initial={{ opacity: 0, y: 10 }}
@@ -97,7 +118,13 @@ export default function SearchResults() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }} >
-                    <h1 className="text-2-5xl">Elige un vuelo de ida</h1>
+                    <div className="flex flex-row justify-between items-center" >
+                        <h1 className="text-2-5xl">Elige un vuelo de ida</h1>
+
+                        <div className="flex flex-row gap-2" >
+                            <p>Ordenar por:</p>
+                        </div>
+                    </div>
                     
                     <div className="flex flex-col gap-4 py-6 px-4 items-center">
                         {Flights?.map((element) => {

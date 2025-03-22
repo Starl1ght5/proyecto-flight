@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import bg from '../assets/Alerofondo.jpeg';
 import Navbar from '../Components/Navbar';
 import { LocationInfo } from "../Types";
 import { LocationCard } from "../Components/Cards/LocationCard";
-import Footer from '../Components/Footer';
+import Footer from '../Components/FooterComponent';
 import { Helmet } from "react-helmet";
 
 
@@ -103,7 +102,7 @@ const HeroSection = () => {
 
         <Navbar />
 
-        <div className="relative h-[80vh] bg-cover bg-center bg-[url(src/assets/Alerofondo.jpeg)]">
+        <div className="relative h-[80vh] bg-cover bg-center bg-[url(src/assets/Alerofondo.webp)]">
           <div className="absolute inset-0 bg-opacity-10"></div>
           <div className="relative text-center text-blueblack pt-20">
             <h1 className="text-5xl font-extrabold text-white mb-8 drop-shadow-lg">Descubre el mundo con nosotros</h1>

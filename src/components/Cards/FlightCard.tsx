@@ -74,6 +74,7 @@ export const FlightCard: React.FC<Flight> = ({ flight, returnInfo }) => {
                     <div className="flex flex-col">
                         <p className="text-sm">Por persona desde</p>
                         <h1 className="text-2xl" >COP {formattedBase}</h1>
+                        <p className="italic text-sm font-light" >Incluye tarifas e impuestos*</p>
                     </div>
                 </div>
 
