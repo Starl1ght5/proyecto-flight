@@ -9,11 +9,12 @@ import SearchResutls from "./Pages/FlightSelection";
 //import ReturnFlightSelection from "./components/ReturnFlightSelection";
 //import SeatSelectionIda from "./components/SeatSelectionIda";
 //import SelectSeatsVuelta from "./components/SeatSelectionVuelta";
-//import Pasajeros from "./components/Pasajeros";
+import Pasajeros from "./components/Pasajeros";
 import ConfirmarPago from "./Components/ConfirmarPago";
 import BoardingPass from "./components/BoardingPass";
 import Test from "./Pages/Test";
 import SeatSelection from "./Pages/SeatSelection";
+
 
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/ofertas-destacadas" element={<OfertasDestacadas />} />
         <Route path="/alojamientos" element={<Alojamientos />} />*/}
 
+        <Route path="/pasajeros" element={<Pasajeros/>} />
         <Route path="/test" element={<Test />} />
       </Routes>
     </Router>
