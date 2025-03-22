@@ -4,17 +4,13 @@ import LoginPage from "./Pages/Login";
 //import Profile from "./components/PerfilUser";
 //import ViajePopular from "./pages/ViajePopular";
 //import OfertasDestacadas from "./pages/OfertasDestacadas";
-//import Alojamientos from "./pages/Alojamientos";
 import SearchResutls from "./Pages/FlightSelection";
 //import ReturnFlightSelection from "./components/ReturnFlightSelection";
-//import SeatSelectionIda from "./components/SeatSelectionIda";
-//import SelectSeatsVuelta from "./components/SeatSelectionVuelta";
 //import Pasajeros from "./components/Pasajeros";
 import ConfirmarPago from "./Components/ConfirmarPago";
 import BoardingPass from "./components/BoardingPass";
 import Test from "./Pages/Test";
 import SeatSelection from "./Pages/SeatSelection";
-
 
 export default function App() {
   return (
@@ -25,8 +21,6 @@ export default function App() {
         <Route path="/search-results" element={<SearchResutls />} />
         <Route path="/seat-selection" element={<SeatSelection />} />
         {/* 
-        <Route path="/return-selection" element={<ReturnFlightSelection />} />
-        
         <Route path="/vuelta" element={<SelectSeatsVuelta />} />
         <Route path="/pasajeros" element={<Pasajeros />} />*/}
         <Route path="/confirmar-pago" element={<ConfirmarPago />} />
@@ -34,8 +28,7 @@ export default function App() {
         {/*
         <Route path="/profile" element={<Profile />} />
         <Route path="/viaje-popular" element={<ViajePopular />} />
-        <Route path="/ofertas-destacadas" element={<OfertasDestacadas />} />
-        <Route path="/alojamientos" element={<Alojamientos />} />*/}
+        <Route path="/ofertas-destacadas" element={<OfertasDestacadas />} /> */}
 
         <Route path="/test" element={<Test />} />
       </Routes>
