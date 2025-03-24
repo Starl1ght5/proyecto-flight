@@ -69,6 +69,16 @@ public class SeatService {
         return seatRepository.searchByID(requestedID);
     }
 
+    public List<Seat> searchForListOfIDs (List<String> requestedIDs) {
+        List<Seat> returnedList = new ArrayList<>();
+
+        for (String requestedID : requestedIDs) {
+            returnedList.add(seatRepository.searchByID(requestedID));
+        }
+
+        return returnedList;
+    }
+
     public SeatDTO objectToDto (Seat requestedObject) {
         SeatDTO returnedDto = new SeatDTO();
 

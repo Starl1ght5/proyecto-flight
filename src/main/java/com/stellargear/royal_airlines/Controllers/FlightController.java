@@ -5,6 +5,7 @@ import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
 import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Services.FlightService;
 import com.stellargear.royal_airlines.Services.LocationService;
+import com.stellargear.royal_airlines.Services.TravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,12 @@ public class FlightController {
 
     private final FlightService flightService;
     private final LocationService locationService;
+    private final TravelService travelService;
 
+    @PostMapping(path = "/api/debug/travels/create")
+    public ResponseEntity<?> createNewTravel (@RequestParam String departureFlight, @RequestParam(required = false) String arrivalFlight) {
+        return travelService.generateNewTravel(departureFlight);
+    }
 
     @PostMapping(path = "/api/debug/flights/create")
     public ResponseEntity<?> createNewFlight (@RequestParam String airline, @RequestParam String price, @RequestParam String depID, @RequestParam String arrID ) {

@@ -22,7 +22,6 @@ public class JwtService {
 
     private String secretKey;
 
-
     public JwtService() {
 
         try {
@@ -51,10 +50,10 @@ public class JwtService {
     public ResponseCookie generateCookie (String username) {
         return ResponseCookie.from("RoyalUserToken", generateToken(username))
                 .secure(false)
-                .httpOnly(true)
                 .path("/")
-                .sameSite("Strict")
+                .sameSite("strict")
                 .maxAge(3600)
+                .domain("localhost")
                 .build();
     }
 

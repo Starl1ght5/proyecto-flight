@@ -113,6 +113,13 @@ public class FlightService {
         return check.isDiscounted();
     }
 
+    public Flight searchFlight (String requestedID) {
+        return flightRepository.searchByID(requestedID);
+    }
+
+    public FlightDTO searchAndConvertObject (String requestedID) {
+        return objectToDto(searchFlight(requestedID));
+    }
 
 
     public FlightDTO objectToDto (Flight requestedObject) {

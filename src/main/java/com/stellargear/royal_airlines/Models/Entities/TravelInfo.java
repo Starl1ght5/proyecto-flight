@@ -15,7 +15,9 @@ public class TravelInfo {
 
     private String departureFlight;
     private String arrivalFlight;
+
     private boolean roundTrip;
+
     private boolean discounted;
 
     private String status;

@@ -32,6 +32,10 @@ public class FeeService {
         return returnedList;
     }
 
+    public FeeDTO searchAndConvertObject (String requestedID) {
+        return simpleObjectToDto(searchByID(requestedID));
+    }
+
     public List<FeeDTO> searchAndConvertList (List<String> requestedList, double price) {
         List<Fee> objectList = new ArrayList<>();
 
@@ -44,6 +48,16 @@ public class FeeService {
 
     public Fee searchByID (String requestedID) {
         return feeRepository.searchByID(requestedID);
+    }
+
+    public FeeDTO simpleObjectToDto (Fee requestedObject) {
+        FeeDTO returnedDto = new FeeDTO();
+
+        returnedDto.setFeeID(requestedObject.getFeeID());
+        returnedDto.setFeeName(requestedObject.getFeeName());
+        returnedDto.setPriceDifference(requestedObject.getPriceDifference());
+
+        return returnedDto;
     }
 
     public FeeDTO objectToDto (Fee requestedObject, double ticketPrice) {
