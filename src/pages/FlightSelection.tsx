@@ -70,7 +70,6 @@ export default function SearchResults() {
             return date1.getTime() - date2.getTime();
         }
 
-        sortByCheapest();
     }, [Flights])
 
     const reciveFlight = (info: ReservedFlight) => {
@@ -95,7 +94,7 @@ export default function SearchResults() {
     }
 
     const next = () => {
-        navigate(`/seat-selection?id=${reservedFlight[0].flight.flightID}`)
+        navigate(`/seat-selection?flightID=${reservedFlight[0].flight.flightID}`)
     }
 
 

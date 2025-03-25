@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Components/FooterComponent";
 import Navbar from "../Components/Navbar";
-import { Seat } from "../Types";
+import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../Types";
 import { Toaster, toast } from 'sonner';
 import { SeatCard } from '../Components/Cards/SeatCard';
 import { Helmet } from "react-helmet";
+import { loadStripe } from "@stripe/stripe-js";
+import { useCookies } from 'react-cookie';
 
 
 export default function SeatSelection () {
@@ -13,6 +15,8 @@ export default function SeatSelection () {
     const [ seats, setSeats ] = useState([]);
     const [ selectedSeat, setSelectedSeat ] = useState<Seat[]>([]);
     const [ selected, setSelected ] = useState<boolean>(false);
+    const [ cookie ] = useCookies(['RoyalUserToken']);
+
     const navigate = useNavigate();
     
     const [seatRowA, setSeatRowA] = useState([])
@@ -23,8 +27,93 @@ export default function SeatSelection () {
     const [seatRowF, setSeatRowF] = useState([])
 
     const searchParams = new URLSearchParams(location.search);
-    const flight = searchParams.get('id') || '';
+    const flight = searchParams.get('flightID') || '';
+    const fee = searchParams.get('feeID') || '';
     
+
+    const generateBooking = async () => {
+        try {
+            const ids: Array<string> = [];
+            
+            selectedSeat?.map(seat => {
+                ids.push(seat.seatID)
+            })
+
+            const info: CheckoutAttemptInfo = {
+                travelID : "67e1bee0e18c28350a90f66b",
+                seatIDs : ids,
+                userID : "67e1b7309106af55ef1ded00",
+                feeID : "67bcbab5c2667c448b69d7c5"
+            }
+
+            const response = await fetch("http://localhost:8080/api/booking/new", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(info)
+            });
+
+
+            if (response.status === 202) {
+                const res = await response.text();
+                initCheckout(res);
+
+            } else {
+                toast.error("Error del servidor" , {
+                    className: "bg-red-500 text-white rounded-lg shadow-lg"
+                });
+            }
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+
+    const initCheckout = async (checkoutID: string) => {
+        try {
+
+            const initialResponse = await fetch(`http://localhost:8080/api/booking/get?bookingID=${checkoutID}`);
+
+            const res = await initialResponse.json();
+
+            const details: CheckoutInfo = {
+                bookingID: res.bookingID,
+                userID: res.userID,
+                travelInfo: res.bookedTravel,
+                fee: res.selectedFee,
+                totalPrice: res.totalPrice,
+                status: res.status,
+                ticketCount: res.ticketCount,
+                bookedSeats: res.bookedSeats
+            }
+
+            const stripe = await loadStripe("");
+
+            const added_value = parseInt(details.totalPrice.amount + ".00");
+
+            const payload = {
+                client: details.userID,
+                amount_paid: added_value,
+                currency: "COP",
+                items_brought: [details]
+            }
+
+            const response = await fetch("http://localhost:5000/start-checkout-session", {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const test = await response.json()
+
+            const result = stripe.redirectToCheckout({
+                sessionId: test.id
+            });
+
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     useEffect(() => {
         
@@ -244,7 +333,7 @@ export default function SeatSelection () {
                         
                     </div>
                     <button className="px-4 py-3 bg-lilac text-white rounded-lg shadow-lg hover:cursor-pointer hover:bg-gold duration-200 mx-4 mt-4"
-                        onClick={next} >Continuar</button>
+                        onClick={generateBooking} >Continuar</button>
                 </div>
             </div>
 

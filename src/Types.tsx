@@ -53,6 +53,33 @@ export interface Seat {
     reserved: boolean;
 }
 
+export interface TravelInfo {
+    travelInfoID: string;
+    departureFlight: FlightInfo;
+    arrivalFlight: FlightInfo;
+    roundTrip: boolean;
+    discounted: boolean;
+    status: string;
+}
+
+export interface CheckoutInfo {
+    bookingID: string;
+    userID: string;
+    travelInfo: TravelInfo;
+    fee: Fee;
+    totalPrice: Money;
+    status: string;
+    ticketCount: number;
+    bookedSeats: Array<Seat>;
+}
+
+export interface CheckoutAttemptInfo {
+    travelID: string;
+    userID: string;
+    feeID: string;
+    seatIDs: Array<string>;
+}
+
 export interface FlightInfo {
     flightID: string;
     airline: string;
