@@ -45,7 +45,7 @@ public class BookingService {
         bookingRepository.save(nwe);
 
         GlobalLogger.getLogger().info("Flight successfully booked!");
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(nwe.getBookingID(), HttpStatus.ACCEPTED);
     }
 
     public double calculateTotalPrice (String flight, List<String> seats, String fee) {
@@ -77,8 +77,8 @@ public class BookingService {
         BookingDTO returnedDTO = new BookingDTO();
 
         returnedDTO.setBookingID(requestedObject.getBookingID());
-        returnedDTO.setBookedTravelID(travelService.searchAndConvertObject(requestedObject.getBookedTravelID()));
-        returnedDTO.setBookedSeatIDs(seatService.searchAndConvertList(requestedObject.getBookedSeatIDs()));
+        returnedDTO.setBookedTravel(travelService.searchAndConvertObject(requestedObject.getBookedTravelID()));
+        returnedDTO.setBookedSeats(seatService.searchAndConvertList(requestedObject.getBookedSeatIDs()));
         returnedDTO.setTicketCount(requestedObject.getTicketCount());
         returnedDTO.setTotalPrice(moneyExchange.convertUSDtoCOP(requestedObject.getTotalPrice()));
         returnedDTO.setUserID(requestedObject.getUserID());

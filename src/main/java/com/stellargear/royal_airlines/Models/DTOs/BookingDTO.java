@@ -13,9 +13,9 @@ public class BookingDTO {
     private String bookingID;
 
     private String userID;
-    private TravelInfoDTO bookedTravelID;
+    private TravelInfoDTO bookedTravel;
 
-    private List<SeatDTO> bookedSeatIDs;
+    private List<SeatDTO> bookedSeats;
     private FeeDTO selectedFee;
 
     private Money totalPrice;

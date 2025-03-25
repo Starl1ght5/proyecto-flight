@@ -64,7 +64,7 @@ public class TravelService {
     public TravelInfoDTO objectToDto (TravelInfo requestedObject) {
         TravelInfoDTO requestedDto = new TravelInfoDTO();
 
-        requestedDto.setTripInfoID(requestedObject.getTripInfoID());
+        requestedDto.setTravelInfoID(requestedObject.getTripInfoID());
         requestedDto.setStatus(requestedObject.getStatus());
         requestedDto.setRoundTrip(requestedObject.isRoundTrip());
         requestedDto.setDepartureFlight(flightService.searchAndConvertObject(requestedObject.getDepartureFlight()));

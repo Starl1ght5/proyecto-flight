@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 public class TravelInfoDTO {
 
-    private String tripInfoID;
+    private String travelInfoID;
 
     private FlightDTO departureFlight;
     private FlightDTO arrivalFlight;
