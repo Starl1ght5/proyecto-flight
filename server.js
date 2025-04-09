@@ -23,18 +23,42 @@ router.post("/start-checkout-session", async(req, res) => {
         quantity: ticket.ticketCount
 
     }))
-        
 
     const session = await stripe.checkout.sessions.create({
         payment_method_types:["card"],
         line_items: lineItems,
         mode: "payment",
-        success_url: "http://localhost:5170/success",
-        cancel_url: "http://localhost:5170/decline"
+        success_url: `http://localhost:5000/confirm-payment?bookingID=${tickets[0].bookingID}`,
+        cancel_url: `http://localhost:5000/cancel-payment?bookingID=${tickets[0].bookingID}`
     });
 
     res.json({id: session.id})
 
+})
+
+router.get("/confirm-payment", async (req, res) => {
+
+    const booking_id = req.query.bookingID;
+
+    const response = await fetch(`${process.env.BACKEND_URL}booking/confirm?id=${booking_id}`, {
+       method: 'PATCH'  
+    });
+
+    if (response.status === 200) {
+       res.redirect("http://localhost:5173/payment-confirm")
+    }
+})
+
+router.get("cancel-payment", async (req, res) => {
+    const booking_id = req.query.bookingID;
+
+    const response = await fetch(`${process.env.BACKEND_URL}booking/cancel?id=${booking_id}`, {
+       method: 'PATCH'  
+    });
+
+    if (response.status === 200) {
+       res.redirect("http://localhost:5173/payment-canceled")
+    }
 })
 
 router.listen(port, () => {
