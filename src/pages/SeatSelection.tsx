@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Components/FooterComponent";
-import Navbar from "../Components/Navbar";
+import Navbar from "../Components/NavbarComponent";
 import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../Types";
 import { Toaster, toast } from 'sonner';
 import { SeatCard } from '../Components/Cards/SeatCard';
@@ -46,14 +46,14 @@ export default function SeatSelection () {
                 feeID : "67bcbab5c2667c448b69d7c5"
             }
 
-            const response = await fetch("http://localhost:8080/api/booking/new", {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}booking/create`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(info)
             });
 
 
-            if (response.status === 202) {
+            if (response.status === 201) {
                 const res = await response.text();
                 initCheckout(res);
 
@@ -72,7 +72,7 @@ export default function SeatSelection () {
     const initCheckout = async (checkoutID: string) => {
         try {
 
-            const initialResponse = await fetch(`http://localhost:8080/api/booking/get?bookingID=${checkoutID}`);
+            const initialResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}booking/${checkoutID}`);
 
             const res = await initialResponse.json();
 
@@ -87,7 +87,7 @@ export default function SeatSelection () {
                 bookedSeats: res.bookedSeats
             }
 
-            const stripe = await loadStripe("");
+            const stripe = await loadStripe("pk_test_51OEkaAAZPRRqn7nghZ3JdSkVsMS64xrdnTxyqlnPoJjjDZEiuUbJ7cEGgWgbU8MzE6RMtK8sTtLHdKl4c3Myf8LE007tm0JPdo");
 
             const added_value = parseInt(details.totalPrice.amount + ".00");
 
@@ -98,7 +98,7 @@ export default function SeatSelection () {
                 items_brought: [details]
             }
 
-            const response = await fetch("http://localhost:5000/start-checkout-session", {
+            const response = await fetch(`${import.meta.env.VITE_PAYMENT_SERVER_URL}start-checkout-session`, {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: { 'Content-Type': 'application/json' }
@@ -119,7 +119,7 @@ export default function SeatSelection () {
         
         const fetchSeats = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/seats/search?flightID=${flight}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}seats/search?flightID=${flight}`, {
                     method: 'GET'
                 });
                 const res = await response.json();
@@ -190,7 +190,7 @@ export default function SeatSelection () {
 
                             {/* Row A - Fila A */}
                             <div className="flex flex-col justify-center gap-1" >
-                                <p className="text-center font-light text-lg">A</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">A</p>
                                 {seatRowA?.map(element => {
                                     return (
                                         <SeatCard  seat={element} returnInfo={reciveInfo} />
@@ -199,7 +199,7 @@ export default function SeatSelection () {
 
                             {/* Row B - Fila B */} 
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-light text-lg">B</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">B</p>
                                 {seatRowB?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -208,7 +208,7 @@ export default function SeatSelection () {
                             
                             {/* Row C - Fila C */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-light text-lg">C</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">C</p>
                                 {seatRowC?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -217,7 +217,7 @@ export default function SeatSelection () {
                         </div>
                         
                         {/* Pasillo */}
-                        <div className="mx-7 flex flex-col text-center gap-9 mt-12 font-light">
+                        <div className="mx-7 flex flex-col text-center gap-10 mt-12 font-light">
                             {/* Temporal, mientras se me ocurre algo mejor para eso */}
                             <p>1</p>
                             <p>2</p>
@@ -255,7 +255,7 @@ export default function SeatSelection () {
 
                             {/* Row D - Fila D */}
                             <div className="flex flex-col justify-center gap-1" >
-                                <p className="text-center font-light text-lg">D</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">D</p>
                                 {seatRowD?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -264,7 +264,7 @@ export default function SeatSelection () {
                             
                             {/* Row E - Fila E */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-light text-lg">E</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">E</p>
                                 {seatRowE?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -273,7 +273,7 @@ export default function SeatSelection () {
 
                             {/* Row F - Fila F */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-light text-lg">F</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">F</p>
                                 {seatRowF?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -297,7 +297,7 @@ export default function SeatSelection () {
                                 {/* Passenger List div - Div Lista de pasajeros */}
                                 <div className="flex flex-row gap-2 items-center" >
 
-                                    <div className="bg-lilac px-3 py-2 text-white rounded-lg shadow-lg" >
+                                    <div className="bg-lilac px-5 py-3 text-white rounded-lg shadow-lg" >
 
                                         {selected ? (
                                             <p>{selectedSeat[0].seatNumber}</p>

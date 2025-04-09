@@ -26,6 +26,7 @@ export interface LocationInfo {
 export interface SeatInfo {
     seat: Seat;
     returnInfo: (seat: Seat) => void;
+    getInteraction: () => void;
 }
 
 export interface ReservedFlight {

@@ -25,7 +25,7 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
 
   const onSubmit = handleSubmit(async (data: FieldValues) => {
     try {
-      const response = await fetch("http://localhost:8080/api/users/login", {
+      const response = await fetch(`${import.meta.env.BACKEND_URL}users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
@@ -100,7 +100,7 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
             <input
               type="password"
               placeholder="Contraseña..."
-              className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full px-4 py-3 border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
               {...register("password", { required: "Este campo es obligatorio" })}
             />
             {errors.password && (

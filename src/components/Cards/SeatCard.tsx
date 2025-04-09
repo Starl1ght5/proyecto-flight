@@ -2,9 +2,10 @@ import { useState } from "react";
 import { SeatInfo } from "../../Types";
 import { motion } from 'framer-motion';
 
-export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
+export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo, getInteraction }) => {
 
     const [ hovered, setHovered ] = useState<boolean>(false);
+    const [ selected, setSelected ] = useState<boolean>(false);
 
     const formattedPrice = (seat.seatPrice.amount).toLocaleString();
 
@@ -56,7 +57,6 @@ export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
             )}
 
             {seat.reserved ? (
-
                 /// Reserved seat - Asiento reservado
                 <div className="bg-white p-3 rounded-lg shadow-lg group border scale-90 border-gray-500"
                     onMouseEnter={() => setHovered(true)}
@@ -64,14 +64,13 @@ export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
                     <span className="icon-[streamline--shopping-catergories-chair-design-lounge-furniture-chair-interior-decorate-armchair-decoration] size-7 duration-300 bg-red-500" />  
                 </div>
             ) : (
-
-                /// Available seat - Asiento dispobible
-                <div className="bg-white p-3 rounded-lg shadow-lg group border scale-90 border-gray-500"
-                    onClick={sendInfo}
-                    onMouseEnter={() => setHovered(true)}
-                    onMouseLeave={() => setHovered(false)}>
-                    <span className="icon-[streamline--shopping-catergories-chair-design-lounge-furniture-chair-interior-decorate-armchair-decoration] size-7 duration-300 bg-indigo-500 group-hover:bg-purple-dark" />  
-                </div>
+                    /// Available seat - Asiento dispobible
+                    <div className="bg-white p-3 rounded-lg shadow-lg group border scale-90 border-gray-500"
+                        onClick={sendInfo}
+                        onMouseEnter={() => setHovered(true)}
+                        onMouseLeave={() => setHovered(false)}>
+                        <span className="icon-[streamline--shopping-catergories-chair-design-lounge-furniture-chair-interior-decorate-armchair-decoration] size-7 duration-300 bg-indigo-500 group-hover:bg-purple-dark" />  
+                    </div>
             )}
             
         </motion.div>
