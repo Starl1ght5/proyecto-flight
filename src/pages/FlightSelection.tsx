@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
 import { FlightCard } from '../Components/Cards/FlightCard';
-import Navbar from '../Components/Navbar';
 import { ReservedFlight, FlightInfo } from '../Types';
 import { ReservedCard } from '../Components/Cards/ReservedCard';
 import { motion } from 'framer-motion';
-import Footer from '../Components/FooterComponent';
 import { Helmet } from "react-helmet";
 
 export default function SearchResults() {
@@ -71,7 +69,7 @@ export default function SearchResults() {
         }
 
         sortByCheapest();
-    }, [Flights])
+    }, [])
 
     const reciveFlight = (info: ReservedFlight) => {
         setReservedFlight([...reservedFlight, info]);
@@ -110,8 +108,6 @@ export default function SearchResults() {
             <Helmet>
                 <title>Seleccion de vuelo - Royal Airlines</title>
             </Helmet>
-
-            <Navbar />
 
             {!selected ? (
                 <motion.div className="px-10 pt-8 min-h-screen"
@@ -204,8 +200,6 @@ export default function SearchResults() {
 
                 </motion.div>
             )}
-
-            <Footer />
         </motion.div>
     )
 }

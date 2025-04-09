@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Toaster, toast } from 'sonner';
 import Logo from "../assets/LogoRoyal.webp";
 import GoogleButtonComponent from "./GoogleButtonComponent";
+import { useNavigate } from "react-router-dom";
 
 type FormFields = {
   email: string;
@@ -20,16 +21,20 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
     formState: { errors, isSubmitting },
   } = useForm<FormFields>();
 
+  const navigate = useNavigate();
+
   const onSubmit = handleSubmit(async (data: FieldValues) => {
     try {
       const response = await fetch("http://localhost:8080/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include',
         body: JSON.stringify(data),
       });
 
       if (response.status === 202) {
         toast.success("Sesión iniciada correctamente!");
+        navigate("/");
       } else {
         toast.error("Correo y/o contraseña incorrectos", {
           className: "bg-red-500 text-white rounded-lg shadow-lg",
@@ -43,8 +48,10 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
   });
 
   return (
+    
     <div className="h-screen w-full flex items-center justify-center">
       <Toaster position="top-right" duration={4000} />
+
 
       <motion.div
         className="bg-white shadow-xl rounded-3xl p-10 w-full max-w-md text-center border border-purple-600"
@@ -74,7 +81,7 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
             <input
               type="email"
               placeholder="Email..."
-              className="w-full px-4 py-3  border border-purple-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
               {...register("email", { required: "Este campo es obligatorio" })}
             />
             {errors.email && (
@@ -95,12 +102,12 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
             <input
               type="password"
               placeholder="Contraseña..."
-              className="w-full px-4 py-3  border border-purple-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
               {...register("password", { required: "Este campo es obligatorio" })}
             />
             {errors.password && (
               <motion.p
-                className="text-red-400 text-sm mt-1"
+                className=" text-sm mt-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}

@@ -1,173 +1,125 @@
 import { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
-export default function Navbar () {
-
+export default function Navbar() {
+  const [cookie, removeCookie] = useCookies(['RoyalUserToken']);
   const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    setIsAuthenticated(!!token);
-  }, []);
+    const checkCookie = () => {
+      const doesCookieExist = !cookie.RoyalUserToken || cookie.RoyalUserToken === "";
+      setIsAuthenticated(!doesCookieExist);
+    }
+    checkCookie();
+  }, [cookie])
 
   const toggleDropdown = (menu) => {
     setDropdownOpen((prev) => (prev === menu ? null : menu));
   };
 
-  const goToLogin = () => {
-    navigate('/login');
-  };
-
-  const goToInicio = () => {
-    navigate('/');
-  };
-
-  const goToProfile = () => {
-    navigate('/profile');
-  };
-
-  const goToMiViaje = () => {
-    navigate('/viaje');
-  };
-
-  const goToMiCartera = () => {
-    navigate('/micartera');
-  };
-
-  const goToOfertasDestinos = () => {
-    navigate('/ofertas-destinos'); // Cambia esta ruta según tu configuración
-  };
-
-  const goToCentroAyuda = () => {
-    navigate('/centro-ayuda'); // Cambia esta ruta según tu configuración
-  };
-
+  // Funciones de navegación
+  const goToLogin = () => navigate('/login');
+  const goToInicio = () => navigate('/');
+  const goToProfile = () => navigate('/profile');
+  const goToMiCartera = () => navigate('/micartera');
+  const goToCentroAyuda = () => navigate('/centro-ayuda');
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
     setIsAuthenticated(false);
-    navigate('/login');
+    removeCookie('RoyalUserToken', "");
   };
 
   return (
-    <nav className="bg-lilac text-white px-6 py-4.5 flex justify-between items-center relative z-10 shadow-xl text-sm">
-      <div className="text-bluemint font-bold text-2xl tracking-wider hover:cursor-pointer" onClick={goToInicio} >ROYAL Airlines</div>
-      <ul className="flex gap-5 items-center">
+    <nav className="bg-gradient-to-r from-indigo-900 to-purple-800 text-white px-8 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
+      {/* Logo */}
+      <div 
+        className="text-3xl font-extrabold text-white transition-all duration-300 cursor-pointer"
+        onClick={goToInicio}
+      >
+        ROYAL Airlines
+      </div>
+
+      {/* Menú principal */}
+      <ul className="flex items-center space-x-8">
         <li>
           <button
-            className="text-bluemint hover:text-yellow-500 transition duration-300 ease-in-out"
+            className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105"
             onClick={goToInicio}
           >
             Reservar
           </button>
         </li>
 
-        <li className="relative">
-          <button
-            aria-expanded={dropdownOpen === 'destinos'}
-            onClick={() => toggleDropdown('destinos')}
-            className="text-bluemint hover:text-yellow-500 flex items-center gap-2 transition duration-300 ease-in-out hover:cursor-pointer"
-          >
-            Ofertas y Destinos
-            <span className={`transform transition-transform ${dropdownOpen === 'destinos' ? 'rotate-180' : 'rotate-0'} flex items-center mt-1`}>
-              <span className="icon-[memory--chevron-down] size-4" />
-            </span>
-          </button>
-          {dropdownOpen === 'destinos' && (
-            <ul className="absolute left-0 mt-2 bg-white text-black p-3 shadow-lg rounded-lg w-48">
-              <li
-                className="text-bluemint hover:bg-gray-200 p-2 cursor-pointer"
-                onClick={goToOfertasDestinos}
-              >
-                Ofertas y Destinos
-              </li>
-              <li className="text-bluemint hover:bg-gray-200 p-2">Promociones</li>
-            </ul>
-          )}
-        </li>
-
-        <li className="relative">
-          <button
-            aria-expanded={dropdownOpen === 'viajes'}
-            onClick={() => toggleDropdown('viajes')}
-            className="text-bluemint hover:text-yellow-500 flex items-center gap-2 transition duration-300 ease-in-out hover:cursor-pointer"
-          >
-            Mis Viajes
-            <span className={`transform transition-transform ${dropdownOpen === 'viajes' ? 'rotate-180' : 'rotate-0'} flex items-center mt-1`}>
-              <span className="icon-[memory--chevron-down] size-4" />
-            </span>
-          </button>
-          {dropdownOpen === 'viajes' && (
-            <ul className="absolute left-0 mt-2 bg-white text-black p-3 shadow-lg rounded-lg w-48">
-              <li
-                className="text-bluemint hover:bg-gray-200 p-2 cursor-pointer"
-                onClick={goToMiViaje}
-              >
-                Itinerarios
-              </li>
-              <li className="text-bluemint hover:bg-gray-200 p-2 cursor-pointer">Historial</li>
-            </ul>
-          )}
-        </li>
-
+        {/* Centro de Ayuda */}
         <li>
           <button
-            className="text-bluemint hover:text-yellow-500 hover:cursor-pointer transition duration-300 ease-in-out"
+            className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105"
             onClick={goToCentroAyuda}
           >
             Centro de Ayuda
           </button>
         </li>
 
-        <li className="relative">
+        {/* Perfil o Inicio de Sesión */}
+        <li className="relative ml-4">
           {isAuthenticated ? (
-            <div>
+            <div className="group">
               <button
-                aria-expanded={dropdownOpen === 'perfil'}
                 onClick={() => toggleDropdown('perfil')}
-                className="text-bluemint hover:text-yellow-500 flex items-center gap-2 transition duration-300 ease-in-out"
+                className="flex items-center justify-center bg-purple-300 w-10 h-10 rounded-full text-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
               >
-                Perfil
-                <span className={`transform transition-transform ${dropdownOpen === 'perfil' ? 'rotate-180' : 'rotate-0'}`}>
-                  <span className="icon-[memory--chevron-down]" />
-                </span>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="20" 
+                  height="20" 
+                  fill="currentColor" 
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                  <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                </svg>
               </button>
+
               {dropdownOpen === 'perfil' && (
-                <ul className="absolute right-0 mt-2 bg-white text-black p-3 shadow-lg rounded-lg w-48">
-                  <li
-                    className="text-bluemint hover:bg-gray-200 p-2 cursor-pointer"
-                    onClick={goToProfile}
-                  >
-                    Mi Cuenta
-                  </li>
-                  <li
-                    className="text-bluemint hover:bg-gray-200 p-2 cursor-pointer"
-                    onClick={goToMiViaje}
-                  >
-                    Mis Viajes
-                  </li>
-                  <li
-                    className="text-bluemint hover:bg-gray-200 p-2 cursor-pointer"
-                    onClick={goToMiCartera}
-                  >
-                    Mi Cartera
-                  </li>
-                  <li
-                    className="text-bluemint hover:bg-gray-200 p-2 cursor-pointer"
-                    onClick={handleLogout}
-                  >
-                    Cerrar Sesión
-                  </li>
-                </ul>
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl overflow-hidden z-50 border border-gray-100">
+                  <div className="py-1">
+                    <button
+                      onClick={goToProfile}
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200"
+                    >
+                      Editar Perfil
+                    </button>
+                    <button
+                      onClick={goToMiCartera}
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200"
+                    >
+                      Mi Wallet
+                    </button>
+                    <button
+                      onClick={goToCentroAyuda}
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200"
+                    >
+                      Centro de Ayuda
+                    </button>
+                    <div className="border-t border-gray-100"></div>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200"
+                    >
+                      Cerrar Sesión
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
           ) : (
             <button
-              className="bg-gold border-2 transition box-border border-hidden hover:border-white hover:border-solid duration-300 ease-in-out font-semibold text-white px-8 py-2 ml-3 rounded-lg shadow-md text-sm hover:cursor-pointer"
+              className="bg-gold text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
               onClick={goToLogin}
             >
-              Iniciar Sesion
+              Iniciar Sesión
             </button>
           )}
         </li>

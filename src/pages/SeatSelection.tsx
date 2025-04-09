@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../Components/FooterComponent";
-import Navbar from "../Components/Navbar";
 import { Seat } from "../Types";
 import { Toaster, toast } from 'sonner';
 import { SeatCard } from '../Components/Cards/SeatCard';
@@ -89,9 +87,6 @@ export default function SeatSelection () {
             <Helmet>
                 <title>Seleccion de asiento - Royal Airlines</title>
             </Helmet>
-
-            <Navbar />
-
             <div className="flex flex-row justify-center" >
 
                 <div className="px-7 py-9 w-lg rounded-lg mt-16 bg-white/50 backdrop-blur-md  shadow-2xl flex flex-col items-center">
@@ -160,6 +155,8 @@ export default function SeatSelection () {
                             <p>28</p>
                             <p>29</p>
                             <p>30</p>
+                            <p>31</p>
+                            <p>32</p>
                         </div>
 
                         <div className="flex flex-row justify-center gap-2">
@@ -248,7 +245,6 @@ export default function SeatSelection () {
                 </div>
             </div>
 
-            <Footer />
         </div>
     )
 }
