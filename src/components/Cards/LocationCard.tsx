@@ -9,7 +9,7 @@ export const LocationCard: React.FC<LocationInfo> = ({ location }) => {
     const navigate = useNavigate()
 
     const redirectToFlightSelection = () => {
-        navigate(`/search-results?origen=CTG&destino=${location.iataCode}&ida=2025-02-28`);
+        navigate(`/search-results?origen=CTG&destino=${location.iataCode}&ida=2025-04-08`);
     }
     
     /// Search a image in the ImagePaths list (defined in Types.tsx)

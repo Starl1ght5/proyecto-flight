@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Seat } from "../Types";
+import Footer from "../Components/FooterComponent";
+import Navbar from "../Components/NavbarComponent";
+import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../Types";
 import { Toaster, toast } from 'sonner';
 import { SeatCard } from '../Components/Cards/SeatCard';
 import { Helmet } from "react-helmet";
+import { loadStripe } from "@stripe/stripe-js";
+import { useCookies } from 'react-cookie';
 
 
 export default function SeatSelection () {
@@ -11,6 +15,8 @@ export default function SeatSelection () {
     const [ seats, setSeats ] = useState([]);
     const [ selectedSeat, setSelectedSeat ] = useState<Seat[]>([]);
     const [ selected, setSelected ] = useState<boolean>(false);
+    const [ cookie ] = useCookies(['RoyalUserToken']);
+
     const navigate = useNavigate();
     
     const [seatRowA, setSeatRowA] = useState([])
@@ -21,14 +27,99 @@ export default function SeatSelection () {
     const [seatRowF, setSeatRowF] = useState([])
 
     const searchParams = new URLSearchParams(location.search);
-    const flight = searchParams.get('id') || '';
+    const flight = searchParams.get('flightID') || '';
+    const fee = searchParams.get('feeID') || '';
     
+
+    const generateBooking = async () => {
+        try {
+            const ids: Array<string> = [];
+            
+            selectedSeat?.map(seat => {
+                ids.push(seat.seatID)
+            })
+
+            const info: CheckoutAttemptInfo = {
+                travelID : "67e1bee0e18c28350a90f66b",
+                seatIDs : ids,
+                userID : "67e1b7309106af55ef1ded00",
+                feeID : "67bcbab5c2667c448b69d7c5"
+            }
+
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}booking/create`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(info)
+            });
+
+
+            if (response.status === 201) {
+                const res = await response.text();
+                initCheckout(res);
+
+            } else {
+                toast.error("Error del servidor" , {
+                    className: "bg-red-500 text-white rounded-lg shadow-lg"
+                });
+            }
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+
+    const initCheckout = async (checkoutID: string) => {
+        try {
+
+            const initialResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}booking/${checkoutID}`);
+
+            const res = await initialResponse.json();
+
+            const details: CheckoutInfo = {
+                bookingID: res.bookingID,
+                userID: res.userID,
+                travelInfo: res.bookedTravel,
+                fee: res.selectedFee,
+                totalPrice: res.totalPrice,
+                status: res.status,
+                ticketCount: res.ticketCount,
+                bookedSeats: res.bookedSeats
+            }
+
+            const stripe = await loadStripe("pk_test_51OEkaAAZPRRqn7nghZ3JdSkVsMS64xrdnTxyqlnPoJjjDZEiuUbJ7cEGgWgbU8MzE6RMtK8sTtLHdKl4c3Myf8LE007tm0JPdo");
+
+            const added_value = parseInt(details.totalPrice.amount + ".00");
+
+            const payload = {
+                client: details.userID,
+                amount_paid: added_value,
+                currency: "COP",
+                items_brought: [details]
+            }
+
+            const response = await fetch(`${import.meta.env.VITE_PAYMENT_SERVER_URL}start-checkout-session`, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const test = await response.json()
+
+            const result = stripe.redirectToCheckout({
+                sessionId: test.id
+            });
+
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     useEffect(() => {
         
         const fetchSeats = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/seats/search?flightID=${flight}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}seats/search?flightID=${flight}`, {
                     method: 'GET'
                 });
                 const res = await response.json();
@@ -96,7 +187,7 @@ export default function SeatSelection () {
 
                             {/* Row A - Fila A */}
                             <div className="flex flex-col justify-center gap-1" >
-                                <p className="text-center font-light text-lg">A</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">A</p>
                                 {seatRowA?.map(element => {
                                     return (
                                         <SeatCard  seat={element} returnInfo={reciveInfo} />
@@ -105,7 +196,7 @@ export default function SeatSelection () {
 
                             {/* Row B - Fila B */} 
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-light text-lg">B</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">B</p>
                                 {seatRowB?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -114,7 +205,7 @@ export default function SeatSelection () {
                             
                             {/* Row C - Fila C */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-light text-lg">C</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">C</p>
                                 {seatRowC?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -123,7 +214,7 @@ export default function SeatSelection () {
                         </div>
                         
                         {/* Pasillo */}
-                        <div className="mx-7 flex flex-col text-center gap-9 mt-12 font-light">
+                        <div className="mx-7 flex flex-col text-center gap-10 mt-12 font-light">
                             {/* Temporal, mientras se me ocurre algo mejor para eso */}
                             <p>1</p>
                             <p>2</p>
@@ -163,7 +254,7 @@ export default function SeatSelection () {
 
                             {/* Row D - Fila D */}
                             <div className="flex flex-col justify-center gap-1" >
-                                <p className="text-center font-light text-lg">D</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">D</p>
                                 {seatRowD?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -172,7 +263,7 @@ export default function SeatSelection () {
                             
                             {/* Row E - Fila E */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-light text-lg">E</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">E</p>
                                 {seatRowE?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -181,7 +272,7 @@ export default function SeatSelection () {
 
                             {/* Row F - Fila F */}
                             <div className="flex flex-col justify-center gap-1">
-                                <p className="text-center font-light text-lg">F</p>
+                                <p className="text-center font-light text-lg -translate-x-0.5">F</p>
                                 {seatRowF?.map(element => {
                                     return (
                                         <SeatCard seat={element} returnInfo={reciveInfo} />
@@ -205,7 +296,7 @@ export default function SeatSelection () {
                                 {/* Passenger List div - Div Lista de pasajeros */}
                                 <div className="flex flex-row gap-2 items-center" >
 
-                                    <div className="bg-lilac px-3 py-2 text-white rounded-lg shadow-lg" >
+                                    <div className="bg-lilac px-5 py-3 text-white rounded-lg shadow-lg" >
 
                                         {selected ? (
                                             <p>{selectedSeat[0].seatNumber}</p>
@@ -241,7 +332,7 @@ export default function SeatSelection () {
                         
                     </div>
                     <button className="px-4 py-3 bg-lilac text-white rounded-lg shadow-lg hover:cursor-pointer hover:bg-gold duration-200 mx-4 mt-4"
-                        onClick={next} >Continuar</button>
+                        onClick={generateBooking} >Continuar</button>
                 </div>
             </div>
 

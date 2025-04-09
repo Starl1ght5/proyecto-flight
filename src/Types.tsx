@@ -11,6 +11,7 @@ export const ImagePaths = new Map<string, string>([
     [ "londres", "/src/assets/londres.webp" ],
     [ "sidney", "/src/assets/sidney.webp" ],
     [ "tokyo", "/src/assets/tokyo.webp" ],
+	[ "ottawa", "/src/assets/ottawa.webp" ],
     [ "medellin", "/src/assets/medellin.webp" ]
 ])
 
@@ -26,6 +27,7 @@ export interface LocationInfo {
 export interface SeatInfo {
     seat: Seat;
     returnInfo: (seat: Seat) => void;
+    getInteraction: () => void;
 }
 
 export interface ReservedFlight {
@@ -51,6 +53,33 @@ export interface Seat {
     seatNumber: string;
     seatPrice: Money;
     reserved: boolean;
+}
+
+export interface TravelInfo {
+    travelInfoID: string;
+    departureFlight: FlightInfo;
+    arrivalFlight: FlightInfo;
+    roundTrip: boolean;
+    discounted: boolean;
+    status: string;
+}
+
+export interface CheckoutInfo {
+    bookingID: string;
+    userID: string;
+    travelInfo: TravelInfo;
+    fee: Fee;
+    totalPrice: Money;
+    status: string;
+    ticketCount: number;
+    bookedSeats: Array<Seat>;
+}
+
+export interface CheckoutAttemptInfo {
+    travelID: string;
+    userID: string;
+    feeID: string;
+    seatIDs: Array<string>;
 }
 
 export interface FlightInfo {

@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="bg-gradient-to-b from-blueblack to-purple-dark text-bluemint pt-16 pb-8">
+        <footer className="bg-gradient-to-b from-blueblack to-purple-dark text-bluemint mt-8 pt-16 pb-8">
             <div className="container mx-auto px-6 lg:px-8">
                 {/* Grid principal */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -22,9 +22,9 @@ export default function Footer() {
                                 <input 
                                     type="email" 
                                     placeholder="Tu correo electrónico" 
-                                    className="px-4 py-2 w-full rounded-l-lg focus:outline-none focus:ring-2 focus:ring-gold text-blueblack"
+                                    className="px-4 py-2 w-full rounded-l-lg focus:outline-none focus:ring-2 focus:ring-gold text-blueblack bg-white"
                                 />
-                                <button className=" text-white px-4 py-2 rounded-r-lg font-medium transition-all duration-300 hover:opacity-90">
+                                <button className=" text-white border border-white px-4 py-2 rounded-r-lg font-medium transition-all duration-300 hover:opacity-90 hover:scale-105 hover:cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                                     </svg>

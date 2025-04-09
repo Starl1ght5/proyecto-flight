@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Navbar from "../Components/Navbar";
+import Navbar from "../Components/NavbarComponent";
 import SearchComponent from "../Components/SearchComponent";
 import { LocationInfo } from "../Types";
 import { LocationCard } from "../Components/Cards/LocationCard";

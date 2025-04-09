@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
 import { FlightCard } from '../Components/Cards/FlightCard';
+import Navbar from '../Components/NavbarComponent';
 import { ReservedFlight, FlightInfo } from '../Types';
 import { ReservedCard } from '../Components/Cards/ReservedCard';
 import { motion } from 'framer-motion';
@@ -14,6 +15,8 @@ export default function SearchResults() {
     const [ reservedFlight, setReservedFlight ] = useState<ReservedFlight[]>([]);
     const [ formattedDate, setFormattedDate ] = useState<string>();
     const [ selected, setSelected ] = useState(false);
+    const [ dateList, setDateList ] = useState<string[]>();
+    const [ loading, setLoading ] = useState<boolean>(true);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,18 +28,32 @@ export default function SearchResults() {
     const arrival = searchParams.get('vuelta') || '';
     const passengers = searchParams.get('passengers') || 1;
 
+    const formatBaseDate = () => {
+        const base = new Date(departure);
+        const formattedDate = new Intl.DateTimeFormat('es-CO', {
+            weekday: 'long',
+            day: '2-digit',
+            month: '2-digit'
+        }).format(base);
+
+        return formattedDate;
+    }
+
+    const baseDate = formatBaseDate();
+
     useEffect(() => {
 
         {/*&arrival=${arrival} queda fuera por ahora*/}
 
         const fetchRequestedFlights = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/flights/search?origin=${origin}&destination=${destination}&departure=${departure}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}flights/search?origin=${origin}&destination=${destination}&departure=${departure}`, {
                     method: 'GET'
                 });
 
                 const res = await response.json();
                 setFlights(res);
+                setLoading(false)
 
             } catch (error) {
                 console.log(error);
@@ -68,8 +85,7 @@ export default function SearchResults() {
             return date1.getTime() - date2.getTime();
         }
 
-        sortByCheapest();
-    }, [])
+    }, [Flights])
 
     const reciveFlight = (info: ReservedFlight) => {
         setReservedFlight([...reservedFlight, info]);
@@ -93,7 +109,7 @@ export default function SearchResults() {
     }
 
     const next = () => {
-        navigate(`/seat-selection?id=${reservedFlight[0].flight.flightID}`)
+        navigate(`/seat-selection?flightID=${reservedFlight[0].flight.flightID}`)
     }
 
 
@@ -117,19 +133,32 @@ export default function SearchResults() {
                     <div className="flex flex-row justify-between items-center" >
                         <h1 className="text-2-5xl">Elige un vuelo de ida</h1>
 
-                        <div className="flex flex-row gap-2" >
+                        {/*<div className="flex flex-row gap-2" >
                             <p>Ordenar por:</p>
-                        </div>
+                        </div>*/}
                     </div>
-                    
-                    <div className="flex flex-col gap-4 py-6 px-4 items-center">
-                        {Flights?.map((element) => {
 
-                        return (
-                            <FlightCard flight={element} returnInfo={reciveFlight} />
-                        )
-                    })}
-                    </div>
+                    {/*<div className="flex flex-row gap-2" >
+                        <div className="px-5 py-3 rounded-lg shadow-lg bg-white" > 
+                            <h3>{baseDate}</h3>
+                        </div>
+                    </div>*/}
+
+                    {loading ? (
+                        <div className="flex flex-row justify-center mt-4">
+                            <svg className="animate-spin size-10" viewBox="0 0 24 24"/>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col gap-4 py-6 px-4 items-center">
+                            {Flights?.map((element) => {
+
+                            return (
+                                <FlightCard flight={element} returnInfo={reciveFlight} />
+                            )})}
+                        </div>
+                    )}
+                    
+                    
                 </motion.div>
             ) : (
                 <motion.div className="px-10 pt-8"

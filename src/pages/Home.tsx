@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { LocationInfo } from "../Types";
 import { LocationCard } from "../Components/Cards/LocationCard";
 import { Helmet } from "react-helmet";
+import Navbar from '../Components/NavbarComponent';
+import Footer from '../Components/FooterComponent';
 
 const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
   <div className="relative">
@@ -32,7 +34,7 @@ const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
               onToggle();
             }}
             className={`p-2 cursor-pointer rounded-md transition-colors ${
-              selected === option ? 'bg-purple-light text-white' : 'hover:bg-bluemint/10'
+              selected === option ? 'bg-purple-light text-white' : 'hover:bg-gold hover:text-white'
             }`}
           >
             {option}
@@ -46,7 +48,7 @@ const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
 const HeroSection = () => {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [selectedTripType, setSelectedTripType] = useState('Ida y Vuelta');
-  const [selectedClass, setSelectedClass] = useState('Economy');
+  const [selectedClass, setSelectedClass] = useState('Basic');
   const [selectedPassenger, setSelectedPassenger] = useState('1 Adulto');
   const navigate = useNavigate();
   const [locations, setLocations] = useState<LocationInfo[]>([]);
@@ -58,15 +60,16 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/locations/search?number=6");
+        const response = await fetch(`http://localhost:8080/api/v1/locations/search?number=6`);
         const res = await response.json();
         setLocations(res);
+
       } catch (e) {
         console.log(e);
       }
     }
     fetchLocations();
-  }, [])
+  }, []);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -86,7 +89,7 @@ const HeroSection = () => {
     );
   };
 
-  const getPassengerCount = (passengerType: Integer) => {
+  const getPassengerCount = (passengerType: number) => {
     const passengerMap = {
       '1 Adulto': 1,
       '2 Adultos': 2,
@@ -101,6 +104,8 @@ const HeroSection = () => {
       <Helmet>
         <title>Royal Airlines</title>
       </Helmet>
+
+      <Navbar />
 
       {/* Hero Section */}
       <div className="relative h-screen bg-cover bg-center bg-[url(src/assets/Alerofondo.jpeg)]">
@@ -132,7 +137,7 @@ const HeroSection = () => {
               />
               <Dropdown
                 label={selectedClass}
-                options={['Economy', 'Business', 'First Class']}
+                options={['Basic', 'Complete', 'Royal']}
                 selected={selectedClass}
                 isOpen={dropdownOpen === 'classType'}
                 onToggle={() => toggleDropdown('classType')}
@@ -199,12 +204,14 @@ const HeroSection = () => {
           <div className="w-50 h-1 bg-purple2 mx-auto rounded-full"></div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6">
           {locations?.map((element) => (
             <LocationCard key={element.id} location={element} />
           ))}
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

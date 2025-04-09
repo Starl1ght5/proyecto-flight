@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
+import Navbar from "../Components/NavbarComponent";
 import { Helmet } from "react-helmet";
+import Footer from "../Components/FooterComponent";
 export default function HelpCenter() {
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen p-6">
+    <div>
       <Helmet>
         <title>Centro Ayuda</title>
       </Helmet>
 
-     <div className="max-w-6xl mx-auto">
+      <Navbar/>
+
+      <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen p-6">
+      <div className="max-w-6xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-12 py-8">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
@@ -55,13 +60,13 @@ export default function HelpCenter() {
               { 
                 title: "Cambios y devoluciones", 
                 desc: "Información para modificar tu itinerario de manera voluntaria.", 
-                link: "/cambiosydevoluciones",
+                link: "/help-center/cambiosydevoluciones",
                 icon: "🔄"
               },
               { 
                 title: "Equipaje", 
                 desc: "Revisa límites, medidas e información sobre equipaje.", 
-                link: "/equipaje",
+                link: "/help-center/equipaje",
                 icon: "🧳"
               }
             ].map((category, index) => (
@@ -101,12 +106,12 @@ export default function HelpCenter() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { title: "COVID-19", desc: "Medidas de seguridad e higiene durante tu viaje.", link: "/covid19", icon: "😷" },
-              { title: "Documentación", desc: "Revisa la documentación requerida para tu viaje.", link: "/documentosparaviajar", icon: "📄" },
-              { title: "Problemas con vuelos", desc: "Atrasos, adelantos o cancelaciones de vuelos.", link: "/problemasviajes", icon: "⚠️" },
-              { title: "Cuenta y contraseña", desc: "Acceso a tu cuenta de ROYAL Airlines.", link: "/recuperacioncuenta", icon: "🔑" },
-              { title: "Compra de pasajes", desc: "Información sobre compra de pasajes y adicionales.", link: "/comprapasajes", icon: "💳" },
-              { title: "ROYAL Wallet", desc: "Todo lo que puedes hacer con tu ROYAL Wallet.", link: "/RoyalWallet", icon: "💰" },
+              { title: "COVID-19", desc: "Medidas de seguridad e higiene durante tu viaje.", link: "/help-center/covid19", icon: "😷" },
+              { title: "Documentación", desc: "Revisa la documentación requerida para tu viaje.", link: "/help-center/documentosparaviajar", icon: "📄" },
+              { title: "Problemas con vuelos", desc: "Atrasos, adelantos o cancelaciones de vuelos.", link: "/help-center/problemasviajes", icon: "⚠️" },
+              { title: "Cuenta y contraseña", desc: "Acceso a tu cuenta de ROYAL Airlines.", link: "/help-center/recuperacioncuenta", icon: "🔑" },
+              { title: "Compra de pasajes", desc: "Información sobre compra de pasajes y adicionales.", link: "/help-center/comprapasajes", icon: "💳" },
+              { title: "ROYAL Wallet", desc: "Todo lo que puedes hacer con tu ROYAL Wallet.", link: "/help-center/RoyalWallet", icon: "💰" },
             ].map((category, index) => (
               <Link 
                 to={category.link} 
@@ -136,6 +141,9 @@ export default function HelpCenter() {
           </div>
         </div>
       </div>
+      </div>
+
+      <Footer />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function CambiosYDevoluciones() {
+export default function CompraDePasajes() {
   const services = [
     {
       title: "Compras",

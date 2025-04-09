@@ -32,7 +32,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-indigo-900 to-purple-800 text-white px-8 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
+    <nav className="bg-gradient-to-r from-indigo-900 to-purple-800 text-white px-8 py-4 flex justify-between items-center top-0 z-50 shadow-lg">
       {/* Logo */}
       <div 
         className="text-3xl font-extrabold text-white transition-all duration-300 cursor-pointer"
@@ -42,10 +42,10 @@ export default function Navbar() {
       </div>
 
       {/* Menú principal */}
-      <ul className="flex items-center space-x-8">
+      <ul className="flex items-center space-x-5">
         <li>
           <button
-            className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105"
+            className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
             onClick={goToInicio}
           >
             Reservar
@@ -55,7 +55,7 @@ export default function Navbar() {
         {/* Centro de Ayuda */}
         <li>
           <button
-            className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105"
+            className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
             onClick={goToCentroAyuda}
           >
             Centro de Ayuda
@@ -63,7 +63,7 @@ export default function Navbar() {
         </li>
 
         {/* Perfil o Inicio de Sesión */}
-        <li className="relative ml-4">
+        <li className="relative ml-1">
           {isAuthenticated ? (
             <div className="group">
               <button
@@ -87,26 +87,26 @@ export default function Navbar() {
                   <div className="py-1">
                     <button
                       onClick={goToProfile}
-                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200"
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm"
                     >
                       Editar Perfil
                     </button>
                     <button
                       onClick={goToMiCartera}
-                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200"
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm"
                     >
                       Mi Wallet
                     </button>
                     <button
                       onClick={goToCentroAyuda}
-                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200"
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm"
                     >
                       Centro de Ayuda
                     </button>
                     <div className="border-t border-gray-100"></div>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200"
+                      className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200 text-sm"
                     >
                       Cerrar Sesión
                     </button>
@@ -116,7 +116,7 @@ export default function Navbar() {
             </div>
           ) : (
             <button
-              className="bg-gold text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+              className="bg-gold text-white font-semibold px-8 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-sm"
               onClick={goToLogin}
             >
               Iniciar Sesión
@@ -124,6 +124,6 @@ export default function Navbar() {
           )}
         </li>
       </ul>
-    </nav>
-  );
+    </nav>
+  );
 };
