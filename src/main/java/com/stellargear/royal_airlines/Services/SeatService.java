@@ -39,7 +39,7 @@ public class SeatService {
                 if (i < 6) {
                     newSeat.setSeatPrice(15.00);
 
-                } else if (i > 6 && i < 13) {
+                } else if (i >= 6 && i < 13) {
                     newSeat.setSeatPrice(9.00);
 
                 } else {

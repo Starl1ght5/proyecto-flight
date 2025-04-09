@@ -1,14 +1,12 @@
 package com.stellargear.royal_airlines.Services;
 
 import com.stellargear.royal_airlines.Models.DTOs.BookingDTO;
-import com.stellargear.royal_airlines.Models.Entities.Booking;
-import com.stellargear.royal_airlines.Models.Entities.Fee;
-import com.stellargear.royal_airlines.Models.Entities.Flight;
-import com.stellargear.royal_airlines.Models.Entities.Seat;
+import com.stellargear.royal_airlines.Models.Entities.*;
 import com.stellargear.royal_airlines.Repositories.BookingRepository;
-import com.stellargear.royal_airlines.Utils.GlobalLogger;
 import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,23 +28,48 @@ public class BookingService {
     private final FeeService feeService;
     private final MoneyExchange moneyExchange;
     private final TravelService travelService;
+    private final static Logger logger = LoggerFactory.getLogger(BookingService.class);
 
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> bookFlight (BookingDTO bookingInfo) {
-        Booking nwe = new Booking();
+        Booking newBooking = new Booking();
+        TravelInfo travelInfo = travelService.searchByID(bookingInfo.getTravelID());
 
-        nwe.setBookedTravelID(bookingInfo.getTravelID());
-        nwe.setUserID(bookingInfo.getUserID());
-        nwe.setBookedSeatIDs(bookingInfo.getSeatIDs());
-        nwe.setTicketCount(bookingInfo.getSeatIDs().size());
-        nwe.setSelectedFee(bookingInfo.getFeeID());
-        nwe.setTotalPrice(calculateTotalPrice(travelService.getFlightFromTravel(bookingInfo.getTravelID()), bookingInfo.getSeatIDs(), bookingInfo.getFeeID()));
-        nwe.setStatus("Pending");
+        newBooking.setBookedTravelID(bookingInfo.getTravelID());
+        newBooking.setUserID(bookingInfo.getUserID());
+        newBooking.setBookedSeatIDs(bookingInfo.getSeatIDs());
+        newBooking.setTicketCount(bookingInfo.getSeatIDs().size());
+        newBooking.setSelectedFee(bookingInfo.getFeeID());
+        newBooking.setBookingDate(LocalDateTime.now());
+        newBooking.setTotalPrice(calculateTotalPrice(travelService.getFlightFromTravel(bookingInfo.getTravelID()), bookingInfo.getSeatIDs(), bookingInfo.getFeeID()));
+        newBooking.setStatus("Pending");
 
-        bookingRepository.save(nwe);
+        bookingRepository.save(newBooking);
 
-        GlobalLogger.getLogger().info("Flight successfully booked!");
-        return new ResponseEntity<>(nwe.getBookingID(), HttpStatus.ACCEPTED);
+        logger.info("Flight successfully booked!, id: {}", newBooking.getBookingID());
+        return new ResponseEntity<>(newBooking.getBookingID(), HttpStatus.CREATED);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ResponseEntity<?> confirmBooking(String requestingBookingID) {
+        Booking bookingToConfirm = bookingRepository.searchByID(requestingBookingID);
+
+        bookingToConfirm.setStatus("Confirmed");
+        bookingRepository.save(bookingToConfirm);
+
+        logger.info("Booking completed, id: {}", bookingToConfirm.getBookingID());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ResponseEntity<?> cancelBooking (String requestingBookingID) {
+        Booking bookingToCancel = bookingRepository.searchByID(requestingBookingID);
+
+        bookingToCancel.setStatus("Canceled");
+        bookingRepository.save(bookingToCancel);
+
+        logger.info("Booking canceled, id: {}", bookingToCancel.getBookingID());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public double calculateTotalPrice (String flight, List<String> seats, String fee) {
@@ -65,7 +89,7 @@ public class BookingService {
         return bigDecimalTotal.doubleValue();
     }
 
-    public BookingDTO searchAndReturnBookingInfo (String requestedID) {
+    public BookingDTO searchAndReturnObject (String requestedID) {
         return objectToDto(searchByID(requestedID));
     }
 

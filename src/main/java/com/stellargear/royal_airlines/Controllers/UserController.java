@@ -9,21 +9,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
+@RequestMapping( path = "/api/v1/users" )
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping(path = "/api/users/register")
+    @PostMapping(path = "/register")
     public ResponseEntity<?> registerUser (@RequestBody UserDTO userInfo) {
         return userService.registerNewUser(userInfo);
     }
 
-    @PostMapping(path = "/api/users/login")
+    @PostMapping(path = "/login")
     public ResponseEntity<?> loginUser (@RequestBody UserDTO userInfo) {
         return userService.login(userInfo);
     }
 
-    @GetMapping(path = "/api/users/verify")
+    @GetMapping(path = "/verify")
     public ResponseEntity<?> verifyUser (@RequestParam String verificationCode) {
         return userService.verifyUser(verificationCode);
     }

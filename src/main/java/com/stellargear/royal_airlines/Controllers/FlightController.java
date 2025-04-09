@@ -21,34 +21,34 @@ public class FlightController {
     private final LocationService locationService;
     private final TravelService travelService;
 
-    @PostMapping(path = "/api/debug/travels/create")
+    @PostMapping(path = "/api/v1/debug/travels/create")
     public ResponseEntity<?> createNewTravel (@RequestParam String departureFlight, @RequestParam(required = false) String arrivalFlight) {
         return travelService.generateNewTravel(departureFlight);
     }
 
-    @PostMapping(path = "/api/debug/flights/create")
+    @PostMapping(path = "/api/v1/debug/flights/create")
     public ResponseEntity<?> createNewFlight (@RequestParam String airline, @RequestParam String price, @RequestParam String depID, @RequestParam String arrID ) {
         double convPrice = (double) Integer.parseInt(price);
         return flightService.addNewFlight(airline, convPrice, depID, arrID);
     }
 
-    @PostMapping(path = "/api/debug/locations/create")
+    @PostMapping(path = "/api/v1/debug/locations/create")
     public ResponseEntity<?> createNewLocation(@RequestBody LocationDTO newLocationInfo) {
         return locationService.addNewLocation(newLocationInfo);
     }
 
-    @GetMapping(path = "/api/flights/search")
+    @GetMapping(path = "/api/v1/flights/search")
     public List<FlightDTO> searchFlights (@RequestParam String origin, @RequestParam String destination, @RequestParam String departure) {
         return flightService.searchFlights(origin, destination, departure);
     }
 
-    @GetMapping(path = "/api/locations/search")
+    @GetMapping(path = "/api/v1/locations/search")
     public List<LocationDTO> searchLocations (@RequestParam String number) {
         int n = Integer.parseInt(number);
         return flightService.getLocationsWithCheapestPrice(n);
     }
 
-    @GetMapping(path = "/api/seats/search")
+    @GetMapping(path = "/api/v1/seats/search")
     public List<SeatDTO> searchSeats (@RequestParam String flightID) {
         return flightService.getSeatsForFlight(flightID);
     }

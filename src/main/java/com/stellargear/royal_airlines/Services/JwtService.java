@@ -23,7 +23,6 @@ public class JwtService {
     private String secretKey;
 
     public JwtService() {
-
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
             SecretKey sk = keyGen.generateKey();
@@ -44,7 +43,6 @@ public class JwtService {
                 .and()
                 .signWith(getKey())
                 .compact();
-
     }
 
     public ResponseCookie generateCookie (String username) {

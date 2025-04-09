@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
@@ -16,14 +17,24 @@ public class Booking {
     private String bookingID;
 
     private String userID;
+    private String userGender;
+    private int userAge;
+
     private String bookedTravelID;
+    private String departureCountry;
+    private String departureCity;
+    private String arrivalCountry;
+    private String arrivalCity;
 
     private List<String> bookedSeatIDs;
     private String selectedFee;
 
+    private LocalDateTime bookingDate;
+
     private double totalPrice;
-    private String status;
     private int ticketCount;
+
+    private String status;
 
     public Booking () {}
 }

@@ -3,8 +3,9 @@ package com.stellargear.royal_airlines.Services;
 import com.stellargear.royal_airlines.Models.DTOs.TravelInfoDTO;
 import com.stellargear.royal_airlines.Models.Entities.TravelInfo;
 import com.stellargear.royal_airlines.Repositories.TravelInformationRepository;
-import com.stellargear.royal_airlines.Utils.GlobalLogger;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class TravelService {
 
     private final TravelInformationRepository travelInfoRepository;
     private final FlightService flightService;
+    private final static Logger logger = LoggerFactory.getLogger(TravelService.class);
 
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -44,7 +46,7 @@ public class TravelService {
 
         travelInfoRepository.save(newTravel);
 
-        GlobalLogger.getLogger().info("New travel plan has been defined!");
+        logger.info("New travel plan has been defined!");
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

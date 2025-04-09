@@ -6,9 +6,10 @@ import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
 import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Repositories.FlightRepository;
-import com.stellargear.royal_airlines.Utils.GlobalLogger;
 import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class FlightService {
     private final SeatService seatService;
     private final MoneyExchange moneyExchange;
     private final FeeService feeService;
+    private final static Logger logger = LoggerFactory.getLogger(FlightService.class);
 
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -46,7 +48,7 @@ public class FlightService {
 
         flightRepository.save(newFlight);
 
-        GlobalLogger.getLogger().info("Flight successfully created!, id: {}", newFlight.getFlightID());
+        logger.info("Flight successfully created!, id: {}", newFlight.getFlightID());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
@@ -94,7 +96,7 @@ public class FlightService {
                 returnedList.add(returnedInfo);
 
             } else {
-                GlobalLogger.getLogger().error("No flights were found for location: {}", toSearch.getCityName());
+                logger.error("No flights were found for location: {}", toSearch.getCityName());
             }
 
         }
