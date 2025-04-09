@@ -11,6 +11,7 @@ export const ImagePaths = new Map<string, string>([
     [ "londres", "/src/assets/londres.webp" ],
     [ "sidney", "/src/assets/sidney.webp" ],
     [ "tokyo", "/src/assets/tokyo.webp" ],
+	[ "ottawa", "/src/assets/ottawa.webp" ],
     [ "medellin", "/src/assets/medellin.webp" ]
 ])
 
