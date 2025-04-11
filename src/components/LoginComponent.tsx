@@ -23,9 +23,11 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
 
   const navigate = useNavigate();
 
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
   const onSubmit = handleSubmit(async (data: FieldValues) => {
     try {
-      const response = await fetch(`${import.meta.env.BACKEND_URL}users/login`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
@@ -33,17 +35,21 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
       });
 
       if (response.status === 202) {
-        toast.success("Sesión iniciada correctamente!");
+        toast.success("Sesión iniciada correctamente!, en unos momentos seras redirigido a la pagina principal");
+        await delay (3000);
         navigate("/");
+
       } else {
         toast.error("Correo y/o contraseña incorrectos", {
           className: "bg-red-500 text-white rounded-lg shadow-lg",
         });
       }
+
     } catch (error) {
       toast.error("Error del servidor", {
         className: "bg-red-500 text-white rounded-lg shadow-lg",
       });
+      console.error(error);
     }
   });
 
@@ -119,7 +125,7 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
           <motion.button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-indigo-600 hover:bg-purple-dark text-white py-3 rounded-lg text-lg font-semibold shadow-md transition-all duration-300"
+            className="w-full bg-indigo-600 hover:bg-purple-dark text-white py-3 rounded-lg text-lg font-semibold shadow-md transition-all duration-300 hover:cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -144,7 +150,7 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
         <div className="mt-6 text-center text-sm">
           <p className="text-gray-600">¿No tienes una cuenta?</p>
           <button
-            className="text-indigo-600 hover:text-indigo-300 font-medium transition-all"
+            className="text-indigo-600 hover:text-indigo-300 hover:cursor-pointer font-medium transition-all"
             onClick={() => changeState(false)}
           >
             Regístrate

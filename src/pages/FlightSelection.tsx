@@ -67,7 +67,7 @@ export default function SearchResults() {
 
         fetchRequestedFlights();
 
-    }, [Flights, departure, destination, origin, setFlights])
+    }, [])
 
     useEffect(() => {
         const sortByCheapest = () => {
@@ -110,7 +110,15 @@ export default function SearchResults() {
     }
 
     const next = () => {
-        navigate(`/seat-selection?flightID=${reservedFlight[0].flight.flightID}`)
+        navigate(`/seat-selection?flight=${reservedFlight[0].flight.flightID}&fee=${reservedFlight[0].fee.feeID}`)
+    }
+
+    const calcAndFormat = (value: string, percentage: number) => {
+        const num: number = +value;
+        const cal = num * (percentage / 100);
+        const round: number = Math.round(cal);
+        const ret: string = round.toString();
+        return ret.toLocaleString();
     }
 
 
@@ -207,19 +215,19 @@ export default function SearchResults() {
 
                                 <div className="flex flex-row font-light justify-between">
                                     <h3>Total reserva</h3>
-                                    <p>COP 100.000</p>
+                                    <p>COP {calcAndFormat(reservedFlight[0].fee.price.amount, 95)}</p>
                                 </div>
 
                                 <div className="flex flex-row font-light justify-between">
                                     <h3>Impuestos, tasas y tarifas</h3>
-                                    <p>COP 100.000</p>
+                                    <p>COP {calcAndFormat(reservedFlight[0].fee.price.amount, 5)}</p>
                                 </div>
 
                                 <hr className="my-3" />
 
                                 <div className="flex flex-row justify-between">
                                     <h3 className="text-xl font-extralight" >Total</h3>
-                                    <p>COP 100.000</p>
+                                    <p>COP {(reservedFlight[0].fee.price.amount).toLocaleString()}</p>
                                 </div>
                             </div>
 

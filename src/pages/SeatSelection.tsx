@@ -27,8 +27,8 @@ export default function SeatSelection () {
     const [seatRowF, setSeatRowF] = useState([])
 
     const searchParams = new URLSearchParams(location.search);
-    const flight = searchParams.get('flightID') || '';
-    const fee = searchParams.get('feeID') || '';
+    const flight = searchParams.get('flight') || '';
+    const fee = searchParams.get('fee') || '';
     
 
     const generateBooking = async () => {
@@ -40,10 +40,10 @@ export default function SeatSelection () {
             })
 
             const info: CheckoutAttemptInfo = {
-                travelID : "67e1bee0e18c28350a90f66b",
+                flightID : flight,
                 seatIDs : ids,
-                userID : "67e1b7309106af55ef1ded00",
-                feeID : "67bcbab5c2667c448b69d7c5"
+                userID : "67f875e370e88e11c76691ce",
+                feeID : fee
             }
 
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}booking/create`, {
@@ -79,7 +79,7 @@ export default function SeatSelection () {
             const details: CheckoutInfo = {
                 bookingID: res.bookingID,
                 userID: res.userID,
-                travelInfo: res.bookedTravel,
+                flightInfo: res.bookedFlight,
                 fee: res.selectedFee,
                 totalPrice: res.totalPrice,
                 status: res.status,
@@ -87,7 +87,7 @@ export default function SeatSelection () {
                 bookedSeats: res.bookedSeats
             }
 
-            const stripe = await loadStripe("pk_test_51OEkaAAZPRRqn7nghZ3JdSkVsMS64xrdnTxyqlnPoJjjDZEiuUbJ7cEGgWgbU8MzE6RMtK8sTtLHdKl4c3Myf8LE007tm0JPdo");
+            const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
             const added_value = parseInt(details.totalPrice.amount + ".00");
 
@@ -297,7 +297,7 @@ export default function SeatSelection () {
                                 {/* Passenger List div - Div Lista de pasajeros */}
                                 <div className="flex flex-row gap-2 items-center" >
 
-                                    <div className="bg-lilac px-5 py-3 text-white rounded-lg shadow-lg" >
+                                    <div className="bg-lilac px-4.5 py-3 text-white rounded-lg shadow-lg" >
 
                                         {selected ? (
                                             <p>{selectedSeat[0].seatNumber}</p>

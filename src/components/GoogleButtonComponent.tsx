@@ -1,7 +1,7 @@
 export default function GoogleButtonComponent () {
 
     const googleLogin = () => {
-        window.open("http://localhost:8080/login/oauth2/code/google");
+        window.location.href = "http://localhost:8080/oauth2/authorization/google";
     }
 
     return (

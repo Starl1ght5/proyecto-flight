@@ -65,7 +65,8 @@ export default function Navbar() {
         {/* Perfil o Inicio de Sesión */}
         <li className="relative ml-1">
           {isAuthenticated ? (
-            <div className="group">
+            <div className="group flex flex-row gap-2">
+              <p className="mt-2">Hola, Usuari@!</p>
               <button
                 onClick={() => toggleDropdown('perfil')}
                 className="flex items-center justify-center bg-purple-300 w-10 h-10 rounded-full text-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
@@ -83,7 +84,7 @@ export default function Navbar() {
               </button>
 
               {dropdownOpen === 'perfil' && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl overflow-hidden z-50 border border-gray-100">
+                <div className="absolute right-0 mt-11 w-56 bg-white rounded-lg shadow-xl overflow-hidden z-50 border border-gray-100">
                   <div className="py-1">
                     <button
                       onClick={goToProfile}
@@ -96,12 +97,6 @@ export default function Navbar() {
                       className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm"
                     >
                       Mi Wallet
-                    </button>
-                    <button
-                      onClick={goToCentroAyuda}
-                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm"
-                    >
-                      Centro de Ayuda
                     </button>
                     <div className="border-t border-gray-100"></div>
                     <button
@@ -124,6 +119,6 @@ export default function Navbar() {
           )}
         </li>
       </ul>
-    </nav>
-  );
+  </nav>
+);
 };

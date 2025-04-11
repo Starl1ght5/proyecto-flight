@@ -22,7 +22,7 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
 
                 if (data.password === data.confirmPassword ) {
 
-                    const response = await fetch(`${import.meta.env.BACKEND_URL}users/register`, {
+                    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
@@ -30,8 +30,10 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
     
                     const res = await response;
     
-                    if (res.status === 202) {
-                        toast.success("Cuenta creada exitosamente!");
+                    if (res.status === 201) {
+                        toast.success("Cuenta creada exitosamente!, en unos momentos sera redirigido al inicio de sesion");
+                        await delay(3000);
+                        changeParentState()
                     
                     } else if (res.status === 400) {
                         toast.error("Este correo ya esta en uso", {
@@ -56,6 +58,8 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
         const changeParentState = () => {
             changeState(true);
         }
+
+        const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
     return (
         <motion.div 
