@@ -178,9 +178,6 @@ export default function SeatSelection () {
             <Helmet>
                 <title>Seleccion de asiento - Royal Airlines</title>
             </Helmet>
-
-            <Navbar />
-
             <div className="flex flex-row justify-center" >
 
                 <div className="px-7 py-9 w-lg rounded-lg mt-16 bg-white/50 backdrop-blur-md  shadow-2xl flex flex-col items-center">
@@ -249,6 +246,8 @@ export default function SeatSelection () {
                             <p>28</p>
                             <p>29</p>
                             <p>30</p>
+                            <p>31</p>
+                            <p>32</p>
                         </div>
 
                         <div className="flex flex-row justify-center gap-2">
@@ -337,7 +336,6 @@ export default function SeatSelection () {
                 </div>
             </div>
 
-            <Footer />
         </div>
     )
 }

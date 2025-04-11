@@ -54,8 +54,10 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
   });
 
   return (
+    
     <div className="h-screen w-full flex items-center justify-center">
       <Toaster position="top-right" duration={4000} />
+
 
       <motion.div
         className="bg-white shadow-xl rounded-3xl p-10 w-full max-w-md text-center border border-purple-600"
@@ -111,7 +113,7 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
             />
             {errors.password && (
               <motion.p
-                className="text-red-400 text-sm mt-1"
+                className=" text-sm mt-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}

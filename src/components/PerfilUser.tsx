@@ -1,50 +1,167 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Necesario para redirigir a la página de editar
+import { useState } from "react";
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    firstName: "Carolina",
+    lastName: "Devoz",
+    email: "caro@gmail.com",
+    phone: "+57 1234567890",
+    timeZone: "GMT-5",
+    profilePicture: "https://www.puneladders.co.in/assets/img/Default_User.png",
+    memberSince: "2025",
+    tier: "Platino",
+    miles: 48250,
+  });
 
-  useEffect(() => {
-    try {
-      // Intentamos obtener los datos del usuario desde localStorage
-      const storedUser = JSON.parse(localStorage.getItem('user'));
-      setUser(storedUser);
-    } catch (error) {
-      console.error('Error al cargar el usuario:', error);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({ ...user });
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+    if (isEditing) {
+      setFormData({ ...user });
     }
-  }, []);
+  };
 
-  const handleEditClick = () => {
-    // Redirigir a la página de edición (puedes modificar esto según tu ruta)
-    navigate('/edit-profile');
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSave = () => {
+    setUser({ ...formData });
+    setIsEditing(false);
+    alert("Perfil actualizado correctamente.");
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Perfil del Usuario</h1>
-      {user ? (
-        <div className="flex items-center space-x-4">
-          {/* Imagen de perfil */}
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+      <div className="bg-white shadow-xl rounded-xl max-w-3xl w-full">
+        {/* Header */}
+        <div className="p-8 border-b border-gray-200 text-center">
           <img
-            src={user.profilePicture || '/default-profile.png'} // Imagen por defecto si no tiene
-            alt="Perfil"
-            className="w-16 h-16 rounded-full"
+            src={user.profilePicture}
+            alt="Profile"
+            className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-200"
           />
+          <h1 className="text-2xl font-bold text-gray-800">
+            {user.firstName} {user.lastName}
+          </h1>
+          <p className="text-gray-500">Miembro desde {user.memberSince}</p>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <label className="block text-sm font-medium text-gray-600">Nombre</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-lg"
+                />
+              ) : (
+                <p className="text-lg font-semibold text-gray-800">{user.firstName}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600">Apellido</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-lg"
+                />
+              ) : (
+                <p className="text-lg font-semibold text-gray-800">{user.lastName}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <label className="block text-sm font-medium text-gray-600">Email</label>
+              {isEditing ? (
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-lg"
+                />
+              ) : (
+                <p className="text-lg font-semibold text-gray-800">{user.email}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600">Teléfono</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-lg"
+                />
+              ) : (
+                <p className="text-lg font-semibold text-gray-800">{user.phone}</p>
+              )}
+            </div>
+          </div>
+
           <div>
-            <p><strong>Nombre:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <button
-              className="mt-4 bg-blue-500 text-white p-2 rounded"
-              onClick={handleEditClick} // Llamamos a la función de redirección
-            >
-              Editar perfil
-            </button>
+            <label className="block text-sm font-medium text-gray-600">Zona Horaria</label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="timeZone"
+                value={formData.timeZone}
+                onChange={handleInputChange}
+                className="w-full p-2 border rounded-lg"
+              />
+            ) : (
+              <p className="text-lg font-semibold text-gray-800">{user.timeZone}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600">Millas Acumuladas</label>
+            <p className="text-2xl font-bold text-indigo-600">{user.miles.toLocaleString()} Millas</p>
           </div>
         </div>
-      ) : (
-        <p>No se encontró información del usuario.</p>
-      )}
+
+        {/* Footer */}
+        <div className="bg-gray-50 p-4 flex justify-end space-x-4 border-t border-gray-200">
+          {isEditing ? (
+            <>
+              <button
+                onClick={handleEditToggle}
+                className="bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-lg focus:outline-none font-medium text-sm"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSave}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg focus:outline-none font-medium text-sm"
+              >
+                Guardar Cambios
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={handleEditToggle}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg focus:outline-none font-medium text-sm"
+            >
+              Editar Perfil
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

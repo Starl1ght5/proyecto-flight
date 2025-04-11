@@ -6,7 +6,6 @@ import Navbar from '../Components/NavbarComponent';
 import { ReservedFlight, FlightInfo } from '../Types';
 import { ReservedCard } from '../Components/Cards/ReservedCard';
 import { motion } from 'framer-motion';
-import Footer from '../Components/FooterComponent';
 import { Helmet } from "react-helmet";
 
 export default function SearchResults() {
@@ -134,8 +133,6 @@ export default function SearchResults() {
                 <title>Seleccion de vuelo - Royal Airlines</title>
             </Helmet>
 
-            <Navbar />
-
             {!selected ? (
                 <motion.div className="px-10 pt-8 min-h-screen"
                 initial={{ opacity: 0, y: 10 }}
@@ -240,8 +237,6 @@ export default function SearchResults() {
 
                 </motion.div>
             )}
-
-            <Footer />
         </motion.div>
     )
 }
