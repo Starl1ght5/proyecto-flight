@@ -1,6 +1,7 @@
 package com.stellargear.royal_airlines.Config;
 
 import com.stellargear.royal_airlines.Services.CustomUserDetailsService;
+import com.stellargear.royal_airlines.Services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +12,14 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Configuration
@@ -24,13 +29,18 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final CustomUserDetailsService userDetailsService;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        return http.csrf(customizer -> customizer.disable())
+        return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req.anyRequest().permitAll())
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler((request, response, authentication) -> {
+                            OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
+                            Optional<Object> opt = Optional.ofNullable(oauthUser.getAttribute("sub"));
+                            String str = (String) opt.get();
+                            response.sendRedirect("/api/v1/users/googleLogin?email=" + oauthUser.getAttribute("email") + "&sub=" + str);
+                        }))
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -51,4 +61,5 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
 
     }
+
 }

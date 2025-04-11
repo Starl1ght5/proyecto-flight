@@ -20,7 +20,7 @@ public class Booking {
     private String userGender;
     private int userAge;
 
-    private String bookedTravelID;
+    private String bookedFlightID;
     private String departureCountry;
     private String departureCity;
     private String arrivalCountry;

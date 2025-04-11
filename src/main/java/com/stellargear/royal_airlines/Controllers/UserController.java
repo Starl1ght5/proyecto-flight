@@ -4,7 +4,10 @@ import com.stellargear.royal_airlines.Models.DTOs.UserDTO;
 import com.stellargear.royal_airlines.Services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +30,10 @@ public class UserController {
     @GetMapping(path = "/verify")
     public ResponseEntity<?> verifyUser (@RequestParam String verificationCode) {
         return userService.verifyUser(verificationCode);
+    }
+
+    @GetMapping(path = "/googleLogin")
+    public ResponseEntity<?> loginWithGoogle (@RequestParam String email, @RequestParam String sub) {
+        return userService.loginWithGoogle(email, sub);
     }
 }

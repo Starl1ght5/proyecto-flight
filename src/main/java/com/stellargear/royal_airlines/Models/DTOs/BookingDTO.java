@@ -13,7 +13,7 @@ public class BookingDTO {
     private String bookingID;
 
     private String userID;
-    private TravelInfoDTO bookedTravel;
+    private FlightDTO bookedFight;
 
     private List<SeatDTO> bookedSeats;
     private FeeDTO selectedFee;
@@ -23,7 +23,7 @@ public class BookingDTO {
     private int ticketCount;
 
     private List<String> seatIDs;
-    private String travelID;
+    private String flightID;
     private String feeID;
 
     public BookingDTO () {}

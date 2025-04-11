@@ -27,21 +27,20 @@ public class BookingService {
     private final FlightService flightService;
     private final FeeService feeService;
     private final MoneyExchange moneyExchange;
-    private final TravelService travelService;
     private final static Logger logger = LoggerFactory.getLogger(BookingService.class);
 
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> bookFlight (BookingDTO bookingInfo) {
         Booking newBooking = new Booking();
-        TravelInfo travelInfo = travelService.searchByID(bookingInfo.getTravelID());
+        Flight flightInfo = flightService.searchFlight(bookingInfo.getFlightID());
 
-        newBooking.setBookedTravelID(bookingInfo.getTravelID());
+        newBooking.setBookedFlightID(bookingInfo.getFlightID());
         newBooking.setUserID(bookingInfo.getUserID());
         newBooking.setBookedSeatIDs(bookingInfo.getSeatIDs());
         newBooking.setTicketCount(bookingInfo.getSeatIDs().size());
         newBooking.setSelectedFee(bookingInfo.getFeeID());
         newBooking.setBookingDate(LocalDateTime.now());
-        newBooking.setTotalPrice(calculateTotalPrice(travelService.getFlightFromTravel(bookingInfo.getTravelID()), bookingInfo.getSeatIDs(), bookingInfo.getFeeID()));
+        newBooking.setTotalPrice(calculateTotalPrice(flightInfo.getFlightID(), bookingInfo.getSeatIDs(), bookingInfo.getFeeID()));
         newBooking.setStatus("Pending");
 
         bookingRepository.save(newBooking);
@@ -101,7 +100,7 @@ public class BookingService {
         BookingDTO returnedDTO = new BookingDTO();
 
         returnedDTO.setBookingID(requestedObject.getBookingID());
-        returnedDTO.setBookedTravel(travelService.searchAndConvertObject(requestedObject.getBookedTravelID()));
+        returnedDTO.setBookedFight(flightService.searchAndConvertObject(requestedObject.getBookedFlightID()));
         returnedDTO.setBookedSeats(seatService.searchAndConvertList(requestedObject.getBookedSeatIDs()));
         returnedDTO.setTicketCount(requestedObject.getTicketCount());
         returnedDTO.setTotalPrice(moneyExchange.convertUSDtoCOP(requestedObject.getTotalPrice()));
