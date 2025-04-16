@@ -1,5 +1,6 @@
-package com.stellargear.royal_airlines.Models.Entities;
+package com.stellargear.royal_airlines.Models.Utils;
 
+import com.stellargear.royal_airlines.Models.Entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,10 +1,8 @@
 package com.stellargear.royal_airlines.Services;
 
 import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
-import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
 import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
-import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Repositories.FlightRepository;
 import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -52,18 +49,6 @@ public class FlightService {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    public List<FlightDTO> searchFlights (String departureIataCode, String arrivalIataCode, String date) {
-        LocalDate convertedDate = LocalDate.parse(date);
-
-        LocalDateTime startOfDay = convertedDate.atStartOfDay();
-        LocalDateTime endOfDay = convertedDate.atTime(23, 59, 59, 999999999);
-
-        String start = locationService.searchByIataCode(departureIataCode);
-        String end = locationService.searchByIataCode(arrivalIataCode);
-
-        return objectListToDto(flightRepository.searchFlights(start, end, startOfDay, endOfDay));
-    }
-
     public String calculateTimeDifference(LocalDateTime start, LocalDateTime finish) {
         Duration timeBetween = Duration.between(start, finish);
 
@@ -73,41 +58,14 @@ public class FlightService {
         return  hours + "h " + minutes + "m";
     }
 
-    public List<SeatDTO> getSeatsForFlight (String flightID) {
-        Flight searchedFlight = flightRepository.searchByID(flightID);
-
-        return seatService.searchAndConvertList(searchedFlight.getAvailableSeatIDs());
-    }
-
-    public List<LocationDTO> getLocationsWithCheapestPrice (int nOfLocations) {
-        List<Location> locationsToSearch = locationService.searchXLocations(nOfLocations);
-        List<LocationDTO> returnedList = new ArrayList<>();
-
-        for (Location toSearch : locationsToSearch) {
-            List<Flight> flightsToSearch = flightRepository.searchFlightsForLocation(toSearch.getLocationID());
-
-            if (!flightsToSearch.isEmpty()) {
-                Flight cheapestFlightForLocation = calculateCheapest(flightsToSearch);
-
-                Location locationInfo = locationService.searchByID(cheapestFlightForLocation.getArrivalLocationID());
-                LocationDTO returnedInfo = locationService.objectToDto(locationInfo);
-                returnedInfo.setCheapestPrice(moneyExchange.convertUSDtoCOP(cheapestFlightForLocation.getTicketPrice()));
-
-                returnedList.add(returnedInfo);
-
-            } else {
-                logger.error("No flights were found for location: {}", toSearch.getCityName());
-            }
-
-        }
-
-        return returnedList;
-    }
-
     public Flight calculateCheapest (List<Flight> listToSearch) {
         return listToSearch.stream()
                 .min(Comparator.comparingDouble(Flight::getTicketPrice))
                 .orElseThrow(NoSuchElementException::new);
+    }
+
+    public List<Flight> searchFlights (String start, String end, LocalDateTime startOfDay, LocalDateTime endOfDay) {
+        return flightRepository.searchFlights(start, end, startOfDay, endOfDay);
     }
 
     public boolean checkFlightForDiscount (String flightToCheck) {
@@ -117,6 +75,10 @@ public class FlightService {
 
     public Flight searchFlight (String requestedID) {
         return flightRepository.searchByID(requestedID);
+    }
+
+    public List<Flight> searchFlightsForLocation (String locationID) {
+        return flightRepository.searchFlightsForLocation(locationID);
     }
 
     public FlightDTO searchAndConvertObject (String requestedID) {

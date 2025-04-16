@@ -1,7 +1,7 @@
 package com.stellargear.royal_airlines.Services;
 
 import com.stellargear.royal_airlines.Models.Entities.User;
-import com.stellargear.royal_airlines.Models.Entities.UserPrincipal;
+import com.stellargear.royal_airlines.Models.Utils.UserPrincipal;
 import com.stellargear.royal_airlines.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

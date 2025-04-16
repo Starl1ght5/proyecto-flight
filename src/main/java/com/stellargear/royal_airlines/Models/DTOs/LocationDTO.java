@@ -15,6 +15,7 @@ public class LocationDTO {
     private String airportName;
     private Money cheapestPrice;
     private boolean featured;
+    private boolean recommended;
 
     public LocationDTO () {}
 }

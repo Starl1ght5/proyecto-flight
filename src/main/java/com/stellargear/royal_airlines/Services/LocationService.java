@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 public class LocationService {
 
     private final LocationRepository locationRepository;
+    private static final List<String> DESTINATIONS = List.of("Cartagena", "Bogota", "Medellin", "Monteria", "Pereira", "Cali", "Barranquilla", "Nariño", "Bucaramanga", "Armenia", "New York", "Chicago", "Miami", "Los Angeles", "London", "Manchester", "Edinburgh", "Cancun", "Ottawa", "Paris", "Rome", "Sidney");
 
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> addNewLocation (LocationDTO newLocationInfo) {
@@ -40,36 +40,6 @@ public class LocationService {
         return new ResponseEntity<>( "This airport already exists", HttpStatus.BAD_REQUEST);
     }
 
-    public List<Location> searchXLocations (int number) {
-        List<Location> locations = locationRepository.findAll();
-        List<Location> returnedList = new ArrayList<>();
-        Random numberPicker = new Random();
-
-        for (Location location : locations) {
-
-            if (location.isFeatured()) {
-                if (returnedList.size() < number) {
-                    returnedList.add(location);
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (returnedList.size() < number) {
-            int missingEntries = number - returnedList.size();
-
-            for (int i = 0; i < missingEntries; i++) {
-                Location newEntry = locations.remove(numberPicker.nextInt(1, locations.size() - 1));
-
-                if (!returnedList.contains(newEntry)) {
-                    returnedList.add(newEntry);
-                }
-            }
-        }
-        return returnedList;
-    }
-
     public LocationDTO findAndConvertObject (String requestedID) {
         Location searchedObject = searchByID(requestedID);
         return objectToDto(searchedObject);
@@ -84,8 +54,22 @@ public class LocationService {
         return returnedLocation.getLocationID();
     }
 
+    public List<Location> searchAll () {
+        return locationRepository.findAll();
+    }
+
     public boolean locationAlreadyPresent (LocationDTO infoToCheck) {
         return locationRepository.checkForExistingLocation(infoToCheck.getCityName(), infoToCheck.getAirportName(), infoToCheck.getIataCode()) != null;
+    }
+
+    public List<LocationDTO> objectListToDto (List<Location> listToConvert) {
+        List<LocationDTO> returnedList = new ArrayList<>();
+
+        for (Location location : listToConvert) {
+            returnedList.add(objectToDto(location));
+        }
+
+        return returnedList;
     }
 
     public LocationDTO objectToDto (Location requestedObject) {
@@ -98,5 +82,19 @@ public class LocationService {
         returnedDto.setFeatured(requestedObject.isFeatured());
 
         return returnedDto;
+    }
+
+    public String searchDestination (String cityName) {
+        String destinationToSearch = "";
+
+        for (String destination : DESTINATIONS) {
+            if (destination.equals(cityName)) {
+                destinationToSearch = destination;
+                break;
+            }
+        }
+
+        Location searchedLocation = locationRepository.searchByCityName(cityName);
+        return searchedLocation.getLocationID();
     }
 }
