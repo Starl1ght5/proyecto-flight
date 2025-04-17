@@ -17,49 +17,49 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormFields>();
     
-        const onSubmit = handleSubmit( async (data: FieldValues) => {
-            try {
+    const onSubmit = handleSubmit( async (data: FieldValues) => {
+        try {
 
-                if (data.password === data.confirmPassword ) {
+            if (data.password === data.confirmPassword ) {
 
-                    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/register`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                    })
+                });
     
-                    const res = await response;
+                const res = await response;
     
-                    if (res.status === 201) {
-                        toast.success("Cuenta creada exitosamente!, en unos momentos sera redirigido al inicio de sesion");
-                        await delay(3000);
-                        changeParentState()
+                if (res.status === 201) {
+                    toast.success("Cuenta creada exitosamente!, en unos momentos sera redirigido al inicio de sesion");
+                    await delay(3000);
+                    changeParentState()
                     
-                    } else if (res.status === 400) {
-                        toast.error("Este correo ya esta en uso", {
-                            className: "bg-red-500 text-white rounded-lg shadow-lg"
-                        });
-                    }
-                } else {
-                    toast.error("Las contraseñas no coinciden", {
+                } else if (res.status === 400) {
+                    toast.error("Este correo ya esta en uso", {
                         className: "bg-red-500 text-white rounded-lg shadow-lg"
                     });
                 }
-                
-    
-            } catch (error) {
-                console.log(error)
-                toast.error("Error del servidor" , {
+
+            } else {
+                toast.error("Las contraseñas no coinciden", {
                     className: "bg-red-500 text-white rounded-lg shadow-lg"
                 });
             }
-        })
-
-        const changeParentState = () => {
-            changeState(true);
+    
+        } catch (error) {
+            console.log(error)
+            toast.error("Error del servidor" , {
+                className: "bg-red-500 text-white rounded-lg shadow-lg"
+            });
         }
+    })
 
-        const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    const changeParentState = () => {
+        changeState(true);
+    }
+
+     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
     return (
         <motion.div 

@@ -5,6 +5,7 @@ import { LocationCard } from "../Components/Cards/LocationCard";
 import { Helmet } from "react-helmet";
 import Navbar from '../Components/NavbarComponent';
 import Footer from '../Components/FooterComponent';
+import RecomenationSearchComponent from '../Components/RecommendationSearchComponent';
 
 const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
   <div className="relative">
@@ -46,12 +47,13 @@ const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
 );
 
 const HeroSection = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [selectedTripType, setSelectedTripType] = useState('Ida y Vuelta');
-  const [selectedClass, setSelectedClass] = useState('Basic');
-  const [selectedPassenger, setSelectedPassenger] = useState('1 Adulto');
+  
+  const [ dropdownOpen, setDropdownOpen ] = useState(null);
+  const [ selectedTripType, setSelectedTripType ] = useState('Ida y Vuelta');
+  const [ selectedClass, setSelectedClass ] = useState('Basic');
+  const [ selectedPassenger, setSelectedPassenger ] = useState('1 Adulto');
   const navigate = useNavigate();
-  const [locations, setLocations] = useState<LocationInfo[]>([]);
+  const [ locations, setLocations ] = useState<LocationInfo[]>([]);
 
   const toggleDropdown = (menu: boolean) => {
     setDropdownOpen((prev) => (prev === menu ? null : menu));
@@ -197,19 +199,22 @@ const HeroSection = () => {
 
       {/* Sección de destinos */}
       <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-            Descubre tu próximo viaje
-          </h2>
-          <div className="w-50 h-1 bg-purple2 mx-auto rounded-full"></div>
+
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Descubre tu próximo viaje</h2>
+          <div className="w-lg h-1 bg-purple2 mx-auto rounded-full"></div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6">
+
           {locations?.map((element) => (
-            <LocationCard key={element.id} location={element} />
+            <LocationCard location={element} />
           ))}
+
         </div>
       </div>
+
+      <RecomenationSearchComponent />
 
       <Footer />
     </div>
