@@ -15,14 +15,9 @@ interface ChildProps {
 }
 
 const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FormFields>();
-
+  
+  const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm<FormFields>();
   const navigate = useNavigate();
-
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   const onSubmit = handleSubmit(async (data: FieldValues) => {
