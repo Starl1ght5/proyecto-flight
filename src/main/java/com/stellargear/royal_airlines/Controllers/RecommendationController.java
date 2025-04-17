@@ -1,27 +1,22 @@
 package com.stellargear.royal_airlines.Controllers;
 
-import com.stellargear.royal_airlines.Models.Entities.Recommendation;
-import com.stellargear.royal_airlines.Models.Utils.ModelData;
-import com.stellargear.royal_airlines.Services.RecommendationService;
+import com.stellargear.royal_airlines.Models.DTOs.ModelDataDTO;
+import com.stellargear.royal_airlines.Services.InformationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/v1")
+@RequestMapping(path = "/api/v1/recommendation")
 public class RecommendationController {
 
-    private final RecommendationService recommendationService;
+    private final InformationService informationService;
 
-    @PostMapping("/recommend")
-    public String recommend(@RequestBody ModelData data, @RequestParam String user) {
-        try {
-            Recommendation recommendation = recommendationService.recommendDestination(data, user);
-
-            return "Destino recomendado: " + recommendation.getRecommendation() + "\nConfianza: " + recommendation.getConfidence();
-
-        } catch (Exception e) {
-            return "A unexpected error occurred";
-        }
+    @PostMapping(path = "/recommend")
+    public ResponseEntity<?> recommendBasedOnParameters (@RequestBody ModelDataDTO data) throws Exception {
+        return informationService.searchAndRecommend(data);
     }
 }

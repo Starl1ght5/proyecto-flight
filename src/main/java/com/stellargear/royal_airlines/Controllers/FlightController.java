@@ -13,19 +13,19 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
-@RequestMapping(path = "/api/v1")
+@RequestMapping(path = "/api/v1/flights")
 public class FlightController {
 
     private final InformationService informationService;
     private final FlightService flightService;
 
-    @PostMapping(path = "/debug/flights/create")
+    @PostMapping(path = "/debug/create")
     public ResponseEntity<?> createNewFlight (@RequestParam String airline, @RequestParam String price, @RequestParam String depID, @RequestParam String arrID ) {
         double convPrice = (double) Integer.parseInt(price);
         return flightService.addNewFlight(airline, convPrice, depID, arrID);
     }
 
-    @GetMapping(path = "/flights/search")
+    @GetMapping(path = "/search")
     public List<FlightDTO> searchFlights (@RequestParam String origin, @RequestParam String destination, @RequestParam String departure) {
         return informationService.searchFlights(origin, destination, departure);
     }

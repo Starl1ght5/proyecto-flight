@@ -2,14 +2,19 @@ package com.stellargear.royal_airlines.Services;
 
 import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
 import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
+import com.stellargear.royal_airlines.Models.DTOs.ModelDataDTO;
 import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
 import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Models.Entities.Recommendation;
+import com.stellargear.royal_airlines.Models.Utils.ModelData;
+import com.stellargear.royal_airlines.Utils.ClassifierUtils;
 import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,6 +32,7 @@ public class InformationService {
     private final SeatService seatService;
     private final RecommendationService recommendationService;
     private final MoneyExchange moneyExchange;
+    private final ClassifierUtils classifierUtils;
     private final static Logger logger = LoggerFactory.getLogger(InformationService.class);
 
 
@@ -150,7 +156,7 @@ public class InformationService {
         return returnedList;
     }
 
-    public List<LocationDTO> searchLocationsWithCheapestPriceAndRecommended (int nOfLocations, String userID) {
+    public ResponseEntity<?> searchLocationsWithCheapestPriceAndRecommended (int nOfLocations, String userID) {
         List<LocationDTO> locationsToSearch = searchXLocationsWithRecommended(nOfLocations, userID);
         List<LocationDTO> returnedList = new ArrayList<>();
 
@@ -172,7 +178,24 @@ public class InformationService {
 
         }
 
-        return returnedList;
+        return new ResponseEntity<>(returnedList, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> searchAndRecommend (ModelDataDTO requestingData) throws Exception {
+        List<LocationDTO> locations = new ArrayList<>();
+        ModelData data = classifierUtils.dtoToObject(requestingData);
+        Recommendation recommendationData = recommendationService.recommendDestination(data, "");
+        logger.info(recommendationData.getRecommendation());
+
+        List<Flight> flights = flightService.searchFlightsForLocation(recommendationData.getLocationID());
+        Flight cheapest = flightService.calculateCheapest(flights);
+
+        LocationDTO recommended = locationService.findAndConvertObject(recommendationData.getLocationID());
+        recommended.setRecommended(true);
+        recommended.setCheapestPrice(moneyExchange.convertUSDtoCOP(cheapest.getTicketPrice()));
+
+        locations.add(recommended);
+        return new ResponseEntity<>(locations, HttpStatus.OK);
     }
 
     public List<SeatDTO> getSeatsForFlight (String flightID) {

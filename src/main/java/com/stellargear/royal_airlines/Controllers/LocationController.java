@@ -11,26 +11,26 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/v1")
+@RequestMapping(path = "/api/v1/locations")
 public class LocationController {
 
     private final InformationService informationService;
     private final LocationService locationService;
 
-    @PostMapping(path = "/debug/locations/create")
+    @PostMapping(path = "/debug/create")
     public ResponseEntity<?> createNewLocation(@RequestBody LocationDTO newLocationInfo) {
         return locationService.addNewLocation(newLocationInfo);
     }
 
 
-    @GetMapping(path = "/locations/search")
+    @GetMapping(path = "/search")
     public List<LocationDTO> searchLocations (@RequestParam String number) {
         int n = Integer.parseInt(number);
         return informationService.searchLocationsWithCheapestPrice(n);
     }
 
-    @GetMapping(path = "/locations/search")
-    public List<LocationDTO> searchLocationsForUser (@RequestParam String number, @RequestParam String user) {
+    @GetMapping(path = "/userSearch")
+    public ResponseEntity<?> searchLocationsForUser (@RequestParam String number, @RequestParam String user) {
         int n = Integer.parseInt(number);
         return informationService.searchLocationsWithCheapestPriceAndRecommended(n, user);
     }
