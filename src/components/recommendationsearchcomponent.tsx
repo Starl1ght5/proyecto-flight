@@ -200,7 +200,7 @@ export default function RecomenationSearchComponent() {
 									</div>
 
 									<div className="flex flex-row justify-between bg-white shadow-lg px-4.5 py-2.5 rounded-bl-lg border-l-1 border-t-1  border-b-1 border-black items-center hover:scale-110 duration-300 ease-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold">
-										<label className="text-lg">Gastronimico</label>
+										<label className="text-lg">Gastronomico</label>
 										<input
 											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
 											type="checkbox"
