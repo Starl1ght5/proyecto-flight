@@ -122,7 +122,7 @@ const HeroSection = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <div className="relative h-screen bg-cover bg-center bg-[url(src/assets/Alerofondo.jpeg)]">
+      <div className="relative h-screen bg-cover bg-center bg-[url(src/assets/alerofondo.jpeg)]">
         {/* Overlay con gradiente */}
         <div className="absolute inset-0 bg-gradient-to-b from-blueblack/70 to-purple-dark/80"></div>
         
