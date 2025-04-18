@@ -5,7 +5,7 @@ export default function CompraDePasajes() {
     {
       title: "Compras",
       description: "¿Quieres comprar un pasaje o tuviste problemas con alguna compra? Conoce cómo comprar, nuestros medios de pago o cómo comprar adicionales.",
-      link: "/compraspasajes",
+      link: "/help-center/compraspasajes",
       icon: "✈️",
     }   
   ];

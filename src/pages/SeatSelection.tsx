@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Footer from "../Components/FooterComponent.tsx";
 import Navbar from "../Components/NavbarComponent.tsx";
 import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../Types.tsx";
@@ -7,7 +6,6 @@ import { Toaster, toast } from 'sonner';
 import { SeatCard } from '../Components/Cards/SeatCard.tsx';
 import { Helmet } from "react-helmet";
 import { loadStripe } from "@stripe/stripe-js";
-import { useCookies } from 'react-cookie';
 
 
 export default function SeatSelection () {
@@ -15,9 +13,6 @@ export default function SeatSelection () {
     const [ seats, setSeats ] = useState([]);
     const [ selectedSeat, setSelectedSeat ] = useState<Seat[]>([]);
     const [ selected, setSelected ] = useState<boolean>(false);
-    const [ cookie ] = useCookies(['RoyalUserToken']);
-
-    const navigate = useNavigate();
     
     const [seatRowA, setSeatRowA] = useState([])
     const [seatRowB, setSeatRowB] = useState([])
@@ -29,6 +24,7 @@ export default function SeatSelection () {
     const searchParams = new URLSearchParams(location.search);
     const flight = searchParams.get('flight') || '';
     const fee = searchParams.get('fee') || '';
+    
     
 
     const generateBooking = async () => {
@@ -87,7 +83,7 @@ export default function SeatSelection () {
                 bookedSeats: res.bookedSeats
             }
 
-            const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+            const stripe = await loadStripe("pk_test_51OEkaAAZPRRqn7nghZ3JdSkVsMS64xrdnTxyqlnPoJjjDZEiuUbJ7cEGgWgbU8MzE6RMtK8sTtLHdKl4c3Myf8LE007tm0JPdo");
 
             const added_value = parseInt(details.totalPrice.amount + ".00");
 
@@ -106,9 +102,11 @@ export default function SeatSelection () {
 
             const test = await response.json()
 
-            const result = stripe.redirectToCheckout({
+            const result = stripe?.redirectToCheckout({
                 sessionId: test.id
             });
+
+            console.log(result);
 
         } catch (e) {
             console.error(e);
@@ -139,7 +137,7 @@ export default function SeatSelection () {
 
     useEffect(() => {
         
-        const divideArray = (array, itemsPerColumn: number) => {
+        const divideArray = (array: any, itemsPerColumn: number) => {
             const columns = [];
 
             for (let i = 0; i < array.length; i += itemsPerColumn) {
@@ -162,10 +160,6 @@ export default function SeatSelection () {
         setSelected(true);
     }
 
-    const next = () => {
-        navigate("/pasajeros");
-    }
-
     const reset = () => {
         setSelectedSeat([]);
         setSelected(false);
@@ -179,6 +173,8 @@ export default function SeatSelection () {
                 <title>Seleccion de asiento - Royal Airlines</title>
             </Helmet>
             <div className="flex flex-row justify-center" >
+
+                <Navbar />
 
                 <div className="px-7 py-9 w-lg rounded-lg mt-16 bg-white/50 backdrop-blur-md  shadow-2xl flex flex-col items-center">
                     <div className="flex flex-row" >
@@ -335,6 +331,8 @@ export default function SeatSelection () {
                         onClick={generateBooking} >Continuar</button>
                 </div>
             </div>
+
+            <Footer />
 
         </div>
     )

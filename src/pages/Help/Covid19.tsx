@@ -5,13 +5,13 @@ export default function CambiosYDevoluciones() {
     {
       title: "Lo que necesitas para viajar",
       description: "Queremos que te cuides. Sigue estas simples recomendaciones antes, durante y después de tu vuelo.",
-      link: "/needtravel",
+      link: "/help-center/needtravel",
       icon: "✈️"
     },
     {
       title: "Viaja con felixibilidad",
       description: " Entendemos que los planes cambian. Conoce nuestra política de flexibilidad sin pago de multas.",
-      link: "/flexibilidad",
+      link: "/help-center/flexibilidad",
       icon: "✈️",
     },
    

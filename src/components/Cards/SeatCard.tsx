@@ -2,10 +2,9 @@ import { useState } from "react";
 import { SeatInfo } from "../../Types.tsx";
 import { motion } from 'framer-motion';
 
-export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo, getInteraction }) => {
+export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {
 
     const [ hovered, setHovered ] = useState<boolean>(false);
-    const [ selected, setSelected ] = useState<boolean>(false);
 
     const formattedPrice = (seat.seatPrice.amount).toLocaleString();
 

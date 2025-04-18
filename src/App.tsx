@@ -1,12 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./Components/Navbar.tsx";
 import Home from "./Pages/Home.tsx";
 import LoginPage from "./Pages/Login.tsx";
 import SearchResutls from "./Pages/FlightSelection.tsx";
-import Pasajeros from "./Components/Pasajeros.tsx";
 import ConfirmarPago from "./Components/ConfirmarPago.tsx";
 import SeatSelection from "./Pages/SeatSelection.tsx";
-import CheckoutResumePage from "./Pages/CheckoutResume.tsx";
 import UserProfile from "./Pages/PerfilUser.tsx";
 import Wallet from "./Pages/Wallet.tsx";
 
@@ -27,11 +24,9 @@ import CambiosItinerario from "./Pages/Help/CambiosItinerario.tsx";
 import CancelacionesTravel from "./Pages/Help/CancelacionesTravel.tsx";
 import Equipaje from "./Pages/Help/Equipaje.tsx";
 import ProblemaEquipaje from "./Pages/Help/ProblemaEquipaje.tsx";
-///import ComprarEquipaje from "./Pages/Help/ComprarEquipaje";
 import CuentayContraseña from "./Pages/Help/CuentayContraseña.tsx";
 import Contraseña from "./Pages/Help/Contraseña.tsx";
 import CuentaRoyalPass from "./Pages/Help/CuentaRoyalPass.tsx";
-///import CompraDePasajes from "./pages/Help/CompraDePasajes";
 import RoyalWallet from "./Pages/Help/RoyalWallet.tsx";
 import WalletRoyalHelp from "./Pages/Help/WalletRoyalHelp.tsx";
 
@@ -45,8 +40,6 @@ export default function App() {
         <Route path="/search-results" element={<SearchResutls />} />
         <Route path="/seat-selection" element={<SeatSelection />} />
         <Route path="/confirmar-pago" element={<ConfirmarPago />} />
-        <Route path="/checkout-resume" element={<CheckoutResumePage />} />
-        <Route path="/pasajeros" element={<Pasajeros />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/wallet" element={<Wallet />} />
 
@@ -72,8 +65,6 @@ export default function App() {
         <Route path="/help-center/cuentaroyalpass" element = {<CuentaRoyalPass/>}/>
         <Route path="/help-center/RoyalWallet" element = {<RoyalWallet/>} />
         <Route path="/help-center/wallethelp" element = {<WalletRoyalHelp/>} />
-
-        <Route path="/test" element={<Test />} />
       </Routes>
     </Router>
   );

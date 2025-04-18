@@ -7,7 +7,16 @@ import Navbar from '../Components/NavbarComponent.tsx';
 import Footer from '../Components/FooterComponent.tsx';
 import RecomenationSearchComponent from '../Components/RecommendationSearchComponent.tsx';
 
-const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
+interface DropdownProps {
+  label: string;
+  options: string[];
+  selected: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  onSelect: (option: string) => void;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
   <div className="relative">
     <button
       onClick={onToggle}
@@ -48,21 +57,21 @@ const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
 
 const HeroSection = () => {
   
-  const [ dropdownOpen, setDropdownOpen ] = useState(null);
-  const [ selectedTripType, setSelectedTripType ] = useState('Ida y Vuelta');
-  const [ selectedClass, setSelectedClass ] = useState('Basic');
-  const [ selectedPassenger, setSelectedPassenger ] = useState('1 Adulto');
+  const [dropdownOpen, setDropdownOpen] = useState<'tripType' | 'classType' | 'passengerType' | null>(null);
+  const [selectedTripType, setSelectedTripType] = useState<string>('Ida y Vuelta');
+  const [selectedClass, setSelectedClass] = useState<string>('Basic');
+  const [selectedPassenger, setSelectedPassenger] = useState<string>('1 Adulto');
   const navigate = useNavigate();
   const [ locations, setLocations ] = useState<LocationInfo[]>([]);
 
-  const toggleDropdown = (menu: boolean) => {
-    setDropdownOpen((prev) => (prev === menu ? null : menu));
+  const toggleDropdown = (type: 'tripType' | 'classType' | 'passengerType') => {
+    setDropdownOpen(prev => prev === type ? null : type);
   };
 
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/locations/search?number=6`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}locations/search?number=6`);
         const res = await response.json();
         setLocations(res);
 
@@ -73,12 +82,15 @@ const HeroSection = () => {
     fetchLocations();
   }, []);
 
-  const handleSearch = (event) => {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const origen = event.target.origen.value.trim();
-    const destino = event.target.destino.value.trim();
-    const ida = event.target.ida.value;
-    const vuelta = selectedTripType === 'Ida y Vuelta' ? event.target.vuelta.value : '';
+    const form = event.currentTarget;
+    const origen = (form.elements.namedItem('origen') as HTMLInputElement).value.trim();
+    const destino = (form.elements.namedItem('destino') as HTMLInputElement).value.trim();
+    const ida = (form.elements.namedItem('ida') as HTMLInputElement).value;
+    const vuelta = selectedTripType === 'Ida y Vuelta' 
+      ? (form.elements.namedItem('vuelta') as HTMLInputElement).value 
+      : '';
 
     if (!origen || !destino || !ida || (selectedTripType === 'Ida y Vuelta' && !vuelta)) {
       alert('Por favor, completa todos los campos obligatorios.');
@@ -91,8 +103,8 @@ const HeroSection = () => {
     );
   };
 
-  const getPassengerCount = (passengerType: number) => {
-    const passengerMap = {
+  const getPassengerCount = (passengerType: string): number => {
+    const passengerMap: Record<string, number> = {
       '1 Adulto': 1,
       '2 Adultos': 2,
       'Niño': 1,
@@ -129,7 +141,7 @@ const HeroSection = () => {
           <div className="w-full max-w-6xl mx-auto bg-white/10 backdrop-blur-md border-2 border-purple-light/30 rounded-xl p-8 shadow-2xl">
             {/* Dropdowns superiores */}
             <div className="flex flex-wrap justify-between gap-4 mb-6">
-              <Dropdown
+            <Dropdown
                 label={selectedTripType}
                 options={['Ida y Vuelta', 'Solo Ida']}
                 selected={selectedTripType}
@@ -208,7 +220,7 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6">
 
           {locations?.map((element) => (
-            <LocationCard location={element} />
+            <LocationCard location={element.location} />
           ))}
 
         </div>

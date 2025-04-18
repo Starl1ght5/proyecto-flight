@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [cookie, removeCookie] = useCookies(['RoyalUserToken']);
-  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
   const navigate = useNavigate();
 
@@ -16,8 +16,8 @@ export default function Navbar() {
     checkCookie();
   }, [cookie])
 
-  const toggleDropdown = (menu) => {
-    setDropdownOpen((prev) => (prev === menu ? null : menu));
+  const toggleDropdown = () => {
+    setDropdownOpen(prevState => !prevState);
   };
 
   // Funciones de navegación
@@ -26,6 +26,7 @@ export default function Navbar() {
   const goToProfile = () => navigate('/profile');
   const goToMiCartera = () => navigate('/micartera');
   const goToCentroAyuda = () => navigate('/centro-ayuda');
+
   const handleLogout = () => {
     setIsAuthenticated(false);
     removeCookie('RoyalUserToken', "");
@@ -68,7 +69,7 @@ export default function Navbar() {
             <div className="group flex flex-row gap-2">
               <p className="mt-2">Hola, Usuari@!</p>
               <button
-                onClick={() => toggleDropdown('perfil')}
+                onClick={() => toggleDropdown}
                 className="flex items-center justify-center bg-purple-300 w-10 h-10 rounded-full text-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
               >
                 <svg 
@@ -83,7 +84,7 @@ export default function Navbar() {
                 </svg>
               </button>
 
-              {dropdownOpen === 'perfil' && (
+              {dropdownOpen && (
                 <div className="absolute right-0 mt-11 w-56 bg-white rounded-lg shadow-xl overflow-hidden z-50 border border-gray-100">
                   <div className="py-1">
                     <button

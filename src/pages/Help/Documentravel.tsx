@@ -5,19 +5,19 @@ export default function CambiosYDevoluciones() {
     {
       title: "Documentos para viajar",
       description: "Conoce visas y pasaportes requeridos para destinos internacionales y toda la documentación necesaria para tu viaje.",
-      link: "/documenttravel",
+      link: "/help-center/documenttravel",
       icon: "✈️"
     },
     {
       title: "Vacuna",
       description: " Hay restricciones de entrada necesarias para los viajeros y éstas varían constantemente. Descubre los requistos para viajar y si necesitas vacunas.",
-      link: "/vacunas",
+      link: "/help-center/vacunas",
       icon: "✈️",
     },
     {
         title: "Comprobantes",
         description: "Podrás descargar e imprimir una copia del Comprobante de Compra de cada pasajero.",
-        link: "/comprobantes",
+        link: "/help-center/comprobantes",
         icon: "🌟",
       }
    

@@ -1,28 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 const ConfirmarPago = () => {
-  const [bank, setBank] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [paypalEmail, setPaypalEmail] = useState("");
-  const [applePayId, setApplePayId] = useState("");
-  const [googlePayId, setGooglePayId] = useState("");
 
-  const [paymentSuccess, setPaymentSuccess] = useState(true);
-  const [paymentMethod, setPaymentMethod] = useState("");
+  //const [bank, setBank] = useState("");
+  //const [cardNumber, setCardNumber] = useState("");
+  //const [expiryDate, setExpiryDate] = useState("");
+  //const [cvv, setCvv] = useState("");
+  //const [paypalEmail, setPaypalEmail] = useState("");
+  //const [applePayId, setApplePayId] = useState("");
+  //const [googlePayId, setGooglePayId] = useState("");
 
-  const navigate = useNavigate(); 
+  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
+  ///const [paymentMethod, setPaymentMethod] = useState("");
+
+  ///const navigate = useNavigate(); 
   
-  const handlePayment = () => {
+  //const handlePayment = () => {
     
+    //setPaymentSuccess(true);
+  //};
+  //const goToBoardingPass = () => {
+    //navigate("/boarding-pass");
+  //};
+
+  useEffect(() => {
     setPaymentSuccess(true);
-  };
-  const goToBoardingPass = () => {
-    navigate("/boarding-pass");
-  };
+  }, [])
 
   return (
     <div className="min-h-screen bg-bluemint flex flex-col items-center justify-center p-6">
@@ -355,7 +359,6 @@ const ConfirmarPago = () => {
                 className="mt-6 text-center"
               >
                 <button
-                  onClick={goToBoardingPass} // Redirige al Boarding Pass
                   className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition"
                 >
                   Ver Boarding Pass

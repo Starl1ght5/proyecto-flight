@@ -1,17 +1,30 @@
 import { useState } from "react";
 
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  timeZone: string;
+  profilePicture: string;
+  memberSince: string;
+  tier: string;
+  miles: number;
+}
+
 const Profile = () => {
-  const [user, setUser] = useState({
-    firstName: "Carolina",
-    lastName: "Devoz",
-    email: "caro@gmail.com",
-    phone: "+57 1234567890",
-    timeZone: "GMT-5",
-    profilePicture: "https://www.puneladders.co.in/assets/img/Default_User.png",
-    memberSince: "2025",
-    tier: "Platino",
-    miles: 48250,
-  });
+
+  const [user, setUser] = useState<User>({
+      firstName: "Carolina",
+      lastName: "Devoz",
+      email: "caro@gmail.com",
+      phone: "+57 1234567890",
+      timeZone: "GMT-5",
+      profilePicture: "https://www.puneladders.co.in/assets/img/Default_User.png",
+      memberSince: "2025",
+      tier: "Platino",
+      miles: 48250,
+    });
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ ...user });
@@ -23,7 +36,7 @@ const Profile = () => {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };

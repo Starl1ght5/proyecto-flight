@@ -5,13 +5,13 @@ export default function CambiosYDevoluciones() {
     {
       title: "Problemas con tu equipaje",
       description: "Cuidamos que tu equipaje llegue contigo sin problemas, pero pueden ocurrir algunos imprevistos. En estas situaciones nos esforzamos para darte una solución.",
-      link: "/problemaequipaje",
+      link: "/help-center/problemaequipaje",
       icon: "✈️"
     },
     {
       title: "Comprar equipaje",
       description: "Conoce cómo comprar equipaje adicional.",
-      link: "/compraequipaje",
+      link: "/help-center/compraequipaje",
       icon: "✈️",
     }   
   ];

@@ -26,10 +26,9 @@ export default function RecomenationSearchComponent() {
 
 	const [recommendedLocation, setRecommendedLocation] = useState<LocationInfo[]>([]);
 	const [searched, setSearched] = useState<boolean>(false);
-	const [searchError, setSearchError] = useState<boolean>(false);
 	const [name, setName] = useState<string>('');
 
-	const { register, handleSubmit, formState: {errors, isSubmitting}} = useForm<FormFields>();
+	const { register, handleSubmit, formState: {isSubmitting}} = useForm<FormFields>();
 
 	const onSubmit = handleSubmit(async (data: FieldValues) => {
 		data.jungle = false;
@@ -61,7 +60,6 @@ export default function RecomenationSearchComponent() {
 				setSearched(true);
 				setName(content[0].cityName);
 			} else {
-				setSearchError(true);
 				toast.error(
 					'Ha ocurrido un error en la busqueda, vuelva a intentarlo',
 					{
@@ -262,7 +260,7 @@ export default function RecomenationSearchComponent() {
 						<div className="rounded-lg shadow-2xl grid grid-cols-2 bg-white">
 							<div className="rounded-l-lg px-6 py-4">
 								{recommendedLocation?.map((element) => (
-									<RecommendationCard location={element} />
+									<RecommendationCard location={element.location} />
 								))}
 							</div>
 

@@ -5,13 +5,13 @@ export default function CambiosYDevoluciones() {
     {
       title: "Contraseña",
       description: " ¿Olvidaste tu contraseña? No te preocupes, encuentra toda la información relacionada a tu contraseña y cómo recuperarla.",
-      link: "/contraseña",
+      link: "/help-center/contraseña",
       icon: "✈️"
     },
     {
       title: "Cuenta ROYAL Pass",
       description: "Conoce qué es nuestro programa de beneficios ROYAL Pass y qué requisitos necesitas para inscribirte.",
-      link: "/cuentaroyalpass",
+      link: "/help-center/cuentaroyalpass",
       icon: "✈️",
     }   
   ];

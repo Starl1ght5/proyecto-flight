@@ -5,19 +5,19 @@ export default function CambiosYDevoluciones() {
     {
       title: "Devoluciones",
       description: "¿Necesitas anular tu compra? Conoce los plazos y condiciones para solicitar tu reembolso.",
-      link: "/devoluciones",
+      link: "/help-center/devoluciones",
       icon: "🔄"
     },
     {
       title: "Cambios",
       description: "Modifica tu vuelo: cambia fecha, destino o itinerario según nuestras políticas.",
-      link: "/cambios",
+      link: "/help-center/cambios",
       icon: "✈️",
     },
     {
       title: "ROYAL Flex",
       description: "Máxima flexibilidad para tus viajes con nuestras opciones premium.",
-      link: "/royalflex",
+      link: "/help-center/royalflex",
       icon: "🌟",
     }
   ];

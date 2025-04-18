@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
-import { FlightCard } from '../Components/Cards/FlightCard';
-import Navbar from '../Components/NavbarComponent';
-import { ReservedFlight, FlightInfo } from '../Types';
-import { ReservedCard } from '../Components/Cards/ReservedCard';
+import { FlightCard } from '../Components/Cards/FlightCard.tsx';
+import Navbar from '../Components/NavbarComponent.tsx';
+import Footer from '../Components/FooterComponent.tsx';
+import { ReservedFlight, FlightInfo } from '../Types.tsx';
+import { ReservedCard } from '../Components/Cards/ReservedCard.tsx';
 import { motion } from 'framer-motion';
 import { Helmet } from "react-helmet";
 
@@ -15,7 +16,7 @@ export default function SearchResults() {
     const [ reservedFlight, setReservedFlight ] = useState<ReservedFlight[]>([]);
     const [ formattedDate, setFormattedDate ] = useState<string>();
     const [ selected, setSelected ] = useState(false);
-    const [ dateList, setDateList ] = useState<string[]>();
+    ///const [ dateList, setDateList ] = useState<string[]>();
     const [ loading, setLoading ] = useState<boolean>(true);
 
     const navigate = useNavigate();
@@ -25,21 +26,21 @@ export default function SearchResults() {
     const origin = searchParams.get('origen') || '';
     const destination = searchParams.get('destino') || '';
     const departure = searchParams.get('ida') || '';
-    const arrival = searchParams.get('vuelta') || '';
-    const passengers = searchParams.get('passengers') || 1;
+    //const arrival = searchParams.get('vuelta') || '';
+    ///const passengers = searchParams.get('passengers') || 1;
 
-    const formatBaseDate = () => {
-        const base = new Date(departure);
-        const formattedDate = new Intl.DateTimeFormat('es-CO', {
-            weekday: 'long',
-            day: '2-digit',
-            month: '2-digit'
-        }).format(base);
+    //const formatBaseDate = () => {
+        //const base = new Date(departure);
+        //const formattedDate = new Intl.DateTimeFormat('es-CO', {
+            //weekday: 'long',
+            //day: '2-digit',
+            //month: '2-digit'
+        //}).format(base);
 
-        return formattedDate;
-    }
+        //return formattedDate;
+    //}
 
-    const baseDate = formatBaseDate();
+    ///const baseDate = formatBaseDate();
 
     useEffect(() => {
 
@@ -68,7 +69,7 @@ export default function SearchResults() {
 
     }, [])
 
-    useEffect(() => {
+    {/*useEffect(() => {
         const sortByCheapest = () => {
             const sortedArr = [...Flights].sort((a, b) => parseInt(a.ticketPrice.amount) - parseInt(b.ticketPrice.amount));
             setFlights(sortedArr);
@@ -85,7 +86,7 @@ export default function SearchResults() {
             return date1.getTime() - date2.getTime();
         }
 
-    }, [Flights])
+    }, [Flights])*/}
 
     const reciveFlight = (info: ReservedFlight) => {
         setReservedFlight([...reservedFlight, info]);
@@ -132,6 +133,8 @@ export default function SearchResults() {
             <Helmet>
                 <title>Seleccion de vuelo - Royal Airlines</title>
             </Helmet>
+
+            <Navbar />
 
             {!selected ? (
                 <motion.div className="px-10 pt-8 min-h-screen"
@@ -237,6 +240,11 @@ export default function SearchResults() {
 
                 </motion.div>
             )}
+
+            <Footer />
         </motion.div>
+ 
     )
+
+    
 }

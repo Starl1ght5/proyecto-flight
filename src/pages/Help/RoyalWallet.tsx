@@ -5,7 +5,7 @@ export default function CambiosYDevoluciones() {
     {
       title: "Como funciona",
       description: "¿Quieres comprar un pasaje o tuviste problemas con alguna compra? Conoce cómo comprar, nuestros medios de pago o cómo comprar adicionales.",
-      link: "/wallethelp",
+      link: "/help-center/wallethelp",
       icon: "✈️",
     }   
   ];

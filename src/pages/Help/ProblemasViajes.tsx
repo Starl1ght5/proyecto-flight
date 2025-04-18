@@ -5,13 +5,13 @@ export default function CambiosYDevoluciones() {
     {
       title: "Cambio de Itinerario",
       description: "Los planes no siempre salen como esperamos. Por esto, conoce cuáles son tus opciones en caso de cambios de itinerario.",
-      link: "/cambiositinerario",
+      link: "/help-center/cambiositinerario",
       icon: "✈️"
     },
     {
       title: "Cancelaciones",
       description: " Si el vuelo es cancelado debido a razones de fuerza mayor, podrás reprogramar tu viaje, solicitar el reembolso del valor del pasaje o contratar otros servicios.",
-      link: "/cancelacionestravel",
+      link: "/help-center/cancelacionestravel",
       icon: "✈️",    
     },
   ];

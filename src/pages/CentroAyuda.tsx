@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../Components/NavbarComponent.tsx";
 import { Helmet } from "react-helmet";
 import Footer from "../Components/FooterComponent.tsx";
+
 export default function HelpCenter() {
   return (
     <div>

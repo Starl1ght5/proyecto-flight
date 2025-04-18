@@ -13,7 +13,7 @@ const ChevronUp = () => (
 );
 
 export default function Devoluciones() {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const preguntas = [
     {
@@ -33,7 +33,7 @@ export default function Devoluciones() {
     },
   ];
 
-  const toggleDropdown = (index) => {
+  const toggleDropdown = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
