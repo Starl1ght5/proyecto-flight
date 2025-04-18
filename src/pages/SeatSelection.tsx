@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../Components/FooterComponent";
-import Navbar from "../Components/NavbarComponent";
-import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../Types";
+import Footer from "../Components/FooterComponent.tsx";
+import Navbar from "../Components/NavbarComponent.tsx";
+import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../Types.tsx";
 import { Toaster, toast } from 'sonner';
-import { SeatCard } from '../Components/Cards/SeatCard';
+import { SeatCard } from '../Components/Cards/SeatCard.tsx';
 import { Helmet } from "react-helmet";
 import { loadStripe } from "@stripe/stripe-js";
 import { useCookies } from 'react-cookie';

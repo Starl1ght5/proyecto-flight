@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { LocationInfo } from "../../Types";
-import { ImagePaths } from "../../Types";
+import { LocationInfo, ImagePaths } from "../../Types.tsx";
 
 export const LocationCard: React.FC<LocationInfo> = ({ location }) => {
 

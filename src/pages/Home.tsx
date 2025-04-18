@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LocationInfo } from "../Types";
-import { LocationCard } from "../Components/Cards/LocationCard";
+import { LocationInfo } from "../Types.tsx";
+import { LocationCard } from "../Components/Cards/LocationCard.tsx";
 import { Helmet } from "react-helmet";
-import Navbar from '../Components/NavbarComponent';
-import Footer from '../Components/FooterComponent';
-import RecomenationSearchComponent from '../Components/RecommendationSearchComponent';
+import Navbar from '../Components/NavbarComponent.tsx';
+import Footer from '../Components/FooterComponent.tsx';
+import RecomenationSearchComponent from '../Components/RecommendationSearchComponent.tsx';
 
 const Dropdown = ({ label, options, selected, isOpen, onToggle, onSelect }) => (
   <div className="relative">

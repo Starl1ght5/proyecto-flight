@@ -1,5 +1,5 @@
-import LoginComponent from "../Components/LoginComponent";
-import RegisterComponent from "../Components/RegisterComponent";
+import LoginComponent from "../Components/LoginComponent.tsx";
+import RegisterComponent from "../Components/RegisterComponent.tsx";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 

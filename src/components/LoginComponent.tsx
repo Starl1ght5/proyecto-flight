@@ -2,7 +2,7 @@ import { useForm, type FieldValues } from "react-hook-form";
 import { motion } from 'framer-motion';
 import { Toaster, toast } from 'sonner';
 import Logo from "../assets/LogoRoyal.webp";
-import GoogleButtonComponent from "./GoogleButtonComponent";
+import GoogleButtonComponent from "./GoogleButtonComponent.tsx";
 import { useNavigate } from "react-router-dom";
 
 type FormFields = {

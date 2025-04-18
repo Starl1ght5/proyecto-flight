@@ -1,5 +1,5 @@
-import Footer from "../Components/FooterComponent";
-import Navbar from "../Components/NavbarComponent";
+import Footer from "../Components/FooterComponent.tsx";
+import Navbar from "../Components/NavbarComponent.tsx";
 
 
 export default function CheckoutResume () {

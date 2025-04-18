@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { LocationInfo } from '../Types';
+import { LocationInfo } from '../Types.tsx';
 import { useForm, type FieldValues } from 'react-hook-form';
 import { Toaster, toast } from 'sonner';
-import { RecommendationCard } from './Cards/RecommendationCard';
+import { RecommendationCard } from './Cards/RecommendationCard.tsx';
 import { motion } from 'framer-motion';
 
 type FormFields = {
