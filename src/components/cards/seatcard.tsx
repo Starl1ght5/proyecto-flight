@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SeatInfo } from "../../Types.tsx";
+import { SeatInfo } from "../../types.tsx";
 import { motion } from 'framer-motion';
 
 export const SeatCard: React.FC<SeatInfo> = ({ seat, returnInfo }) => {

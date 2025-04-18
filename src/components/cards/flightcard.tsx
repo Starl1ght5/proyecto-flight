@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from "react";
-import { Flight, Fee, ReservedFlight } from '../../Types.tsx';
+import { Flight, Fee, ReservedFlight } from '../../types.tsx';
 
 export const FlightCard: React.FC<Flight> = ({ flight, returnInfo }) => {
 

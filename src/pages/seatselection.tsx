@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import Footer from "../Components/FooterComponent.tsx";
-import Navbar from "../Components/NavbarComponent.tsx";
-import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../Types.tsx";
+import Footer from "../components/footercomponent.tsx";
+import Navbar from "../components/navbarcomponent.tsx";
+import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../types.tsx";
 import { Toaster, toast } from 'sonner';
-import { SeatCard } from '../Components/Cards/SeatCard.tsx';
+import { SeatCard } from '../components/cards/seatcard.tsx';
 import { Helmet } from "react-helmet";
 import { loadStripe } from "@stripe/stripe-js";
 

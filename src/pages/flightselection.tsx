@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
-import { FlightCard } from '../Components/Cards/FlightCard.tsx';
-import Navbar from '../Components/NavbarComponent.tsx';
-import Footer from '../Components/FooterComponent.tsx';
-import { ReservedFlight, FlightInfo } from '../Types.tsx';
-import { ReservedCard } from '../Components/Cards/ReservedCard.tsx';
+import { FlightCard } from '../components/cards/flightcard.tsx';
+import Navbar from '../components/navbarcomponent.tsx';
+import Footer from '../components/footercomponent.tsx';
+import { ReservedFlight, FlightInfo } from '../types.tsx';
+import { ReservedCard } from '../components/cards/reservedcard.tsx';
 import { motion } from 'framer-motion';
 import { Helmet } from "react-helmet";
 

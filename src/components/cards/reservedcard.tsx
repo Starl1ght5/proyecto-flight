@@ -1,4 +1,4 @@
-import { ReservedFlight } from '../../Types.tsx';
+import { ReservedFlight } from '../../types.tsx';
 
 export const ReservedCard: React.FC<ReservedFlight> = ({ flight, fee, reset }) => {
 

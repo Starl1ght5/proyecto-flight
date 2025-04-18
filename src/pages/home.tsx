@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LocationInfo } from "../Types.tsx";
-import { LocationCard } from "../Components/Cards/LocationCard.tsx";
+import { LocationInfo } from "../types.tsx";
+import { LocationCard } from "../components/cards/locationcard.tsx";
 import { Helmet } from "react-helmet";
-import Navbar from '../Components/NavbarComponent.tsx';
-import Footer from '../Components/FooterComponent.tsx';
-import RecomenationSearchComponent from '../Components/RecommendationSearchComponent.tsx';
+import Navbar from '../components/navbarcomponent.tsx';
+import Footer from '../components/footercomponent.tsx';
+import RecomenationSearchComponent from '../components/recommendationsearchcomponent.tsx';
 
 interface DropdownProps {
   label: string;
