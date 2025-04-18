@@ -23,9 +23,9 @@ export default function Navbar() {
   // Funciones de navegación
   const goToLogin = () => navigate('/login');
   const goToInicio = () => navigate('/');
-  const goToProfile = () => navigate('/profile');
-  const goToMiCartera = () => navigate('/micartera');
-  const goToCentroAyuda = () => navigate('/centro-ayuda');
+  const goToProfile = () => navigate('/user-profile');
+  const goToMiCartera = () => navigate('/wallet');
+  const goToCentroAyuda = () => navigate('/help-center');
 
   const handleLogout = () => {
     setIsAuthenticated(false);
