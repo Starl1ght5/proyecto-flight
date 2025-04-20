@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Navbar from "../../components/navbarcomponent";
+import Footer from "../../components/footercomponent";
 
 const ChevronDown = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -28,6 +30,8 @@ export default function Devoluciones() {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Encabezado */}
@@ -75,6 +79,9 @@ export default function Devoluciones() {
           </div>
         </div>
       </div>
+    </div>
+
+      <Footer />
     </div>
   );
 }

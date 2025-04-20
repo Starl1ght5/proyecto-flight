@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import Navbar from "../../components/navbarcomponent";
+import Footer from "../../components/footercomponent";
 
 export default function CambiosYDevoluciones() {
   const services = [
@@ -23,6 +25,8 @@ export default function CambiosYDevoluciones() {
   ];
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen bg-[#EAF1F8] py-16 px-4 sm:px-6 lg:px-8 font-noto-sans">
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto text-center mb-20">
@@ -81,6 +85,9 @@ export default function CambiosYDevoluciones() {
           © {new Date().getFullYear()} LATAM Airlines. Todos los derechos reservados.
         </p>
       </div>
+    </div>
+
+    <Footer />
     </div>
   );
 }

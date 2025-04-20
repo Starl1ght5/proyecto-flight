@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import Navbar from '../components/navbarcomponent.tsx';
 import Footer from '../components/footercomponent.tsx';
 import RecomenationSearchComponent from '../components/recommendationsearchcomponent.tsx';
+import fondo from '../assets/alerofondo.jpeg'
 
 interface DropdownProps {
   label: string;
@@ -125,7 +126,7 @@ const HeroSection = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <div className="relative h-screen bg-cover bg-center bg-[url(src/assets/alerofondo.jpeg)]">
+      <div className="relative h-screen bg-cover bg-center" style={{ backgroundImage: `url(${fondo})` }}>
         {/* Overlay con gradiente */}
         <div className="absolute inset-0 bg-gradient-to-b from-blueblack/70 to-purple-dark/80"></div>
         

@@ -1,18 +1,33 @@
+import miami from './assets/miami.webp';
+import bogota from './assets/bogota.webp';
+import cali from './assets/cali.webp';
+import monteria from './assets/monteria.webp';
+import nuevayork from './assets/nuevayork.webp';
+import paris from './assets/paris.webp';
+import pasto from './assets/pasto.webp';
+import pereira from './assets/pereira.webp';
+import armenia from './assets/armenia.webp';
+import londres from './assets/londres.webp';
+import sidney from './assets/sidney.webp';
+import tokyo from './assets/tokyo.webp';
+import ottawa from './assets/ottawa.webp';
+import medellin from './assets/medellin.webp';
+
 export const ImagePaths = new Map<string, string>([
-    [ "miami", "/src/assets/miami.webp" ],
-    [ "bogota", "/src/assets/bogota.webp" ],
-    [ "cali", "/src/assets/cali.webp" ],
-    [ "monteria", "/src/assets/monteria.webp" ],
-    [ "nueva york", "/src/assets/nuevayork.webp" ],
-    [ "paris", "/src/assets/paris.webp" ],
-    [ "pasto", "/src/assets/pasto.webp" ],
-    [ "pereira", "/src/assets/pereira.webp" ],
-    [ "armenia", "/src/assets/armenia.webp" ],
-    [ "londres", "/src/assets/londres.webp" ],
-    [ "sidney", "/src/assets/sidney.webp" ],
-    [ "tokyo", "/src/assets/tokyo.webp" ],
-	[ "ottawa", "/src/assets/ottawa.webp" ],
-    [ "medellin", "/src/assets/medellin.webp" ]
+    [ "miami", miami ],
+    [ "bogota", bogota ],
+    [ "cali", cali ],
+    [ "monteria", monteria ],
+    [ "nueva york", nuevayork ],
+    [ "paris", paris ],
+    [ "pasto", pasto ],
+    [ "pereira", pereira ],
+    [ "armenia", armenia ],
+    [ "londres", londres ],
+    [ "sidney", sidney ],
+    [ "tokyo", tokyo ],
+	[ "ottawa", ottawa ],
+    [ "medellin", medellin ]
 ])
 
 export interface Flight {

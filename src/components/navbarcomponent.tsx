@@ -124,7 +124,7 @@ export default function Navbar() {
             </div>
           ) : (
             <button
-              className="bg-gold w-34 text-white font-semibold px-3 lg:px-8 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-sm"
+              className="bg-gold w-34 lg:w-auto text-white font-semibold px-3 lg:px-8 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-sm"
               onClick={goToLogin}
             >
               Iniciar Sesión
