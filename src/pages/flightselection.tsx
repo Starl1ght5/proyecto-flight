@@ -205,7 +205,7 @@ export default function SearchResults() {
 
                                 return (
                                     <ReservedCard flight={flight} fee={fee} reset={reset} />
-                                )})}
+                            )})}
                         </div>
                     </div>
 

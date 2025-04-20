@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LocationInfo } from "../types.tsx";
+import { Location } from "../types.tsx";
 import { LocationCard } from "../components/cards/locationcard.tsx";
 import { Helmet } from "react-helmet";
 import Navbar from '../components/navbarcomponent.tsx';
@@ -57,12 +57,12 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, selected, isOpen, o
 
 const HeroSection = () => {
   
-  const [dropdownOpen, setDropdownOpen] = useState<'tripType' | 'classType' | 'passengerType' | null>(null);
-  const [selectedTripType, setSelectedTripType] = useState<string>('Ida y Vuelta');
-  const [selectedClass, setSelectedClass] = useState<string>('Basic');
-  const [selectedPassenger, setSelectedPassenger] = useState<string>('1 Adulto');
+  const [ dropdownOpen, setDropdownOpen ] = useState<'tripType' | 'classType' | 'passengerType' | null>(null);
+  const [ selectedTripType, setSelectedTripType ] = useState<string>('Ida y Vuelta');
+  const [ selectedClass, setSelectedClass ] = useState<string>('Basic');
+  const [ selectedPassenger, setSelectedPassenger ] = useState<string>('1 Adulto');
   const navigate = useNavigate();
-  const [ locations, setLocations ] = useState<LocationInfo[]>([]);
+  const [ locations, setLocations ] = useState<Location[]>([]);
 
   const toggleDropdown = (type: 'tripType' | 'classType' | 'passengerType') => {
     setDropdownOpen(prev => prev === type ? null : type);
@@ -73,14 +73,17 @@ const HeroSection = () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}locations/search?number=6`);
         const res = await response.json();
+        console.log(res)
         setLocations(res);
 
       } catch (e) {
         console.log(e);
       }
     }
+
     fetchLocations();
   }, []);
+
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -122,14 +125,14 @@ const HeroSection = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <div className="relative h-screen bg-cover bg-center bg-[url(src/assets/Alerofondo.jpeg)]">
+      <div className="relative h-screen bg-cover bg-center bg-[url(src/assets/alerofondo.jpeg)]">
         {/* Overlay con gradiente */}
         <div className="absolute inset-0 bg-gradient-to-b from-blueblack/70 to-purple-dark/80"></div>
         
         <div className="relative z-10 h-full flex flex-col justify-center items-center px-4">
           {/* Títulos */}
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-xl">
+            <h1 className="text-5xl md:text-6xl font-bold mt-10 text-white mb-6 drop-shadow-xl">
               ROYAL Airlines
             </h1>
             <h2 className="text-2xl md:text-3xl text-purple-light mb-4 drop-shadow-lg">
@@ -210,20 +213,22 @@ const HeroSection = () => {
       </div>
 
       {/* Sección de destinos */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto lg:px-4 py-16">
 
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Descubre tu próximo viaje</h2>
-          <div className="w-lg h-1 bg-purple2 mx-auto rounded-full"></div>
+          <div className="lg:w-lg h-1 bg-purple2 mx-auto rounded-full"></div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6">
+          {locations?.map(element => {
+            const { locationID, cityName, iataCode, cheapestPrice } = element;
 
-          {locations?.map((element) => (
-            <LocationCard location={element.location} />
-          ))}
-
+            return (
+              <LocationCard key={locationID} cityName={cityName} iataCode={iataCode} cheapestPrice={cheapestPrice} locationID={''} countryName={''} airportName={''} featured={false} />
+            )})}
         </div>
+
       </div>
 
       <RecomenationSearchComponent />

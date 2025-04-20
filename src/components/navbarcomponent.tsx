@@ -2,6 +2,21 @@ import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
+function useWindowSize() {
+  const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setSize([window.innerWidth, window.innerHeight]);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  return size;
+}
+
 export default function Navbar() {
   const [cookie, removeCookie] = useCookies(['RoyalUserToken']);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
@@ -32,42 +47,39 @@ export default function Navbar() {
     removeCookie('RoyalUserToken', "");
   };
 
+  const [width] = useWindowSize();
+  const isMobile = width < 768;
+
   return (
-    <nav className="bg-gradient-to-r from-indigo-900 to-purple-800 text-white px-8 py-4 flex justify-between items-center top-0 z-50 shadow-lg">
+    <nav className="bg-gradient-to-r from-indigo-900 to-purple-800 text-white py-3 px-4 lg:px-8 lg:py-4 flex justify-between items-center top-0 z-50 shadow-lg">
       {/* Logo */}
       <div 
-        className="text-3xl font-extrabold text-white transition-all duration-300 cursor-pointer"
+        className="lg:text-3xl text-xl font-extrabold text-white transition-all duration-300 cursor-pointer"
         onClick={goToInicio}
       >
         ROYAL Airlines
       </div>
 
+      <div className="w-10" ></div>
+
       {/* Menú principal */}
-      <ul className="flex items-center space-x-5">
-        <li>
-          <button
-            className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
-            onClick={goToInicio}
-          >
-            Reservar
-          </button>
-        </li>
+      <ul className="flex items-center gap-1 lg:gap-0 lg:space-x-5">
 
         {/* Centro de Ayuda */}
-        <li>
+        {!isMobile && ( <li>
           <button
             className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
             onClick={goToCentroAyuda}
           >
             Centro de Ayuda
           </button>
-        </li>
+        </li>)}
 
         {/* Perfil o Inicio de Sesión */}
         <li className="relative ml-1">
           {isAuthenticated ? (
             <div className="group flex flex-row gap-2">
-              <p className="mt-2">Hola, Usuari@!</p>
+              <p className="mt-2">Hola, Viajer@!</p>
               <button
                 onClick={() => toggleDropdown}
                 className="flex items-center justify-center bg-purple-300 w-10 h-10 rounded-full text-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
@@ -112,7 +124,7 @@ export default function Navbar() {
             </div>
           ) : (
             <button
-              className="bg-gold text-white font-semibold px-8 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-sm"
+              className="bg-gold w-34 text-white font-semibold px-3 lg:px-8 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-sm"
               onClick={goToLogin}
             >
               Iniciar Sesión

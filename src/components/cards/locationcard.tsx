@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { LocationInfo, ImagePaths } from "../../types.tsx";
+import { Location, ImagePaths } from "../../types.tsx";
 
-export const LocationCard: React.FC<LocationInfo> = ({ location }) => {
+export const LocationCard: React.FC<Location> = ({ cityName, iataCode, cheapestPrice }) => {
 
-    const formattedPrice = (location.cheapestPrice.amount).toLocaleString();
+    const formattedPrice = (cheapestPrice.amount).toLocaleString();
 
     const navigate = useNavigate()
 
     const redirectToFlightSelection = () => {
-        navigate(`/search-results?origen=CTG&destino=${location.iataCode}&ida=2025-04-08`);
+        navigate(`/search-results?origen=CTG&destino=${iataCode}&ida=2025-04-08`);
     }
     
     /// Search a image in the ImagePaths list (defined in Types.tsx)
@@ -22,17 +22,17 @@ export const LocationCard: React.FC<LocationInfo> = ({ location }) => {
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-lg hover:cursor-pointer hover:scale-105 hover:shadow-xl duration-200 w-96 h-80" onClick={redirectToFlightSelection} >
+        <div className="bg-white rounded-lg shadow-lg hover:cursor-pointer hover:scale-105 hover:shadow-xl duration-200 lg:w-96 h-80" onClick={redirectToFlightSelection} >
             
             {/*Image div*/}
             <div className="rounded-t-lg" >
-                <img src={getImage(location.cityName)} alt={location.cityName} className="w-full h-48 object-cover rounded-t-lg" />
+                <img src={getImage(cityName)} alt={cityName} className="w-full h-48 object-cover rounded-t-lg" />
             </div>
 
             {/*Text div*/}
             <div className="flex flex-col px-3 py-3 gap-2">
                 <div className="flex flex-row" >
-                    <h1 className="text-2xl font-semibold">{location.cityName}</h1>
+                    <h1 className="text-2xl font-semibold">{cityName}</h1>
                 </div>
                 
                 <div className="flex flex-col" >

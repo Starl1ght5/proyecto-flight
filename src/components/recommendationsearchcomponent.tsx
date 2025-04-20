@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LocationInfo } from '../types.tsx';
+import { Location } from '../types.tsx';
 import { useForm, type FieldValues } from 'react-hook-form';
 import { Toaster, toast } from 'sonner';
 import { RecommendationCard } from './cards/recommendationcard.tsx';
@@ -24,9 +24,18 @@ type FormFields = {
 
 export default function RecomenationSearchComponent() {
 
-	const [recommendedLocation, setRecommendedLocation] = useState<LocationInfo[]>([]);
-	const [searched, setSearched] = useState<boolean>(false);
-	const [name, setName] = useState<string>('');
+	const [ recommendedLocation, setRecommendedLocation ] = useState<Location[]>([]);
+	const [ searched, setSearched ] = useState<boolean>(false);
+	const [ name, setName ] = useState<string>('');
+
+	const [ buttonA, setButtonA ] = useState<boolean>(false);
+	const [ buttonB, setButtonB ] = useState<boolean>(false);
+	const [ buttonC, setButtonC ] = useState<boolean>(false);
+	const [ buttonD, setButtonD ] = useState<boolean>(false);
+	const [ buttonE, setButtonE ] = useState<boolean>(false);
+	const [ buttonF, setButtonF ] = useState<boolean>(false);
+	const [ buttonG, setButtonG ] = useState<boolean>(false);
+	const [ buttonI, setButtonI ] = useState<boolean>(false);
 
 	const { register, handleSubmit, formState: {isSubmitting}} = useForm<FormFields>();
 
@@ -40,6 +49,38 @@ export default function RecomenationSearchComponent() {
 			data.popularity = Math.floor(Math.random() * (7 - 4 + 1)) + 4;
 		} else {
 			data.popularity = Math.floor(Math.random() * (10 - 7 + 1)) + 7;
+		}
+
+		if (buttonA) {
+			data.beach = true;
+		}
+
+		if (buttonB) {
+			data.mountain = true;
+		}
+
+		if (buttonC) {
+			data.historic = true;
+		}
+
+		if (buttonD) {
+			data.cultural = true;
+		}
+
+		if (buttonE) {
+			data.gastronomic = true;
+		}
+
+		if (buttonF) {
+			data.night_life = true;
+		}
+
+		if (buttonG) {
+			data.eco_tourism = true;
+		}
+
+		if (buttonI) {
+			data.adventure = true;
 		}
 
 		try {
@@ -81,8 +122,40 @@ export default function RecomenationSearchComponent() {
 		setName('');
 	};
 
+	const alterButtonAState = () => {
+		setButtonA(prevState => !prevState);
+	}
+
+	const alterButtonBState = () => {
+		setButtonB(prevState => !prevState);
+	}
+
+	const alterButtonCState = () => {
+		setButtonC(prevState => !prevState);
+	}
+
+	const alterButtonDState = () => {
+		setButtonD(prevState => !prevState);
+	}
+
+	const alterButtonEState = () => {
+		setButtonE(prevState => !prevState);
+	}
+
+	const alterButtonFState = () => {
+		setButtonF(prevState => !prevState);
+	}
+
+	const alterButtonGState = () => {
+		setButtonG(prevState => !prevState);
+	}
+
+	const alterButtonIState = () => {
+		setButtonI(prevState => !prevState);
+	}
+
 	return (
-		<div className="px-20">
+		<div className="px-5 lg:px-20">
 			<Toaster
 				richColors
 				position="top-right"
@@ -97,7 +170,7 @@ export default function RecomenationSearchComponent() {
 				<p className="text-center mb-2.5 italic font-light">
 					Podemos ayudarte a encontrar tu nuevo destino favorito!
 				</p>
-				<div className="w-lg h-1 bg-purple2 mx-auto rounded-full"></div>
+				<div className="lg:w-lg h-1 bg-purple2 mx-auto rounded-full"></div>
 			</div>
 
 			{!searched ? (
@@ -108,19 +181,19 @@ export default function RecomenationSearchComponent() {
 				layout >
 					<div className="flex flex-row justify-center">
 						<form onSubmit={onSubmit}>
-							<div className="flex flex-col gap-3 font-light w-5xl bg-white rounded-lg shadow-2xl px-10 py-7 mb-4 boder-1 border-black">
-								<h2 className="font-[500] text-2xl">
+							<div className="flex flex-col boder-1 px-8 lg:px-10 py-5 lg:py-7 border-black bg-white rounded-lg shadow-2xl font-light lg:gap-3 lg:w-5xl mb-4">
+								<h2 className="font-[500] text-2xl mb-3 text-center lg:text-left">
 									¿Que buscas en tu viaje?
 								</h2>
 
-								<div className="flex flex-row space-x-8 justify-between">
+								<div className="flex flex-col lg:flex-row lg:space-x-8 justify-between">
 									<div className="flex flex-col gap-1">
 										<label className="text-sm font-extralight">
 											Presupuesto
 										</label>
 										<input
 											type="number"
-											className="bg-white text-black rounded-lg shadow-lg px-4.5 py-2.5 focus:outline-lilac focus:outline-2 w-80 border-1 duration-150 ease-in-out border-black focus:border-transparent"
+											className="bg-white text-black rounded-lg shadow-lg px-4.5 py-2.5 focus:outline-lilac focus:outline-2 lg:w-80 border-1 duration-150 ease-in-out border-black focus:border-transparent"
 											placeholder="300000 COP"
 											{...register('price', {
 												required: 'Este campo es obligatorio',
@@ -134,7 +207,7 @@ export default function RecomenationSearchComponent() {
 										</label>
 										<input
 											type="number"
-											className="bg-white text-black rounded-lg shadow-lg px-4.5 py-2.5 border-1 border-black focus:outline-lilac duration-150 ease-in-out focus:outline-2 w-50 focus:border-transparent"
+											className="bg-white text-black rounded-lg shadow-lg px-4.5 py-2.5 border-1 border-black focus:outline-lilac duration-150 ease-in-out focus:outline-2 lg:w-50 focus:border-transparent"
 											placeholder="22 C"
 											{...register('temperature', {
 												required: 'Este campo es obligatorio',
@@ -147,7 +220,7 @@ export default function RecomenationSearchComponent() {
 											Popularidad
 										</label>
 										<select
-											className="bg-white text-black px-4.5 py-2.5 w-50 border-1 border-black rounded-lg shadow-lg focus:outline-lilac duration-150 ease-in-out focus:outline-2 hover:cursor-pointer focus:border-transparent"
+											className="bg-white text-black px-4.5 py-2.5 lg:w-50 border-1 border-black rounded-lg shadow-lg focus:outline-lilac duration-150 ease-in-out focus:outline-2 hover:cursor-pointer focus:border-transparent"
 											{...register('popularity', {
 												required: 'Este campo es obligatorio',
 											})}>
@@ -158,82 +231,58 @@ export default function RecomenationSearchComponent() {
 									</div>
 								</div>
 
-								<h2 className="text-lg font-extralight mt-2">
+								<h2 className="text-base lg:text-lg font-extralight mt-3 mb-2">
 									¿Que buscas en tu destino?
 								</h2>
 
-								<div className="grid grid-cols-4 justify-center">
-									<div className="flex flex-row justify-between bg-white rounded-tl-lg shadow-lg px-4.5 py-2.5 border-t-1 border-l-1 border-black items-center hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold">
-										<label className="text-lg">Playas</label>
-										<input
-											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
-											type="checkbox"
-											{...register('beach')}
-										/>
-									</div>
+								<div className="grid lg:grid-cols-4 grid-cols-2 justify-center mb-2">
+									{!buttonA ? (
+										<button onClick={alterButtonAState} className="text-center bg-white rounded-tl-lg px-4.5 py-2.5 border-t-1 border-l-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Playas</button>
+									): (
+										<button onClick={alterButtonAState} className="text-center bg-gold rounded-tl-lg text-white font-semibold px-4.5 py-2.5 border-t-1 border-l-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Playas</button>
+									)}
+									
+									{!buttonB ? (
+										<button onClick={alterButtonBState} className="text-center bg-white px-4.5 py-2.5 border-t-1 border-x-1 lg:border-x-none border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer rounded-tr-lg lg:rounded-tr-none">Montañas</button>
+									): (
+										<button onClick={alterButtonBState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-t-1 border-x-1 lg:border-x-none border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer rounded-tr-lg lg:rounded-tr-none">Montañas</button>
+									)}
 
-									<div className="flex flex-row justify-between bg-white shadow-lg px-4.5 py-2.5 border-t-1 border-x-1 border-black items-center hover:scale-110 duration-300 ease-in-out content-box hover:bg-lilac hover:font-semibold hover:text-white hover:border-none">
-										<label className="text-lg">Montañas</label>
-										<input
-											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
-											type="checkbox"
-											{...register('mountain')}
-										/>
-									</div>
+									{!buttonC ? (
+										<button onClick={alterButtonCState} className="text-center bg-white px-4.5 py-2.5 border-t-1 lg:border-r-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer border-l-1 lg:border-l-none">Historico</button>
+									): (
+										<button onClick={alterButtonCState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-t-1 lg:border-r-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer border-l-1 lg:border-l-none">Historico</button>
+									)}
 
-									<div className="flex flex-row justify-between bg-white shadow-lg px-4.5 py-2.5 border-t-1 border-r-1 border-black items-center hover:scale-110 duration-300 ease-in-out content-box hover:bg-lilac hover:font-semibold hover:text-white hover:border-none">
-										<label className="text-lg">Historico</label>
-										<input
-											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
-											type="checkbox"
-											{...register('historic')}
-										/>
-									</div>
+									{!buttonD ? (
+										<button onClick={alterButtonDState} className="text-center bg-white lg:rounded-tr-lg px-4.5 py-2.5 border-t-1 lg:border-l-none lg:border-x-none border-x-1 lg:border-r-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Cultural</button>
+									): (
+										<button onClick={alterButtonDState} className="text-center bg-gold lg:rounded-tr-lg text-white font-semibold px-4.5 py-2.5 border-x-1 border-t-1 lg:border-x-none lg:border-r-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Cultural</button>
+									)}
 
-									<div className="flex flex-row justify-between bg-white shadow-lg px-4.5 py-2.5 border-t-1 border-r-1 rounded-tr-lg border-black items-center hover:scale-110 duration-300 ease-in-out content-box hover:font-semibold hover:bg-lilac hover:text-white hover:border-none">
-										<label className="text-lg">Cultural</label>
-										<input
-											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
-											type="checkbox"
-											{...register('cultural')}
-										/>
-									</div>
+									{!buttonE ? (
+										<button onClick={alterButtonEState} className="text-center bg-white px-4.5 py-2.5 border-l-1 border-t-1 lg:border-b-1 lg:rounded-bl-lg border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Gastronimico</button>
+									): (
+										<button onClick={alterButtonEState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-l-1 border-t-1 lg:border-b-1 lg:rounded-bl-lg border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Gastronimico</button>
+									)}
 
-									<div className="flex flex-row justify-between bg-white shadow-lg px-4.5 py-2.5 rounded-bl-lg border-l-1 border-t-1  border-b-1 border-black items-center hover:scale-110 duration-300 ease-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold">
-										<label className="text-lg">Gastronimico</label>
-										<input
-											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
-											type="checkbox"
-											{...register('gastronomic')}
-										/>
-									</div>
+									{!buttonF ? (
+										<button onClick={alterButtonFState} className="text-center bg-white px-4.5 py-2.5 lg:border-b-1 border-x-1 border-t-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Nocturno</button>
+									): (
+										<button onClick={alterButtonFState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 lg:border-b-1 border-x-1 border-t-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Nocturno</button>
+									)}
 
-									<div className="flex flex-row justify-between bg-white shadow-lg px-4.5 py-2.5 border-b-1 border-x-1 border-t-1  border-black items-center hover:scale-110 duration-300 ease-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold">
-										<label className="text-lg">Nocturno</label>
-										<input
-											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
-											type="checkbox"
-											{...register('night_life')}
-										/>
-									</div>
+									{!buttonG ? (
+										<button onClick={alterButtonGState} className="text-center bg-white px-4.5 py-2.5 border-b-1 border-black lg:border-r-1 border-l-1 lg:border-l-none rounded-bl-lg lg:rounded-bl-none lg:border-l-none border-t-1 hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Turismo Ecologico</button>
+									): (
+										<button onClick={alterButtonGState} className="bg-gold text-white font-semibold px-4.5 py-2.5 lg:border-r-1 border-l-1 border-b-1 rounded-bl-lg text-center lg:rounded-bl-none lg:border-l-none border-t-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Turismo Ecologico</button>
+									)}
 
-									<div className="flex flex-row justify-between gap-3 bg-white shadow-lg px-4.5 py-2.5 border-b-1 border-black border-r-1 border-t-1 items-center hover:scale-110 duration-300 ease-in-out content-box hover:bg-lilac hover:text-white hover:border-transparent box-content hover:font-semibold hover:gap-2">
-										<label className="text-lg">Turismo Ecologico</label>
-										<input
-											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
-											type="checkbox"
-											{...register('eco_tourism')}
-										/>
-									</div>
-
-									<div className="flex flex-row justify-between bg-white shadow-lg px-4.5 py-2.5 border-b-1 border-r-1 border-t-1 rounded-br-lg border-black items-center hover:scale-110 duration-300 ease-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold">
-										<label className="text-lg">Aventura</label>
-										<input
-											className="size-4 hover:cursor-pointer hover:scale-125 ease-in-out duration-300"
-											type="checkbox"
-											{...register('adventure')}
-										/>
-									</div>
+									{!buttonI ? (
+										<button onClick={alterButtonIState} className="bg-white px-4.5 py-2.5 border-b-1 border-r-1 border-t-1 rounded-br-lg border-l-1 lg:border-l-none border-black hover:scale-110 duration-300 easing-in-out content-box text-center hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Aventura</button>
+									): (
+										<button onClick={alterButtonIState} className="bg-gold text-white font-semibold px-4.5 py-2.5 border-b-1 border-r-1 border-t-1 border-l-1 lg:border-l-none rounded-br-lg border-lilac hover:scale-110 duration-300 easing-in-out text-center content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Aventura</button>
+									)}
 								</div>
 
 								<div className="flex flex-row justify-center mt-2">
@@ -259,9 +308,12 @@ export default function RecomenationSearchComponent() {
 					<div className="w-5/6">
 						<div className="rounded-lg shadow-2xl grid grid-cols-2 bg-white">
 							<div className="rounded-l-lg px-6 py-4">
-								{recommendedLocation?.map((element) => (
-									<RecommendationCard location={element.location} />
-								))}
+								{recommendedLocation?.map(element => {
+									const { locationID, cityName, cheapestPrice, iataCode } = element;
+
+									return (
+										<RecommendationCard key={locationID} locationID={''} cityName={cityName} countryName={''} iataCode={iataCode} airportName={''} featured={false} cheapestPrice={cheapestPrice} />
+									)})}
 							</div>
 
 							<div className="flex flex-col px-4 py-4 rounded-r-lg place-self-center space-y-8">

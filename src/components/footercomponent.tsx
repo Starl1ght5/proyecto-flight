@@ -118,15 +118,24 @@ export default function Footer() {
                                 </a>
                             ))}
                         </div>
+
+                        <div className="mt-4">
+                            <p className="text-center" >Desarrollado por:</p>
+                            <div className="flex flex-row gap-10 justify-center mt-2">
+                                <a href={"https://github.com/Starl1ght5"} className="duration-200 hover:scale-105 hover:underline" >Starl1ght5</a>
+                                <a href={"https://github.com/cbdvxzDev"} className="duration-200 hover:scale-105 hover:underline" >CbdvxzDev</a>   
+                            </div>
+                            
+                        </div>
                     </div>
                 </div>
 
                 {/* Derechos de autor */}
-                <div className="mt-16 pt-8 border-t border-purple text-center">
+                <div className="mt-8 pt-6 border-t border-purple text-center">
                     <p className="text-purple-light">
                         &copy; {new Date().getFullYear()} Royal Airlines. Todos los derechos reservados.
                     </p>
-                    <div className="flex justify-center space-x-6 mt-4">
+                    <div className="grid grid-cols-3 items-center mt-4">
                         <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300 text-sm">Términos de servicio</a>
                         <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300 text-sm">Política de privacidad</a>
                         <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300 text-sm">Cookies</a>

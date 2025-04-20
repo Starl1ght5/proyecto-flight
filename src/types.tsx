@@ -20,10 +20,6 @@ export interface Flight {
     returnInfo: (flight: ReservedFlight) => void;
 }
 
-export interface LocationInfo {
-    location: Location;
-}
-
 export interface SeatInfo {
     seat: Seat;
     returnInfo: (seat: Seat) => void;
@@ -34,7 +30,6 @@ export interface ReservedFlight {
     fee: Fee;
     reset: () => void;
 }
-
 
 export interface Money {
     currency: Currency;
