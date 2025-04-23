@@ -8,7 +8,7 @@ export const RecommendationCard: React.FC<Location> = ({ cityName, iataCode, che
     const navigate = useNavigate()
 
     const redirectToFlightSelection = () => {
-        navigate(`/search-results?origen=CTG&destino=${iataCode}&ida=2025-04-08`);
+        navigate(`/search-results?origen=CTG&destino=${iataCode}&ida=2025-04-09`);
     }
     
     const getImage = (name: string) => {
