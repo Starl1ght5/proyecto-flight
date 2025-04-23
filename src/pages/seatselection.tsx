@@ -25,8 +25,6 @@ export default function SeatSelection () {
     const flight = searchParams.get('flight') || '';
     const fee = searchParams.get('fee') || '';
     
-    
-
     const generateBooking = async () => {
         try {
             const ids: Array<string> = [];
@@ -117,7 +115,7 @@ export default function SeatSelection () {
         
         const fetchSeats = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}seats/search?flightID=${flight}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}flights/seats/search?flightID=${flight}`, {
                     method: 'GET'
                 });
                 const res = await response.json();
@@ -133,7 +131,7 @@ export default function SeatSelection () {
 
         fetchSeats();
         
-    }, [seats]);
+    }, []);
 
     useEffect(() => {
         
@@ -172,9 +170,10 @@ export default function SeatSelection () {
             <Helmet>
                 <title>Seleccion de asiento - Royal Airlines</title>
             </Helmet>
-            <div className="flex flex-row justify-center" >
 
-                <Navbar />
+            <Navbar />
+
+            <div className="flex flex-row justify-center" >
 
                 <div className="px-7 py-9 w-lg rounded-lg mt-16 bg-white/50 backdrop-blur-md  shadow-2xl flex flex-col items-center">
                     <div className="flex flex-row" >
@@ -242,8 +241,6 @@ export default function SeatSelection () {
                             <p>28</p>
                             <p>29</p>
                             <p>30</p>
-                            <p>31</p>
-                            <p>32</p>
                         </div>
 
                         <div className="flex flex-row justify-center gap-2">

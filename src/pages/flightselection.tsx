@@ -54,7 +54,7 @@ export default function SearchResults() {
 
                 const res = await response.json();
                 setFlights(res);
-                setLoading(false)
+                setLoading(false);
 
             } catch (error) {
                 console.log(error);

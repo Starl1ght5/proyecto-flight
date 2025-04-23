@@ -39,7 +39,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/search-results" element={<SearchResutls />} />
         <Route path="/seat-selection" element={<SeatSelection />} />
-        <Route path="/confirmar-pago" element={<ConfirmarPago />} />
+        <Route path="/payment-confirm" element={<ConfirmarPago />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/wallet" element={<Wallet />} />
 
