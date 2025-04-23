@@ -1,7 +1,7 @@
 export default function GoogleButtonComponent () {
 
     const googleLogin = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/google";
+        window.location.href = `${import.meta.env.VITE_BACKEND_GOOGLE_URL}oauth2/authorization/google`;
     }
 
     return (

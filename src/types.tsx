@@ -12,6 +12,15 @@ import sidney from './assets/sidney.webp';
 import tokyo from './assets/tokyo.webp';
 import ottawa from './assets/ottawa.webp';
 import medellin from './assets/medellin.webp';
+import cancun from './assets/cancun.webp';
+import chicago from './assets/chicago.webp';
+import narino from './assets/narino.webp';
+import losangeles from './assets/losangeles.webp';
+import manchester from './assets/manchester.webp';
+import barranquilla from './assets/barranquilla.webp';
+import roma from './assets/roma.webp';
+import edimburgo from './assets/edimburgo.webp';
+import bucaramanga from './assets/bucaramanga.webp';
 
 export const ImagePaths = new Map<string, string>([
     [ "miami", miami ],
@@ -27,6 +36,16 @@ export const ImagePaths = new Map<string, string>([
     [ "sidney", sidney ],
     [ "tokyo", tokyo ],
 	[ "ottawa", ottawa ],
+    [ "armenia", armenia ],
+    [ "cancun", cancun ],
+    [ "los angeles", losangeles ],
+    [ "narino", narino ],
+	[ "barranquilla", barranquilla ],
+    [ "chicago", chicago ],
+    [ "manchester", manchester ],
+    [ "roma", roma ],
+    [ "edimburgo", edimburgo ],
+    [ "bucaramanga", bucaramanga ],
     [ "medellin", medellin ]
 ])
 

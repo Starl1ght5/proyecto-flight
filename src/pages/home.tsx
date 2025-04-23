@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import Navbar from '../components/navbarcomponent.tsx';
 import Footer from '../components/footercomponent.tsx';
 import RecomenationSearchComponent from '../components/recommendationsearchcomponent.tsx';
-import fondo from '../assets/alerofondo.jpeg'
+import fondo from '../assets/alerofondo.webp'
 
 interface DropdownProps {
   label: string;
