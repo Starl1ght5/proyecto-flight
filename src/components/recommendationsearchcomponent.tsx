@@ -85,11 +85,10 @@ export default function RecomenationSearchComponent() {
 
 		try {
 			const response = await fetch(
-				`${import.meta.env.VITE_BACKEND_URL}recommendation/recommend`,
-				{
+				`${import.meta.env.VITE_BACKEND_URL}recommendation/recommend`,{
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'},
-					body: JSON.stringify(data),${import.meta.env.VITE_BACKEND_URL}
+					body: JSON.stringify(data)
 				}
 			);
 
