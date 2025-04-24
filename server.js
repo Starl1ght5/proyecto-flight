@@ -11,6 +11,7 @@ router.use(express.json());
 router.post("/start-checkout-session", async(req, res) => {
 
     const tickets = req.body.items_brought;
+    console.log(`Initializing payment request`)
 
     const lineItems = tickets.map( ticket => ({
         price_data: {
@@ -28,8 +29,8 @@ router.post("/start-checkout-session", async(req, res) => {
         payment_method_types:["card"],
         line_items: lineItems,
         mode: "payment",
-        success_url: `http://localhost:5000/confirm-payment?bookingID=${tickets[0].bookingID}`,
-        cancel_url: `http://localhost:5000/cancel-payment?bookingID=${tickets[0].bookingID}`
+        success_url: `https://royal-airlines-latest.onrender.com/api/v1/booking/confirm-payment?bookingID=${tickets[0].bookingID}`,
+        cancel_url: `https://royal-airlines-latest.onrender.com/api/v1/booking/cancel-payment?bookingID=${tickets[0].bookingID}`
     });
 
     res.json({id: session.id})
@@ -45,11 +46,12 @@ router.get("/confirm-payment", async (req, res) => {
     });
 
     if (response.status === 200) {
-       res.redirect("http://localhost:5173/payment-confirm")
+        console.log(`Payment completed! id:${booking_id}`)
+        res.redirect("https://royalairlines.netlify-app/payment-confirm")
     }
 })
 
-router.get("cancel-payment", async (req, res) => {
+router.get("/cancel-payment", async (req, res) => {
     const booking_id = req.query.bookingID;
 
     const response = await fetch(`${process.env.BACKEND_URL}booking/cancel?id=${booking_id}`, {
@@ -57,10 +59,11 @@ router.get("cancel-payment", async (req, res) => {
     });
 
     if (response.status === 200) {
-       res.redirect("http://localhost:5173/payment-canceled")
+        console.log(`Payment intent canceled! id:${booking_id}`)
+        res.redirect("https://royalairlines.netlify-app/payment-canceled")
     }
 })
 
 router.listen(port, () => {
-    console.log(`Servidor backend escuchando en http://localhost:${port}`);
+    console.log(`Payment server started!`);
   });
