@@ -38,43 +38,46 @@ export const FlightCard: React.FC<Flight> = ({ flight, returnInfo }) => {
     };
 
     return (
-        <motion.div className="w-7xl rounded-lg shadow-xl bg-white flex flex-col hover:shadow-2xl duration-200"
+        <motion.div className="lg:w-7xl rounded-lg shadow-xl bg-white flex flex-col hover:shadow-2xl duration-200"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }} >
 
-            <div className="px-8 pt-6 pb-4 hover:cursor-pointer" onClick={changeState}>
+            <div className="lg:px-8 px-4 lg:pt-6 pt-4 pb-4 hover:cursor-pointer" onClick={changeState}>
 
                 <div className="flex flex-row justify-between" >
-                    <div className="flex flex-row gap-4.5 ">
+
+                    <div className="flex flex-row lg:gap-4.5 gap-2">
+
                         <div className="flex flex-col items-center" >
-                            <h2 className="text-2-5xl">{formattedDepDate}</h2>
-                            <div className="flex flex-row gap-2 font-extralight">
+                            <h2 className="lg:text-2-5xl">{formattedDepDate}</h2>
+                            <div className="flex flex-row gap-1 font-extralight">
                                 <p>{flight.departureLocation.cityName}</p>
                             </div>
                         </div>
 
                         <div className="flex flex-row items-center">
-                            <hr className="w-45" />
+                            <hr className="lg:w-45" />
                             <div className="text-center px-4 text-sm font-extralight">
                                 <p>Duracion</p>
                                 <p>{flight.duration}</p>
                             </div>
-                            <hr className="w-45" />
+                            <hr className="lg:w-45" />
                         </div>
 
-                    <div className="flex flex-col items-center" >
-                        <h2 className="text-2-5xl">{formattedArrDate}</h2>
-                        <div className="flex flex-row gap-2 font-extralight">
-                            <p>{flight.arrivalLocation.cityName}</p>
+                        <div className="flex flex-col items-center" >
+                            <h2 className="lg:text-2-5xl">{formattedArrDate}</h2>
+                            <div className="flex flex-row gap-2 font-extralight">
+                                <p>{flight.arrivalLocation.cityName}</p>
                             </div>
                         </div>
+
                     </div>
             
                     <div className="flex flex-col">
-                        <p className="text-sm">Por persona desde</p>
-                        <h1 className="text-2xl" >COP {formattedBase}</h1>
-                        <p className="italic text-sm font-light" >Incluye tarifas e impuestos*</p>
+                        <p className="text-xs">Por persona desde</p>
+                        <h1 className="lg:text-2xl" >COP {formattedBase}</h1>
+                        <p className="italic text-xs font-light" >Incluye tarifas e impuestos*</p>
                     </div>
                 </div>
 

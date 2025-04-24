@@ -12,11 +12,16 @@ export const RecommendationCard: React.FC<Location> = ({ cityName, iataCode, che
     }
     
     const getImage = (name: string) => {
-        let standarizedName: string = name.toLocaleLowerCase();
-        standarizedName = standarizedName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        standarizedName = standarizedName.replace(/['’]/g, "");
-
-        return ImagePaths.get(standarizedName);
+       if (name === "Nariño") {
+            name = "narino";
+            return ImagePaths.get(name);
+                   
+        } else {
+            let standarizedName: string = name.toLocaleLowerCase();
+            standarizedName = standarizedName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            standarizedName = standarizedName.replace(/['’]/g, "");
+            return ImagePaths.get(standarizedName);
+        }
     }
 
     return (
@@ -24,7 +29,7 @@ export const RecommendationCard: React.FC<Location> = ({ cityName, iataCode, che
             
             {/*Image div*/}
             <div className="rounded-t-lg" >
-                <img src={getImage(cityName)} alt={cityName} className="w-full h-50 object-cover rounded-t-lg" />
+                <img src={getImage(cityName)} alt={cityName} className="w-full lg:h-50 h-40 object-cover rounded-t-lg" />
             </div>
 
             {/*Text div*/}

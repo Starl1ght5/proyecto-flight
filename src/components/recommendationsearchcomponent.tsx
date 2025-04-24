@@ -236,51 +236,51 @@ export default function RecomenationSearchComponent() {
 
 								<div className="grid lg:grid-cols-4 grid-cols-2 justify-center mb-2">
 									{!buttonA ? (
-										<button onClick={alterButtonAState} className="text-center bg-white rounded-tl-lg px-4.5 py-2.5 border-t-1 border-l-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Playas</button>
+										<div onClick={alterButtonAState} className="text-center bg-white rounded-tl-lg px-4.5 py-2.5 border-t-1 border-l-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Playas</div>
 									): (
-										<button onClick={alterButtonAState} className="text-center bg-gold rounded-tl-lg text-white font-semibold px-4.5 py-2.5 border-t-1 border-l-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Playas</button>
+										<div onClick={alterButtonAState} className="text-center bg-gold rounded-tl-lg text-white font-semibold px-4.5 py-2.5 border-t-1 border-l-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Playas</div>
 									)}
 									
 									{!buttonB ? (
-										<button onClick={alterButtonBState} className="text-center bg-white px-4.5 py-2.5 border-t-1 border-x-1 lg:border-x-none border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer rounded-tr-lg lg:rounded-tr-none">Montañas</button>
+										<div onClick={alterButtonBState} className="text-center bg-white px-4.5 py-2.5 border-t-1 border-x-1 lg:border-x-none border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer rounded-tr-lg lg:rounded-tr-none">Montañas</div>
 									): (
-										<button onClick={alterButtonBState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-t-1 border-x-1 lg:border-x-none border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer rounded-tr-lg lg:rounded-tr-none">Montañas</button>
+										<div onClick={alterButtonBState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-t-1 border-x-1 lg:border-x-none border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer rounded-tr-lg lg:rounded-tr-none">Montañas</div>
 									)}
 
 									{!buttonC ? (
-										<button onClick={alterButtonCState} className="text-center bg-white px-4.5 py-2.5 border-t-1 lg:border-r-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer border-l-1 lg:border-l-none">Historico</button>
+										<div onClick={alterButtonCState} className="text-center bg-white px-4.5 py-2.5 border-t-1 lg:border-r-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer border-l-1 lg:border-l-none">Historico</div>
 									): (
-										<button onClick={alterButtonCState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-t-1 lg:border-r-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer border-l-1 lg:border-l-none">Historico</button>
+										<div onClick={alterButtonCState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-t-1 lg:border-r-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer border-l-1 lg:border-l-none">Historico</div>
 									)}
 
 									{!buttonD ? (
-										<button onClick={alterButtonDState} className="text-center bg-white lg:rounded-tr-lg px-4.5 py-2.5 border-t-1 lg:border-l-none lg:border-x-none border-x-1 lg:border-r-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Cultural</button>
+										<div onClick={alterButtonDState} className="text-center bg-white lg:rounded-tr-lg px-4.5 py-2.5 border-t-1 lg:border-l-none lg:border-x-none border-x-1 lg:border-r-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Cultural</div>
 									): (
-										<button onClick={alterButtonDState} className="text-center bg-gold lg:rounded-tr-lg text-white font-semibold px-4.5 py-2.5 border-x-1 border-t-1 lg:border-x-none lg:border-r-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Cultural</button>
+										<div onClick={alterButtonDState} className="text-center bg-gold lg:rounded-tr-lg text-white font-semibold px-4.5 py-2.5 border-x-1 border-t-1 lg:border-x-none lg:border-r-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Cultural</div>
 									)}
 
 									{!buttonE ? (
-										<button onClick={alterButtonEState} className="text-center bg-white px-4.5 py-2.5 border-l-1 border-t-1 lg:border-b-1 lg:rounded-bl-lg border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Gastronimico</button>
+										<div onClick={alterButtonEState} className="text-center bg-white px-4.5 py-2.5 border-l-1 border-t-1 lg:border-b-1 lg:rounded-bl-lg border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Gastronimico</div>
 									): (
-										<button onClick={alterButtonEState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-l-1 border-t-1 lg:border-b-1 lg:rounded-bl-lg border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Gastronimico</button>
+										<div onClick={alterButtonEState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 border-l-1 border-t-1 lg:border-b-1 lg:rounded-bl-lg border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Gastronimico</div>
 									)}
 
 									{!buttonF ? (
-										<button onClick={alterButtonFState} className="text-center bg-white px-4.5 py-2.5 lg:border-b-1 border-x-1 border-t-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Nocturno</button>
+										<div onClick={alterButtonFState} className="text-center bg-white px-4.5 py-2.5 lg:border-b-1 border-x-1 border-t-1 border-black hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Nocturno</div>
 									): (
-										<button onClick={alterButtonFState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 lg:border-b-1 border-x-1 border-t-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Nocturno</button>
+										<div onClick={alterButtonFState} className="text-center bg-gold text-white font-semibold px-4.5 py-2.5 lg:border-b-1 border-x-1 border-t-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Nocturno</div>
 									)}
 
 									{!buttonG ? (
-										<button onClick={alterButtonGState} className="text-center bg-white px-4.5 py-2.5 border-b-1 border-black lg:border-r-1 border-l-1 lg:border-l-none rounded-bl-lg lg:rounded-bl-none lg:border-l-none border-t-1 hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Turismo Ecologico</button>
+										<div onClick={alterButtonGState} className="text-center bg-white px-4.5 py-2.5 border-b-1 border-black lg:border-r-1 border-l-1 lg:border-l-none rounded-bl-lg lg:rounded-bl-none lg:border-l-none border-t-1 hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Turismo Ecologico</div>
 									): (
-										<button onClick={alterButtonGState} className="bg-gold text-white font-semibold px-4.5 py-2.5 lg:border-r-1 border-l-1 border-b-1 rounded-bl-lg text-center lg:rounded-bl-none lg:border-l-none border-t-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Turismo Ecologico</button>
+										<div onClick={alterButtonGState} className="bg-gold text-white font-semibold px-4.5 py-2.5 lg:border-r-1 border-l-1 border-b-1 rounded-bl-lg text-center lg:rounded-bl-none lg:border-l-none border-t-1 border-lilac hover:scale-110 duration-300 easing-in-out content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Turismo Ecologico</div>
 									)}
 
 									{!buttonI ? (
-										<button onClick={alterButtonIState} className="bg-white px-4.5 py-2.5 border-b-1 border-r-1 border-t-1 rounded-br-lg border-l-1 lg:border-l-none border-black hover:scale-110 duration-300 easing-in-out content-box text-center hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Aventura</button>
+										<div onClick={alterButtonIState} className="bg-white px-4.5 py-2.5 border-b-1 border-r-1 border-t-1 rounded-br-lg border-l-1 lg:border-l-none border-black hover:scale-110 duration-300 easing-in-out content-box text-center hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Aventura</div>
 									): (
-										<button onClick={alterButtonIState} className="bg-gold text-white font-semibold px-4.5 py-2.5 border-b-1 border-r-1 border-t-1 border-l-1 lg:border-l-none rounded-br-lg border-lilac hover:scale-110 duration-300 easing-in-out text-center content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Aventura</button>
+										<div onClick={alterButtonIState} className="bg-gold text-white font-semibold px-4.5 py-2.5 border-b-1 border-r-1 border-t-1 border-l-1 lg:border-l-none rounded-br-lg border-lilac hover:scale-110 duration-300 easing-in-out text-center content-box hover:bg-lilac hover:text-white hover:border-none hover:font-semibold hover:cursor-pointer">Aventura</div>
 									)}
 								</div>
 
@@ -304,8 +304,9 @@ export default function RecomenationSearchComponent() {
         			transition={{ duration: 0.6 }}
 					exit={{ opacity: 0}}
 					layout >
-					<div className="w-5/6">
-						<div className="rounded-lg shadow-2xl grid grid-cols-2 bg-white">
+
+					<div className="lg:w-5/6">
+						<div className="rounded-lg shadow-2xl lg:grid lg:grid-cols-2 lg:flex-none flex flex-col bg-white">
 							<div className="rounded-l-lg px-6 py-4">
 								{recommendedLocation?.map(element => {
 									const { locationID, cityName, cheapestPrice, iataCode } = element;
@@ -315,7 +316,7 @@ export default function RecomenationSearchComponent() {
 									)})}
 							</div>
 
-							<div className="flex flex-col px-4 py-4 rounded-r-lg place-self-center space-y-8">
+							<div className="flex flex-col px-4 pb-4 lg:py-4 rounded-r-lg place-self-center lg:space-y-8">
 								<div>
 									<p className="font-light">Basadonos en tus preferencias</p>
 									<h2 className="text-xl font-extralight">Te recomendamos</h2>
@@ -326,7 +327,7 @@ export default function RecomenationSearchComponent() {
 									</p>
 								</div>
 
-								<div className="justify-end">
+								<div className="justify-end pt-3 lg:pt-0">
 									<div className="flex flex-row gap-5 justify-center">
 										<div className="flex flex-col text-sm font-light text-gray-600 italic">
 											<p className="place-self-center">
@@ -339,7 +340,7 @@ export default function RecomenationSearchComponent() {
 										
 										<button
 											onClick={reset}
-											className="bg-lilac rounded-lg hover:scale-105 duration-300 ease-in-out px-6 py-2 text-white hover:cursor-pointer">
+											className="bg-lilac rounded-lg hover:scale-105 duration-300 ease-in-out px-6 py-2 lg:text-base text-sm text-white hover:cursor-pointer">
 											Busca otro destino!
 										</button>
 									</div>

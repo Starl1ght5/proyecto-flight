@@ -137,12 +137,12 @@ export default function SearchResults() {
             <Navbar />
 
             {!selected ? (
-                <motion.div className="px-10 pt-8 min-h-screen"
+                <motion.div className="lg:px-10 pt-8 min-h-screen"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }} >
                     <div className="flex flex-row justify-between items-center" >
-                        <h1 className="text-2-5xl">Elige un vuelo de ida</h1>
+                        <h1 className="lg:text-2-5xl text-2xl px-4">Elige un vuelo de ida</h1>
 
                         {/*<div className="flex flex-row gap-2" >
                             <p>Ordenar por:</p>

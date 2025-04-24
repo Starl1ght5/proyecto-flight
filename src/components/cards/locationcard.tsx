@@ -14,11 +14,18 @@ export const LocationCard: React.FC<Location> = ({ cityName, iataCode, cheapestP
     /// Search a image in the ImagePaths list (defined in Types.tsx)
     /// Busca una imagen en la lista de ImagePaths (definida en Types.tsx) 
     const getImage = (name: string) => {
-        let standarizedName: string = name.toLocaleLowerCase();
-        standarizedName = standarizedName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        standarizedName = standarizedName.replace(/['’]/g, "");
 
-        return ImagePaths.get(standarizedName);
+        if (name === "Nariño") {
+            name = "narino";
+            return ImagePaths.get(name);
+            
+        } else {
+            let standarizedName: string = name.toLocaleLowerCase();
+            standarizedName = standarizedName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            standarizedName = standarizedName.replace(/['’]/g, "");
+            return ImagePaths.get(standarizedName);
+        }
+  
     }
 
     return (

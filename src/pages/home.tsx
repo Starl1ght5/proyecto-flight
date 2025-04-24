@@ -74,7 +74,6 @@ const HeroSection = () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}locations/search?number=6`);
         const res = await response.json();
-        console.log(res)
         setLocations(res);
 
       } catch (e) {
@@ -132,11 +131,11 @@ const HeroSection = () => {
         
         <div className="relative z-10 h-full flex flex-col justify-center items-center px-4">
           {/* Títulos */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold mt-10 text-white mb-6 drop-shadow-xl">
+          <div className="text-center lg:mb-12 mb-6">
+            <h1 className="lg:text-6xl text-4xl md:text-6xl font-bold mt-10 text-white mb-3 lg:mb-6 drop-shadow-xl">
               ROYAL Airlines
             </h1>
-            <h2 className="text-2xl md:text-3xl text-purple-light mb-4 drop-shadow-lg">
+            <h2 className="lg:text-2xl text-xl md:text-3xl text-purple-light mb-4 drop-shadow-lg">
               Descubre el mundo con nosotros <br /> Reserva tu vuelo al mejor precio y empieza tu próxima aventura 
             </h2>
           </div>
@@ -214,9 +213,9 @@ const HeroSection = () => {
       </div>
 
       {/* Sección de destinos */}
-      <div className="container mx-auto lg:px-4 py-16">
+      <div className="lg:px-4 py-16">
 
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 px-5 lg:px-0">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Descubre tu próximo viaje</h2>
           <div className="lg:w-lg h-1 bg-purple2 mx-auto rounded-full"></div>
         </div>

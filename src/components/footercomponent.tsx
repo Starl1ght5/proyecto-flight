@@ -3,13 +3,13 @@ export default function Footer() {
         <footer className="bg-gradient-to-b from-blueblack to-purple-dark text-bluemint mt-8 pt-16 pb-8">
             <div className="container mx-auto px-6 lg:px-8">
                 {/* Grid principal */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-10 gap-6">
                     {/* Columna 1: Logo y descripción */}
-                    <div className="space-y-4">
-                        <h2 className="text-3xl font-bold text-white">
+                    <div className="lg:space-y-4 space-y-2">
+                        <h2 className="lg:text-3xl text-2xl font-bold text-white">
                             Royal Airlines
                         </h2>
-                        <p className="text-purple-light leading-relaxed">
+                        <p className="text-purple-light text-sm lg:text-base leading-relaxed">
                             Tu mejor opción para reservar vuelos y explorar nuevos destinos con comodidad, estilo y el mejor servicio.
                         </p>
                         
@@ -35,17 +35,17 @@ export default function Footer() {
 
                     {/* Columna 2: Enlaces rápidos */}
                     <div>
-                        <h3 className="text-xl font-semibold mb-6 pb-2 border-b border-purple text-white">
+                        <h3 className="text-xl font-semibold lg:mb-6 mb-3 pb-2 border-b border-purple text-white">
                             Enlaces Rápidos
                         </h3>
-                        <ul className="space-y-3">
+                        <ul className="space-y-3 text-sm lg:text-base">
                             {[
-                                { name: 'Reservar', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },   
-                                { name: 'Centro de Ayuda', icon: 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z' }
+                                { name: 'Reservar', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z', link: "https://royalairlines.netlify.app/" },   
+                                { name: 'Centro de Ayuda', icon: 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z', link: "https://royalairlines.netlify.app/help-center" }
                             ].map((item, index) => (
                                 <li key={index}>
                                     <a 
-                                        href="#" 
+                                        href={item.link} 
                                         className="flex items-center text-purple-light hover:text-gold transition-colors duration-300 group"
                                     >
                                         <svg 
@@ -66,10 +66,10 @@ export default function Footer() {
 
                     {/* Columna 3: Contacto */}
                     <div>
-                        <h3 className="text-xl font-semibold mb-6 pb-2 border-b border-purple text-white">
+                        <h3 className="text-xl font-semibold lg:mb-6 mb-3 pb-2 border-b border-purple text-white">
                             Contacto
                         </h3>
-                        <ul className="space-y-4">
+                        <ul className="lg:space-y-4 space-y-3 text-sm lg:text-base">
                             <li className="flex items-start">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-light mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -131,14 +131,14 @@ export default function Footer() {
                 </div>
 
                 {/* Derechos de autor */}
-                <div className="mt-8 pt-6 border-t border-purple text-center">
+                <div className="lg:mt-8 mt-4 pt-6 border-t border-purple text-center text-sm lg:text-base">
                     <p className="text-purple-light">
                         &copy; {new Date().getFullYear()} Royal Airlines. Todos los derechos reservados.
                     </p>
-                    <div className="grid grid-cols-3 items-center mt-4">
-                        <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300 text-sm">Términos de servicio</a>
-                        <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300 text-sm">Política de privacidad</a>
-                        <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300 text-sm">Cookies</a>
+                    <div className="grid grid-cols-3 items-center mt-4 text-xs lg:text-sm">
+                        <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300">Términos de servicio</a>
+                        <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300">Política de privacidad</a>
+                        <a href="#" className="text-purple-light hover:text-gold transition-colors duration-300">Cookies</a>
                     </div>
                 </div>
             </div>
