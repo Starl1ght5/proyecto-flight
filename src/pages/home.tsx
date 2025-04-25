@@ -102,7 +102,7 @@ const HeroSection = () => {
 
     const passengers = getPassengerCount(selectedPassenger);
     navigate(
-      `/search-results?origen=${origen}&destino=${destino}&ida=${ida}&vuelta=${vuelta}&passengers=${passengers}`
+      `/search-results?origen=${origen}&destino=${destino}&ida=2025-04-09&vuelta=${vuelta}&passengers=${passengers}`
     );
   };
 
