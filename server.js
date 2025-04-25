@@ -56,12 +56,12 @@ router.get("/confirm-payment", async (req, res) => {
 
         if (!booking_id) {
             console.error("Missing bookingID in confirm-payment");
-            return res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=missing_id`);
+            return res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=missing_id`);
         }
 
         console.log(`Confirming payment for booking ${booking_id}`);
 
-        const response = await fetch(`${process.env.BACKEND_URL}/booking/confirm?id=${booking_id}`, {
+        const response = await fetch(`${process.env.BACKEND_URL}booking/confirm?id=${booking_id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,14 +71,14 @@ router.get("/confirm-payment", async (req, res) => {
         if (!response.ok) {
             const errorData = await response.json();
             console.error(`Failed to confirm booking ${booking_id}:`, errorData);
-            return res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=confirmation_failed`);
+            return res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=confirmation_failed`);
         }
 
         console.log(`Payment completed successfully for booking ${booking_id}`);
-        res.redirect(`${process.env.FRONTEND_URL}/payment-confirm?bookingID=${booking_id}`);
+        res.redirect(`${process.env.FRONTEND_URL}payment-confirm?bookingID=${booking_id}`);
     } catch (error) {
         console.error("Error in confirm-payment:", error);
-        res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=server_error`);
+        res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=server_error`);
     }
 });
 
@@ -88,12 +88,12 @@ router.get("/cancel-payment", async (req, res) => {
         const booking_id = req.query.bookingID;
         if (!booking_id) {
             console.error("Missing bookingID in cancel-payment");
-            return res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=missing_id`);
+            return res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=missing_id`);
         }
 
         console.log(`Canceling payment for booking ${booking_id}`);
 
-        const response = await fetch(`${process.env.BACKEND_URL}/booking/cancel?id=${booking_id}`, {
+        const response = await fetch(`${process.env.BACKEND_URL}booking/cancel?id=${booking_id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -103,14 +103,14 @@ router.get("/cancel-payment", async (req, res) => {
         if (!response.ok) {
             const errorData = await response.json();
             console.error(`Failed to cancel booking ${booking_id}:`, errorData);
-            return res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=cancel_failed`);
+            return res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=cancel_failed`);
         }
 
         console.log(`Payment canceled for booking ${booking_id}`);
-        res.redirect(`${process.env.FRONTEND_URL}/payment-canceled?bookingID=${booking_id}`);
+        res.redirect(`${process.env.FRONTEND_URL}payment-canceled?bookingID=${booking_id}`);
     } catch (error) {
         console.error("Error in cancel-payment:", error);
-        res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=server_error`);
+        res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=server_error`);
     }
 });
 
@@ -143,7 +143,7 @@ router.post('/stripe-webhook', bodyParser.raw({type: 'application/json'}), async
         try {
             console.log(`Processing successful payment for booking ${booking_id}`);
             
-            const response = await fetch(`${process.env.BACKEND_URL}/booking/confirm?id=${booking_id}`, {
+            const response = await fetch(`${process.env.BACKEND_URL}booking/confirm?id=${booking_id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
