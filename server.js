@@ -29,7 +29,7 @@ router.post("/start-checkout-session", async(req, res) => {
         payment_method_types:["card"],
         line_items: lineItems,
         mode: "payment",
-        success_url: `${process.env.PAYMENT_URL}comfirm-payment?bookingID=${tickets[0].bookingID}`,
+        success_url: `${process.env.PAYMENT_URL}confirm-payment?bookingID=${tickets[0].bookingID}`,
         cancel_url: `${process.env.PAYMENT_URL}cancel-payment?bookingID=${tickets[0].bookingID}`
     });
 
