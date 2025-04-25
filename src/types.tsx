@@ -55,7 +55,14 @@ export interface Flight {
 }
 
 export interface SeatInfo {
-    seat: Seat;
+    seat: {
+        seatNumber: string;
+        reserved: boolean;
+        seatPrice: {
+            amount: number;
+            currency: string;
+        };
+    };
     returnInfo: (seat: Seat) => void;
 }
 
