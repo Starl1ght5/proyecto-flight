@@ -5,7 +5,7 @@ const router = express();
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const fetch = require('node-fetch');
-const port = 5000;
+const port = process.env.PORT || 15046;
 const cors = require('cors');
 
 router.use(bodyParser.json());
