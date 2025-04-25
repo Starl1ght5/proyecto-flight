@@ -50,7 +50,7 @@ router.get("/confirm-payment", async (req, res) => {
 
     if (response.status === 200) {
         console.log(`Payment completed! id:${booking_id}`)
-        res.redirect(`${process.env.FRONTEND_URL}payment-confirm`)
+        res.redirect(`https://royalairlines.netlify.app/payment-confirm`)
 
     }
 
@@ -67,7 +67,7 @@ router.get("/cancel-payment", async (req, res) => {
 
     if (response.status === 200) {
         console.log(`Payment intent canceled! id:${booking_id}`)
-        res.redirect(`${process.env.FRONTEND_URL}payment-canceled`)
+        res.redirect(`https://royalairlines.netlify.app/payment-canceled`)
     }
 
 });
