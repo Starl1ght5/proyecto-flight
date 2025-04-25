@@ -29,8 +29,8 @@ router.post("/start-checkout-session", async(req, res) => {
         payment_method_types:["card"],
         line_items: lineItems,
         mode: "payment",
-        success_url: `https://royal-airlines-latest.onrender.com/api/v1/booking/confirm-payment?id=${tickets[0].bookingID}`,
-        cancel_url: `https://royal-airlines-latest.onrender.com/api/v1/booking/cancel-payment?id=${tickets[0].bookingID}`
+        success_url: `${process.env.PAYMENT_URL}comfirm-payment?bookingID=${tickets[0].bookingID}`,
+        cancel_url: `${process.env.PAYMENT_URL}cancel-payment?bookingID=${tickets[0].bookingID}`
     });
 
     res.json({id: session.id})
