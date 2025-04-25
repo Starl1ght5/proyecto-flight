@@ -29,8 +29,8 @@ router.post("/start-checkout-session", async(req, res) => {
         payment_method_types:["card"],
         line_items: lineItems,
         mode: "payment",
-        success_url: `https://royal-airlines-latest.onrender.com/api/v1/booking/confirm-payment?bookingID=${tickets[0].bookingID}`,
-        cancel_url: `https://royal-airlines-latest.onrender.com/api/v1/booking/cancel-payment?bookingID=${tickets[0].bookingID}`
+        success_url: `https://royal-airlines-latest.onrender.com/api/v1/booking/confirm-payment?id=${tickets[0].bookingID}`,
+        cancel_url: `https://royal-airlines-latest.onrender.com/api/v1/booking/cancel-payment?id=${tickets[0].bookingID}`
     });
 
     res.json({id: session.id})
@@ -47,7 +47,7 @@ router.get("/confirm-payment", async (req, res) => {
 
     if (response.status === 200) {
         console.log(`Payment completed! id:${booking_id}`)
-        res.redirect("https://royalairlines.netlify-app/payment-confirm")
+        res.redirect(`${process.env.FRONTEND_URL}payment-confirm`)
     }
 })
 
@@ -60,7 +60,7 @@ router.get("/cancel-payment", async (req, res) => {
 
     if (response.status === 200) {
         console.log(`Payment intent canceled! id:${booking_id}`)
-        res.redirect("https://royalairlines.netlify-app/payment-canceled")
+        res.redirect(`${process.env.FRONTEND_URL}payment-canceled`)
     }
 })
 
