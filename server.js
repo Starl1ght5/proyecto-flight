@@ -1,10 +1,15 @@
+require('dotenv').config();
+
 const express = require('express');
-const router = express.Router();
+const router = express();
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const fetch = require('node-fetch');
+const port = 5000;
+const cors = require('cors');
 
 router.use(bodyParser.json());
+router.use(cors());
 
 
 router.post("/start-checkout-session", async (req, res) => {
@@ -34,8 +39,8 @@ router.post("/start-checkout-session", async (req, res) => {
             payment_method_types: ["card"],
             line_items: lineItems,
             mode: "payment",
-            success_url: `${process.env.PAYMENT_URL}confirm-payment?bookingID=${tickets[0].bookingID}`,
-            cancel_url: `${process.env.PAYMENT_URL}cancel-payment?bookingID=${tickets[0].bookingID}`,
+            success_url: `${process.env.PAYMENT_URL}/confirm-payment?bookingID=${tickets[0].bookingID}`,
+            cancel_url: `${process.env.PAYMENT_URL}/cancel-payment?bookingID=${tickets[0].bookingID}`,
             client_reference_id: tickets[0].bookingID,
             metadata: {
                 booking_id: tickets[0].bookingID
@@ -56,12 +61,12 @@ router.get("/confirm-payment", async (req, res) => {
 
         if (!booking_id) {
             console.error("Missing bookingID in confirm-payment");
-            return res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=missing_id`);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=missing_id`);
         }
 
         console.log(`Confirming payment for booking ${booking_id}`);
 
-        const response = await fetch(`${process.env.BACKEND_URL}booking/confirm?id=${booking_id}`, {
+        const response = await fetch(`${process.env.BACKEND_URL}/booking/confirm?id=${booking_id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,14 +76,14 @@ router.get("/confirm-payment", async (req, res) => {
         if (!response.ok) {
             const errorData = await response.json();
             console.error(`Failed to confirm booking ${booking_id}:`, errorData);
-            return res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=confirmation_failed`);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=confirmation_failed`);
         }
 
         console.log(`Payment completed successfully for booking ${booking_id}`);
-        res.redirect(`${process.env.FRONTEND_URL}payment-confirm?bookingID=${booking_id}`);
+        res.redirect(`${process.env.FRONTEND_URL}/payment-confirm?bookingID=${booking_id}`);
     } catch (error) {
         console.error("Error in confirm-payment:", error);
-        res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=server_error`);
+        res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=server_error`);
     }
 });
 
@@ -88,12 +93,12 @@ router.get("/cancel-payment", async (req, res) => {
         const booking_id = req.query.bookingID;
         if (!booking_id) {
             console.error("Missing bookingID in cancel-payment");
-            return res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=missing_id`);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=missing_id`);
         }
 
         console.log(`Canceling payment for booking ${booking_id}`);
 
-        const response = await fetch(`${process.env.BACKEND_URL}booking/cancel?id=${booking_id}`, {
+        const response = await fetch(`${process.env.BACKEND_URL}/booking/cancel?id=${booking_id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -103,14 +108,14 @@ router.get("/cancel-payment", async (req, res) => {
         if (!response.ok) {
             const errorData = await response.json();
             console.error(`Failed to cancel booking ${booking_id}:`, errorData);
-            return res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=cancel_failed`);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=cancel_failed`);
         }
 
         console.log(`Payment canceled for booking ${booking_id}`);
-        res.redirect(`${process.env.FRONTEND_URL}payment-canceled?bookingID=${booking_id}`);
+        res.redirect(`${process.env.FRONTEND_URL}/payment-canceled?bookingID=${booking_id}`);
     } catch (error) {
         console.error("Error in cancel-payment:", error);
-        res.redirect(`${process.env.FRONTEND_URL}payment-error?reason=server_error`);
+        res.redirect(`${process.env.FRONTEND_URL}/payment-error?reason=server_error`);
     }
 });
 
@@ -143,7 +148,7 @@ router.post('/stripe-webhook', bodyParser.raw({type: 'application/json'}), async
         try {
             console.log(`Processing successful payment for booking ${booking_id}`);
             
-            const response = await fetch(`${process.env.BACKEND_URL}booking/confirm?id=${booking_id}`, {
+            const response = await fetch(`${process.env.BACKEND_URL}/booking/confirm?id=${booking_id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
