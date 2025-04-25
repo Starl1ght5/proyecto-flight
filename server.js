@@ -30,8 +30,8 @@ router.post("/start-checkout-session", async(req, res) => {
         payment_method_types:["card"],
         line_items: lineItems,
         mode: "payment",
-        success_url: `https://stripe-server-sev6.onrender.com/confirm-payment?bookingID=${tickets[0].bookingID}`,
-        cancel_url: `https://stripe-server-sev6.onrender.com/cancel-payment?bookingID=${tickets[0].bookingID}`
+        success_url: `${process.env.PAYMENT_URL}confirm-payment?bookingID=${tickets[0].bookingID}`,
+        cancel_url: `${process.env.PAYMENT_URL}cancel-payment?bookingID=${tickets[0].bookingID}`
 
     });
 
@@ -44,7 +44,7 @@ router.get("/confirm-payment", async (req, res) => {
 
     const booking_id = req.query.bookingID;
 
-    const response = await fetch(`${process.env.BACKEND_URL}booking/confirm?id=${booking_id}`, {
+    const response = await fetch(`https://royal-airlines-latest.onrender.com/api/v1/booking/confirm?id=${booking_id}`, {
        method: 'PATCH'  
     });
 
@@ -61,7 +61,7 @@ router.get("/cancel-payment", async (req, res) => {
 
     const booking_id = req.query.bookingID;
 
-    const response = await fetch(`${process.env.BACKEND_URL}booking/cancel?id=${booking_id}`, {
+    const response = await fetch(`https://royal-airlines-latest.onrender.com/api/v1/booking/cancel?id=${booking_id}`, {
        method: 'PATCH'  
     });
 
