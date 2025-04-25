@@ -7,12 +7,24 @@ import { SeatCard } from '../components/cards/seatcard.tsx';
 import { Helmet } from "react-helmet";
 import { loadStripe } from "@stripe/stripe-js";
 import { useForm } from "react-hook-form";
+import { useCookies } from "react-cookie";
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+
+interface TokenPayload extends JwtPayload {
+    id: string;
+    sub: string;
+    name: string;
+    exp: number;
+    iat: number;
+}
 
 
 export default function SeatSelection () {
 
     const [ seats, setSeats ] = useState<Seat[]>([]);
     const [ selectedSeats, setSelectedSeats ] = useState<Seat[]>([]);
+    const [ cookies ] = useCookies(['RoyalUserToken']);
+    const [ jwt, setJwt ] = useState<TokenPayload | null>(null);
     
     const [seatRowA, setSeatRowA] = useState([])
     const [seatRowB, setSeatRowB] = useState([])
@@ -24,6 +36,7 @@ export default function SeatSelection () {
     const searchParams = new URLSearchParams(location.search);
     const flight = searchParams.get('flight') || '';
     const fee = searchParams.get('fee') || '';
+    const cookie = cookies.RoyalUserToken;
     var passangers = searchParams.get('passangers') || 1;
     var pNumber: number = Number(passangers);
 
@@ -48,14 +61,18 @@ export default function SeatSelection () {
                         ids.push(seat.seatID)
                     })
         
-                    const info: CheckoutAttemptInfo = {
+                    toast.success("Reserva creada! en unos momentos seras redirigid@ a la pasarela de pago");
+
+                    var info: CheckoutAttemptInfo = {
                         flightID : flight,
                         seatIDs : ids,
-                        userID : "67f875e370e88e11c76691ce",
+                        userID : "Guest",
                         feeID : fee
                     }
-        
-                    toast.success("Reserva creada! en unos momentos seras redirigid@ a la pasarela de pago");
+
+                    if (checkForCookie() && jwt) {
+                        info.userID = jwt.id;
+                    }
         
                     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}booking/create`, {
                         method: 'POST',
@@ -170,6 +187,24 @@ export default function SeatSelection () {
         divideArray(seats, 30);
 
     }, [seats])
+
+    useEffect(() => {
+        if (cookie) {
+            try {
+                const decodedToken = jwtDecode<TokenPayload>(cookie);
+                setJwt(decodedToken);
+            } catch (err) {
+                console.log('Token inválido o no presente');
+                setJwt(null);
+            }
+        } else {
+            setJwt(null);
+        }
+    }, [cookie]);
+
+    const checkForCookie = () => {
+        return !!cookie;
+    }
 
     const handleSeatSelection = (seat: Seat) => {
         if (selectedSeats.some((s) => s.seatNumber === seat.seatNumber)) {
