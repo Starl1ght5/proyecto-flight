@@ -5,6 +5,7 @@ import com.stellargear.royal_airlines.Models.Entities.User;
 import com.stellargear.royal_airlines.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,6 @@ public class UserService {
 
             userRepository.save(newUser);
 
-            ///emailService.sendVerificationEmail(newUser.getEmail(), newUser.getVerificationCode());
-
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
 
@@ -61,8 +60,6 @@ public class UserService {
 
             userRepository.save(newUser);
 
-            ///emailService.sendVerificationEmail(newUser.getEmail(), newUser.getVerificationCode());
-
             return loginGoogleUser(registeringUserInfo);
         }
 
@@ -74,26 +71,34 @@ public class UserService {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPassword()));
 
         if (authentication.isAuthenticated()) {
+            User user = searchForUser(loginInfo.getEmail());
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.SET_COOKIE, jwtService.generateCookie(loginInfo.getEmail()).toString());
+            headers.add(HttpHeaders.SET_COOKIE, jwtService.generateCookie(user).toString());
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<?> loginGoogleUser (UserDTO loginInfo) {
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPassword()));
+    public ResponseEntity<?> loginGoogleUser(UserDTO loginInfo) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPassword())
+            );
 
-        if (authentication.isAuthenticated()) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Location", "http://localhost:5173/");
-            headers.add(HttpHeaders.SET_COOKIE, jwtService.generateCookie(loginInfo.getEmail()).toString());
-            return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+            if (authentication.isAuthenticated()) {
+                User user = searchForUser(loginInfo.getEmail());
+                ResponseCookie jwtCookie = jwtService.generateCookie(user);
+
+                return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                        .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                        .header(HttpHeaders.LOCATION, "https://royalairlines.netlify.app")
+                        .build();
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<?> loginWithGoogle (String email, String sub) {
@@ -134,6 +139,9 @@ public class UserService {
         return userRepository.isEmailTaken(requestedEmail) != null;
     }
 
+    public User searchForUser (String requestedEmail) {
+        return userRepository.searchByEmail(requestedEmail);
+    }
 
     public UserDTO objectToDto (User requestedObject) {
         UserDTO returnedDto = new UserDTO();

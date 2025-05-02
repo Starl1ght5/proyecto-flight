@@ -33,4 +33,5 @@ public class Flight {
     private String status;
 
     public Flight () {}
+
 }

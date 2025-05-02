@@ -27,4 +27,5 @@ public class BookingDTO {
     private String feeID;
 
     public BookingDTO () {}
+
 }

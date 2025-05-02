@@ -14,4 +14,5 @@ public class SeatDTO {
     private boolean reserved;
 
     public SeatDTO () {}
+
 }

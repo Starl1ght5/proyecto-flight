@@ -35,17 +35,32 @@ public class InformationService {
     private final ClassifierUtils classifierUtils;
     private final static Logger logger = LoggerFactory.getLogger(InformationService.class);
 
+    /// FlightService Methods
 
-    public List<FlightDTO> searchFlights (String departureIataCode, String arrivalIataCode, String date) {
+    public ResponseEntity<?> searchFlights (String departureIataCode, String arrivalIataCode, String date) {
+        logger.info("Flight search request started!");
         LocalDate convertedDate = LocalDate.parse(date);
 
         LocalDateTime startOfDay = convertedDate.atStartOfDay();
         LocalDateTime endOfDay = convertedDate.atTime(23, 59, 59, 999999999);
 
+        logger.info("Dates converted successfully!");
+
         String start = locationService.searchByIataCode(departureIataCode);
         String end = locationService.searchByIataCode(arrivalIataCode);
+        logger.info("Locations found successfully");
 
-        return flightService.objectListToDto(flightService.searchFlights(start, end, startOfDay, endOfDay));
+        List<FlightDTO> returnedList = flightService.objectListToDto(flightService.searchFlights(start, end, startOfDay, endOfDay));
+
+        if (returnedList.isEmpty()) {
+            logger.warn("List returned Empty");
+            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+
+        } else {
+            logger.info("Flights searched completed");
+            return new ResponseEntity<>(returnedList, HttpStatus.OK);
+        }
+
     }
 
     public List<LocationDTO> searchXLocations (int number) {
@@ -78,7 +93,9 @@ public class InformationService {
         return locationService.objectListToDto(returnedList);
     }
 
-    public List<LocationDTO> searchXLocationsWithRecommended (int number, String userID) {
+    /// LocationService Methods
+
+    /*public List<LocationDTO> searchXLocationsWithRecommended (int number, String userID) {
         List<Location> locations = locationService.searchAll();
         List<LocationDTO> recommendedLocations = searchRecommendedForUser(userID);
         List<LocationDTO> returnedList = new ArrayList<>();
@@ -116,7 +133,7 @@ public class InformationService {
             }
         }
         return returnedList;
-    }
+    }*/
 
     public List<LocationDTO> searchRecommendedForUser (String userID) {
         List<Recommendation> recommendations = recommendationService.searchRecommendationForUser(userID);
@@ -131,7 +148,8 @@ public class InformationService {
         return locationsForUser;
     }
 
-    public List<LocationDTO> searchLocationsWithCheapestPrice (int nOfLocations) {
+    public ResponseEntity<?> searchLocationsWithCheapestPrice (int nOfLocations) {
+
         List<LocationDTO> locationsToSearch = searchXLocations(nOfLocations);
         List<LocationDTO> returnedList = new ArrayList<>();
 
@@ -139,7 +157,7 @@ public class InformationService {
             List<Flight> flightsToSearch = flightService.searchFlightsForLocation(toSearch.getLocationID());
 
             if (!flightsToSearch.isEmpty()) {
-                Flight cheapestFlightForLocation = flightService.calculateCheapest(flightsToSearch);
+                Flight cheapestFlightForLocation = flightService.searchCheapestFromList(flightsToSearch);
 
                 Location locationInfo = locationService.searchByID(cheapestFlightForLocation.getArrivalLocationID());
                 LocationDTO returnedInfo = locationService.objectToDto(locationInfo);
@@ -153,10 +171,10 @@ public class InformationService {
 
         }
 
-        return returnedList;
+        return new ResponseEntity<>(returnedList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> searchLocationsWithCheapestPriceAndRecommended (int nOfLocations, String userID) {
+    /*public ResponseEntity<?> searchLocationsWithCheapestPriceAndRecommended (int nOfLocations, String userID) {
         List<LocationDTO> locationsToSearch = searchXLocationsWithRecommended(nOfLocations, userID);
         List<LocationDTO> returnedList = new ArrayList<>();
 
@@ -179,16 +197,21 @@ public class InformationService {
         }
 
         return new ResponseEntity<>(returnedList, HttpStatus.OK);
-    }
+    }*/
+
+    /// RecommendationService Methods
 
     public ResponseEntity<?> searchAndRecommend (ModelDataDTO requestingData) throws Exception {
+        double usdValue = moneyExchange.getAmountFromMoney(requestingData.getPrice());
+        requestingData.setPrice(usdValue);
+
         List<LocationDTO> locations = new ArrayList<>();
         ModelData data = classifierUtils.dtoToObject(requestingData);
         Recommendation recommendationData = recommendationService.recommendDestination(data, "");
         logger.info(recommendationData.getRecommendation());
 
         List<Flight> flights = flightService.searchFlightsForLocation(recommendationData.getLocationID());
-        Flight cheapest = flightService.calculateCheapest(flights);
+        Flight cheapest = flightService.searchCheapestFromList(flights);
 
         LocationDTO recommended = locationService.findAndConvertObject(recommendationData.getLocationID());
         recommended.setRecommended(true);
@@ -198,10 +221,12 @@ public class InformationService {
         return new ResponseEntity<>(locations, HttpStatus.OK);
     }
 
-    public List<SeatDTO> getSeatsForFlight (String flightID) {
-        Flight searchedFlight = flightService.searchFlight(flightID);
+    ///  SeatService Methods
 
-        return seatService.searchAndConvertList(searchedFlight.getAvailableSeatIDs());
+    public ResponseEntity<?> getSeatsForFlight (String flightID) {
+        Flight searchedFlight = flightService.searchFlightByID(flightID);
+
+        return new ResponseEntity<>(seatService.searchAndConvertList(searchedFlight.getAvailableSeatIDs()), HttpStatus.OK);
     }
 
 }

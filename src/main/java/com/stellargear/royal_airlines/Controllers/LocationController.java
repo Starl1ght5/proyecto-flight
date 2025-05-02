@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/locations")
@@ -24,14 +22,14 @@ public class LocationController {
 
 
     @GetMapping(path = "/search")
-    public List<LocationDTO> searchLocations (@RequestParam String number) {
+    public ResponseEntity<?>  searchLocations (@RequestParam String number) {
         int n = Integer.parseInt(number);
         return informationService.searchLocationsWithCheapestPrice(n);
     }
 
-    @GetMapping(path = "/userSearch")
+    /*@GetMapping(path = "/userSearch")
     public ResponseEntity<?> searchLocationsForUser (@RequestParam String number, @RequestParam String user) {
         int n = Integer.parseInt(number);
         return informationService.searchLocationsWithCheapestPriceAndRecommended(n, user);
-    }
+    }*/
 }

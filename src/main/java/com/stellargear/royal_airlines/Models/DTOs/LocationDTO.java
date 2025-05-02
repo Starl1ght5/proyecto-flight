@@ -18,4 +18,5 @@ public class LocationDTO {
     private boolean recommended;
 
     public LocationDTO () {}
+
 }

@@ -18,9 +18,20 @@ public class MoneyExchange {
         return usd.convertedTo(CurrencyUnit.of("COP"), COP_EXCHANGE_RATE, RoundingMode.DOWN);
     }
 
+    public Money convertCOPtoUSD (double copValue) {
+        Money cop = Money.of(CurrencyUnit.of("COP"),  new BigDecimal(copValue));
+        BigDecimal convertedAmount = cop.getAmount().divide(COP_EXCHANGE_RATE, 2, RoundingMode.HALF_UP);
+        return Money.of(CurrencyUnit.USD, convertedAmount);
+    }
+
     public Money calculateFees (double fees, double basePrice) {
         Money amount = Money.of(CurrencyUnit.USD, basePrice);
         Money totalPrice = amount.multipliedBy(fees, RoundingMode.DOWN);
         return totalPrice.convertedTo(CurrencyUnit.of("COP"), COP_EXCHANGE_RATE, RoundingMode.DOWN);
+    }
+
+    public double getAmountFromMoney (double value) {
+        Money valueToExtract = convertCOPtoUSD(value);
+        return valueToExtract.getAmount().doubleValue();
     }
 }

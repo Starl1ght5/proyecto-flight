@@ -16,4 +16,5 @@ public class Fee {
     private double priceDifference;
 
     public Fee () {}
+
 }

@@ -1,7 +1,6 @@
 package com.stellargear.royal_airlines.Services;
 
 import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
-import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
 import com.stellargear.royal_airlines.Repositories.FlightRepository;
 import com.stellargear.royal_airlines.Utils.MoneyExchange;
@@ -58,13 +57,14 @@ public class FlightService {
         return  hours + "h " + minutes + "m";
     }
 
-    public Flight calculateCheapest (List<Flight> listToSearch) {
+    public Flight searchCheapestFromList (List<Flight> listToSearch) {
         return listToSearch.stream()
                 .min(Comparator.comparingDouble(Flight::getTicketPrice))
                 .orElseThrow(NoSuchElementException::new);
     }
 
     public List<Flight> searchFlights (String start, String end, LocalDateTime startOfDay, LocalDateTime endOfDay) {
+        logger.info("Search for flight in repository started");
         return flightRepository.searchFlights(start, end, startOfDay, endOfDay);
     }
 
@@ -73,7 +73,7 @@ public class FlightService {
         return check.isDiscounted();
     }
 
-    public Flight searchFlight (String requestedID) {
+    public Flight searchFlightByID (String requestedID) {
         return flightRepository.searchByID(requestedID);
     }
 
@@ -82,7 +82,7 @@ public class FlightService {
     }
 
     public FlightDTO searchAndConvertObject (String requestedID) {
-        return objectToDto(searchFlight(requestedID));
+        return objectToDto(searchFlightByID(requestedID));
     }
 
 

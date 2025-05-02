@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@Setter
 @Getter
+@Setter
 @Document(collection = "Users")
 public class User {
 
@@ -25,4 +25,5 @@ public class User {
         this.verified = false;
         this.verificationCode = UUID.randomUUID().toString();
     }
+
 }

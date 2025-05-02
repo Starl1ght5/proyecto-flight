@@ -8,7 +8,7 @@ import lombok.Setter;
 public class ModelDataDTO {
 
     private String id;
-    private int price;
+    private double price;
     private int temperature;
     private int popularity;
     private boolean beach;
@@ -26,4 +26,5 @@ public class ModelDataDTO {
     private String result;
 
     public ModelDataDTO () {}
+
 }

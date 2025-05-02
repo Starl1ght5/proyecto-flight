@@ -14,4 +14,5 @@ public class FeeDTO {
     private Money price;
 
     public FeeDTO () {}
+
 }

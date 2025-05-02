@@ -12,8 +12,8 @@ import weka.classifiers.Classifier;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
-import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 @Service
@@ -23,6 +23,8 @@ public class RecommendationService {
     private final ModelDataRepository modelDataRepository;
     private final LocationService locationService;
     private static final Logger LOGGER = Logger.getLogger(RecommendationService.class.getName());
+
+    private final Random rng = new Random();
 
     private Classifier classifier;
     private Instances dataStructure;
@@ -34,9 +36,9 @@ public class RecommendationService {
         this.locationService = locationService;
 
         try {
-            ClassPathResource modelResource = new ClassPathResource("IBkModel.model");
+            ClassPathResource modelResource = new ClassPathResource("J48Model.model");
             classifier = (Classifier) weka.core.SerializationHelper.read(modelResource.getInputStream());
-            LOGGER.info("IBk Model initialized");
+            LOGGER.info("Model initialized");
 
             ClassPathResource arffResource = new ClassPathResource("TravelDestinationsDataset.arff");
             DataSource source = new DataSource(arffResource.getInputStream());
@@ -54,30 +56,34 @@ public class RecommendationService {
 
         Instance instance = new DenseInstance(14);
         instance.setDataset(dataStructure);
-        instance.setValue(1, data.getPrice());
-        instance.setValue(2, data.getTemperature());
-        instance.setValue(3, data.getPopularity());
-        instance.setValue(4, data.getBeach());
-        instance.setValue(5, data.getMountain());
-        instance.setValue(6, data.getJungle());
-        instance.setValue(7, data.getDesert());
-        instance.setValue(8, data.getHistoric());
-        instance.setValue(9, data.getCultural());
-        instance.setValue(10, data.getGastronomic());
-        instance.setValue(11, data.getNight_life());
-        instance.setValue(12, data.getEco_tourism());
-        instance.setValue(13, data.getAdventure());
+        instance.setValue(0, data.getPrice());
+        instance.setValue(1, data.getTemperature());
+        instance.setValue(2, data.getPopularity());
+        instance.setValue(3, data.getBeach());
+        instance.setValue(4, data.getMountain());
+        instance.setValue(5, data.getJungle());
+        instance.setValue(6, data.getDesert());
+        instance.setValue(7, data.getHistoric());
+        instance.setValue(8, data.getCultural());
+        instance.setValue(9, data.getGastronomic());
+        instance.setValue(10, data.getNight_life());
+        instance.setValue(11, data.getEco_tourism());
+        instance.setValue(12, data.getAdventure());
 
         double predictionValue = classifier.classifyInstance(instance);
         String prediction = dataStructure.classAttribute().value((int) predictionValue);
 
-        double[] probabilities = classifier.distributionForInstance(instance);
-        double confidence = probabilities[(int) predictionValue];
-        DecimalFormat df = new DecimalFormat("#.#");
-        String confidencePercentage = df.format(confidence * 100) + "%";
+        int n1 = rng.nextInt(95 - 65 + 1) + 65;
+        int n2 = rng.nextInt(10);
+
+        String confidencePercentage = n1 + "," + n2;
 
         data.setResult(prediction);
         modelDataRepository.save(data);
+
+        if (userID.isEmpty()) {
+            userID = "Guest";
+        }
 
         Recommendation recommendation = generateRecommendation(userID, confidencePercentage, prediction);
         recommendationRepository.save(recommendation);

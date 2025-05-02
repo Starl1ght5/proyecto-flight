@@ -32,7 +32,7 @@ public class BookingService {
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> bookFlight (BookingDTO bookingInfo) {
         Booking newBooking = new Booking();
-        Flight flightInfo = flightService.searchFlight(bookingInfo.getFlightID());
+        Flight flightInfo = flightService.searchFlightByID(bookingInfo.getFlightID());
 
         newBooking.setBookedFlightID(bookingInfo.getFlightID());
         newBooking.setUserID(bookingInfo.getUserID());
@@ -72,7 +72,7 @@ public class BookingService {
     }
 
     public double calculateTotalPrice (String flight, List<String> seats, String fee) {
-        Flight requestedFlight = flightService.searchFlight(flight);
+        Flight requestedFlight = flightService.searchFlightByID(flight);
         List<Seat> requestedSeats = seatService.searchForListOfIDs(seats);
         Fee requestedFee = feeService.searchByID(fee);
         int ticketQuantity = seats.size();

@@ -19,4 +19,5 @@ public class Location {
     private boolean featured;
 
     public Location () {}
+
 }

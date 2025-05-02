@@ -4,7 +4,6 @@ import com.stellargear.royal_airlines.Models.DTOs.UserDTO;
 import com.stellargear.royal_airlines.Services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;

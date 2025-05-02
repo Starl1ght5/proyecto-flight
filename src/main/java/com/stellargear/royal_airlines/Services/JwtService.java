@@ -1,5 +1,6 @@
 package com.stellargear.royal_airlines.Services;
 
+import com.stellargear.royal_airlines.Models.Entities.User;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
@@ -32,12 +33,13 @@ public class JwtService {
         }
     }
 
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(username)
+                .subject(user.getEmail())
+                .add("id", user.getUserID())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30))
                 .and()
@@ -45,13 +47,12 @@ public class JwtService {
                 .compact();
     }
 
-    public ResponseCookie generateCookie (String username) {
-        return ResponseCookie.from("RoyalUserToken", generateToken(username))
-                .secure(false)
+    public ResponseCookie generateCookie (User user) {
+        return ResponseCookie.from("RoyalUserToken", generateToken(user))
+                .secure(true)
                 .path("/")
-                .sameSite("strict")
+                .sameSite("None")
                 .maxAge(3600)
-                .domain("localhost")
                 .build();
     }
 

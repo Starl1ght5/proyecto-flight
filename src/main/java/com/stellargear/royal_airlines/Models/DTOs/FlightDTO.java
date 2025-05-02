@@ -7,8 +7,8 @@ import org.joda.money.Money;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
 @Setter
+@Getter
 public class FlightDTO {
 
     private String flightID;
@@ -26,4 +26,5 @@ public class FlightDTO {
     private List<FeeDTO> availableFees;
 
     public FlightDTO ()  {}
+
 }

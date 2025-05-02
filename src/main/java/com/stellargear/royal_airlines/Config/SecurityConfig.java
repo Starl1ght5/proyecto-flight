@@ -41,7 +41,6 @@ public class SecurityConfig {
                             String str = (String) opt.get();
                             response.sendRedirect("/api/v1/users/googleLogin?email=" + oauthUser.getAttribute("email") + "&sub=" + str);
                         }))
-                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
