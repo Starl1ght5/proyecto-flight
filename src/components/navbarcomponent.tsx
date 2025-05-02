@@ -41,6 +41,7 @@ export default function Navbar() {
   const goToProfile = () => navigate('/user-profile');
   const goToMiCartera = () => navigate('/wallet');
   const goToCentroAyuda = () => navigate('/help-center');
+  const goToRecommendation = () => navigate('/#recommendation');
 
   const handleLogout = () => {
     setIsAuthenticated(false);
@@ -66,14 +67,26 @@ export default function Navbar() {
       <ul className="flex items-center gap-1 lg:gap-0 lg:space-x-5">
 
         {/* Centro de Ayuda */}
-        {!isMobile && ( <li>
-          <button
-            className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
-            onClick={goToCentroAyuda}
-          >
-            Centro de Ayuda
-          </button>
-        </li>)}
+        {!isMobile && ( 
+          <div className='flex flex-row gap-3'>
+            <li>
+              <button
+                className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
+                onClick={goToRecommendation}
+              >
+                ¿No sabes a donde ir?
+              </button>
+            </li>
+            <li>
+              <button
+                className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
+                onClick={goToCentroAyuda}
+              >
+                Centro de Ayuda
+              </button>
+            </li>
+          </div>
+          )}
 
         {/* Perfil o Inicio de Sesión */}
         <li className="relative ml-1">

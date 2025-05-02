@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Location } from "../types.tsx";
 import { LocationCard } from "../components/cards/locationcard.tsx";
 import { Helmet } from "react-helmet";
@@ -83,6 +83,25 @@ const HeroSection = () => {
 
     fetchLocations();
   }, []);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash;
+
+    if (hash) {
+      const elementId = hash.replace('#', '');
+      const element = document.getElementById(elementId);
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  }, [location]);
+
 
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {

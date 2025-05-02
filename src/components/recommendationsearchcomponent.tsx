@@ -154,7 +154,7 @@ export default function RecomenationSearchComponent() {
 	}
 
 	return (
-		<div className="px-5 lg:px-20">
+		<div id='recommendation' className="px-5 lg:px-20">
 			<Toaster
 				richColors
 				position="top-right"
