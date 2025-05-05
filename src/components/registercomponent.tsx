@@ -1,7 +1,8 @@
 import { useForm, type FieldValues } from "react-hook-form";
 import { motion } from 'framer-motion';
 import { Toaster, toast } from 'sonner';
-import Logo from "../assets/logoroyal.webp";
+import Logo from "../assets/logoroyal.png";
+import { useNavigate } from "react-router-dom";
 
 type FormFields = {
     email: string;
@@ -14,6 +15,8 @@ interface ChildProps {
 }
 
 const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
+
+    const navigate = useNavigate();
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormFields>();
     
@@ -59,83 +62,118 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
         changeState(true);
     }
 
-     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const origin = () => {
+        navigate("/");
+    }
 
     return (
-        <motion.div 
-            className="py-6 px-8 rounded-2xl shadow-lg bg-white w-lg"
-            initial={{ opacity: 0, y: 20 }}
+        <motion.div
+            className="shadow-xl rounded-3xl px-10 pb-10 w-full max-w-md text-center border bg-white border-purple-600"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
         >
             <Toaster richColors position="top-right" duration={4000} className="bg-white text-black" />
 
-            <div className="flex justify-center -translate-y-4 -mb-1">
-                <img alt="logo" src={Logo} className="size-26" />
+            <div className="flex flex-row gap-2 items-center absolute lg:translate-y-8 lg:translate-x-0 translate-y-5 -translate-x-5 hover:cursor-pointer hover:text-lilac duration-150 hover:scale-110" onClick={origin}>
+                <span className="icon-[weui--back-filled]" />
+                <p>Volver</p>
             </div>
+
+            {/* Logo */}
+            <div className="flex flex-row justify-center w-full pt-5">
+                <motion.img
+                src={Logo}
+                alt="logo"
+                className="size-30 z-1 mx-auto"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.4 }}
+                />
+            </div>
+            <div className="bg-lilac z-0 absolute w-35 h-14 lg:translate-x-28 lg:-translate-y-13 translate-x-19 -translate-y-13 rounded-lg shadow-lg"></div>
             
-            <h2 className="text-2-5xl font-semibold text-blueblack -translate-y-8 -mb-2" >Tu proximo viaje te espera!</h2>
-            <p className="-translate-y-6 font-extralight">Crea tu cuenta ahora</p>
+            <h2 className="text-2xl font-bold text-black mt-4" >Tu proximo viaje te espera!</h2>
+            <p className="font-extralight  mt-1">Crea tu cuenta ahora</p>
 
-            <form onSubmit={onSubmit} className="px-2">
+            <form onSubmit={onSubmit} className="mt-6 space-y-4">
 
-                <div className="felx flex-col gap-3">
-                    
-                    <div className="px-2 text-sm mb-2">
+                <div className="text-left">
+                    <label className="block text-black-300 font-medium">Correo Electrónico</label>
+                    <input
+                        type="email"
+                        placeholder="Email..."
+                        className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+                        {...register("email", { required: "Este campo es obligatorio" })}
+                    />
+                    {errors.email && (
+                        <motion.p
+                            className="text-red-400 text-sm mt-1"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            {errors.email.message}
+                        </motion.p>
+                    )}
+                </div>
 
-                        <label className="block text font-extralight mb-1" >Correo Electronico</label>
-                        <input type="email" placeholder="Email..."
-                            className="w-full px-3 py-3 border border-lightblue rounded-lg focus:outline-hidden focus:ring-2 focus:ring-indigo-500 text-base transition duration-150 ease-in-out font-extralight"
-                            {...register("email", { required: "Este campo es obligatorio" })} />
+                <div className="text-left">
+                    <label className="block text-black-300 font-medium">Contraseña</label>
+                    <input
+                        type="password"
+                        placeholder="Contraseña..."
+                        className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+                        {...register("password", { 
+                            required: "Este campo es obligatorio",
+                            minLength: { value: 6, message: "La contraseña debe contener al menos 6 caracteres"},
+                            maxLength: { value: 14, message: "La contraseña no debe sobrepasar los 14 caracteres"}
+                             })} /> 
+                    {errors.email && (
+                        <motion.p
+                            className="text-red-400 text-sm mt-1"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            {errors.password?.message}
+                        </motion.p>
+                    )}
+                </div>
 
-                        {errors?.email && (
-                                <motion.p className="text-red text-center text-sm font-[350] mt-1"
-                                    initial={{ opacity: 0}}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.5 }} >{errors.email.message}</motion.p>
-                            )}
-                    </div>
-
-                    <div className="px-2 mb-2 text-sm" >
-                        <label className="block text font-extralight mb-1" >Contraseña</label>
-                        <input type="text" placeholder="Contraseña..."
-                            className="w-full px-3 py-3 border border-lightblue rounded-lg focus:outline-hidden focus:ring-2 focus:ring-indigo-500 text-base transition duration-150 ease-in-out font-extralight"
-                            {...register("password", { 
-                                required: "Este campo es obligatorio",
-                                minLength: { value: 6, message: "La contraseña debe contener al menos 6 caracteres"},
-                                maxLength: { value: 14, message: "La contraseña no debe sobrepasar los 14 caracteres"}
-                                 })} /> 
-                        
-                        {errors?.password && (
-                                <motion.p className="text-red text-center text-sm font-[350] mt-1"
-                                    initial={{ opacity: 0}}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.5 }} >{errors.password.message}</motion.p>
-                            )}
-                    </div>
-
-                    <div className="px-2 pb-4 text-sm" >
-                        <label className="block text font-extralight mb-1" >Confirmar Contraseña</label>
-                        <input type="text" placeholder="Contraseña..."
-                            className="w-full px-3 py-3 border border-lightblue rounded-lg focus:outline-hidden focus:ring-2 focus:ring-indigo-500 text-base transition duration-150 ease-in-out font-extralight"
-                            {...register("confirmPassword", { 
-                                required: "Este campo es obligatorio",
-                                minLength: { value: 6, message: "La contraseña debe contener al menos 6 caracteres"},
-                                maxLength: { value: 14, message: "La contraseña no debe sobrepasar los 14 caracteres"}
-                                })} /> 
-                        
-                        {errors?.confirmPassword && (
+                <div className="text-left">
+                    <label className="block text-black-300 font-medium">Confirmar Contraseña</label>
+                    <input
+                        type="password"
+                        placeholder="Contraseña..."
+                        className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+                        {...register("confirmPassword", { 
+                            required: "Este campo es obligatorio",
+                            minLength: { value: 6, message: "La contraseña debe contener al menos 6 caracteres"},
+                            maxLength: { value: 14, message: "La contraseña no debe sobrepasar los 14 caracteres"}
+                             })} /> 
+                    {errors.email && (
+                        <motion.p
+                            className="text-red-400 text-sm mt-1"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                           {errors?.confirmPassword && (
                                 <motion.p className="text-red text-center text-sm font-[350] mt-1"
                                     initial={{ opacity: 0}}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }} >{errors.confirmPassword.message}</motion.p>
                             )}
-                    </div>
+                        </motion.p>
+                    )}
+                </div>
 
                     <div className="flex justify-center py-2">
                         <motion.button type="submit" disabled={isSubmitting} className="hover:cursor-pointer duration-200 hover:bg-gold bg-lilac text-bluemint py-3 w-5/6 rounded-lg text-lg font-semibold" >Continuar</motion.button>
                     </div>
-                </div>
             </form>
 
             <div className="inline-flex items-center justify-center w-full">

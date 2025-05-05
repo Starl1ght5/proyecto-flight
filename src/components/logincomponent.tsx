@@ -1,7 +1,7 @@
 import { useForm, type FieldValues } from "react-hook-form";
 import { motion } from 'framer-motion';
 import { Toaster, toast } from 'sonner';
-import Logo from "../assets/logoroyal.webp";
+import Logo from "../assets/logoroyal.png";
 import GoogleButtonComponent from "./googlebuttoncomponent.tsx";
 import { useNavigate } from "react-router-dom";
 
@@ -48,28 +48,41 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
     }
   });
 
+  const origin = () => {
+    navigate("/");
+  }
+
   return (
     
     <div className="h-screen w-full flex items-center justify-center">
       <Toaster position="top-right" duration={4000} />
 
-
       <motion.div
-        className="bg-white shadow-xl rounded-3xl p-10 w-full max-w-md text-center border border-purple-600"
+        className="shadow-xl rounded-3xl px-10 pb-10 w-full max-w-md text-center border bg-white border-purple-600"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Logo */}
-        <motion.img
-          src={Logo}
-          alt="logo"
-          className="w-16 h-16 mx-auto"
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.4 }}
-        />
 
+        <div className="flex flex-row gap-2 items-center absolute lg:translate-y-8 lg:translate-x-0 translate-y-5 -translate-x-5 hover:cursor-pointer hover:text-lilac duration-150 hover:scale-110" onClick={origin}>
+          <span className="icon-[weui--back-filled]" />
+          <p>Volver</p>
+        </div>
+
+        {/* Logo */}
+        <div className="flex flex-row justify-center w-full pt-5">
+            <motion.img
+              src={Logo}
+              alt="logo"
+              className="size-30 z-1 mx-auto"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.4 }}
+            />
+        </div>
+        <div className="bg-lilac z-0 absolute w-35 h-14 lg:translate-x-28 lg:-translate-y-13 translate-x-19 -translate-y-13 rounded-lg shadow-lg"></div>
+        
+        
         {/* Título */}
         <h2 className="text-2xl font-bold text-black mt-4">¡Bienvenid@ de vuelta!</h2>
         <p className="text-gray-600 mt-1">Ingresa tus datos para continuar</p>

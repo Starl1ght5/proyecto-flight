@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logoroyalimagotipo.png';
 
 function useWindowSize() {
   const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
@@ -55,9 +56,10 @@ export default function Navbar() {
     <nav className="bg-gradient-to-r from-indigo-900 to-purple-800 text-white py-3 px-4 lg:px-8 lg:py-4 flex justify-between items-center top-0 z-50 shadow-lg">
       {/* Logo */}
       <div 
-        className="lg:text-3xl text-xl font-extrabold text-white transition-all duration-300 cursor-pointer"
+        className="items-center lg:text-2xl text-xl flex flex-row lg:gap-2 gap-1.5 font-extrabold text-white transition-all duration-300 cursor-pointer"
         onClick={goToInicio}
       >
+        <img src={logo} alt='logo' className='lg:w-15 w-14' />
         ROYAL Airlines
       </div>
 
@@ -68,10 +70,10 @@ export default function Navbar() {
 
         {/* Centro de Ayuda */}
         {!isMobile && ( 
-          <div className='flex flex-row gap-3'>
+          <div className='flex flex-row gap-5'>
             <li>
               <button
-                className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
+                className="text-white hover:cursor-pointer hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
                 onClick={goToRecommendation}
               >
                 ¿No sabes a donde ir?
@@ -79,7 +81,7 @@ export default function Navbar() {
             </li>
             <li>
               <button
-                className="text-white hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
+                className="text-white hover:cursor-pointer hover:text-amber-300 font-medium transition-all duration-300 hover:scale-105 text-sm"
                 onClick={goToCentroAyuda}
               >
                 Centro de Ayuda
