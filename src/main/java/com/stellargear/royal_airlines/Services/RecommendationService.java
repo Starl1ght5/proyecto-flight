@@ -12,6 +12,7 @@ import weka.classifiers.Classifier;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -23,8 +24,6 @@ public class RecommendationService {
     private final ModelDataRepository modelDataRepository;
     private final LocationService locationService;
     private static final Logger LOGGER = Logger.getLogger(RecommendationService.class.getName());
-
-    private final Random rng = new Random();
 
     private Classifier classifier;
     private Instances dataStructure;
@@ -72,11 +71,10 @@ public class RecommendationService {
 
         double predictionValue = classifier.classifyInstance(instance);
         String prediction = dataStructure.classAttribute().value((int) predictionValue);
-
-        int n1 = rng.nextInt(95 - 65 + 1) + 65;
-        int n2 = rng.nextInt(10);
-
-        String confidencePercentage = n1 + "," + n2;
+        double[] probabilities = classifier.distributionForInstance(instance);
+        double confidence = probabilities[(int) predictionValue];
+        DecimalFormat df = new DecimalFormat("#.#");
+        String confidencePercentage = df.format(confidence * 100) + "%";
 
         data.setResult(prediction);
         modelDataRepository.save(data);
