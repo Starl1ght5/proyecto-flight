@@ -25,11 +25,11 @@ export const RecommendationCard: React.FC<Location> = ({ cityName, iataCode, che
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-lg hover:cursor-pointer hover:scale-105 hover:shadow-xl duration-200 w-base h-xs" onClick={redirectToFlightSelection}>
+        <div className="bg-white rounded-lg shadow-lg hover:cursor-pointer hover:scale-105 hover:shadow-xl duration-200 w-auto lg:w-sm h-71 lg:h-71" onClick={redirectToFlightSelection}>
             
             {/*Image div*/}
             <div className="rounded-t-lg" >
-                <img src={getImage(cityName)} alt={cityName} className="w-full lg:h-50 h-40 object-cover rounded-t-lg" />
+                <img src={getImage(cityName)} alt={cityName} className="w-full h-40 object-cover rounded-t-lg" />
             </div>
 
             {/*Text div*/}

@@ -34,7 +34,7 @@ export const SeatCard: React.FC<SeatCardProps> = ({
           {hovered && (
         <motion.div
           className="absolute z-10 w-full flex justify-center"
-          style={{ bottom: '100%' }} // Posiciona el tooltip encima del asiento
+          style={{ bottom: '100%' }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}

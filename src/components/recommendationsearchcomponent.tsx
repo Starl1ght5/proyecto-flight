@@ -26,7 +26,6 @@ export default function RecomenationSearchComponent() {
 
 	const [ recommendedLocation, setRecommendedLocation ] = useState<Location[]>([]);
 	const [ searched, setSearched ] = useState<boolean>(false);
-	const [ name, setName ] = useState<string>('');
 
 	const [ buttonA, setButtonA ] = useState<boolean>(false);
 	const [ buttonB, setButtonB ] = useState<boolean>(false);
@@ -98,7 +97,7 @@ export default function RecomenationSearchComponent() {
 				const content = await res.json();
 				setRecommendedLocation(content);
 				setSearched(true);
-				setName(content[0].cityName);
+
 			} else {
 				toast.error(
 					'Ha ocurrido un error en la busqueda, vuelva a intentarlo',
@@ -118,7 +117,6 @@ export default function RecomenationSearchComponent() {
 	const reset = () => {
 		setSearched(false);
 		setRecommendedLocation([]);
-		setName('');
 	};
 
 	const alterButtonAState = () => {
@@ -187,9 +185,12 @@ export default function RecomenationSearchComponent() {
 
 								<div className="flex flex-col lg:flex-row lg:space-x-8 justify-between">
 									<div className="flex flex-col gap-1">
-										<label className="text-sm font-extralight">
-											Presupuesto
-										</label>
+										<div className='flex flex-row items-center gap-1'>
+											<label className="text-sm font-extralight">
+												Presupuesto
+											</label>
+											<span className="icon-[iconamoon--question-mark-circle]" />
+										</div>
 										<input
 											type="number"
 											className="bg-white text-black rounded-lg shadow-lg px-4.5 py-2.5 focus:outline-lilac focus:outline-2 lg:w-80 border-1 duration-150 ease-in-out border-black focus:border-transparent"
@@ -305,48 +306,54 @@ export default function RecomenationSearchComponent() {
 					exit={{ opacity: 0}}
 					layout >
 
-					<div className="lg:w-5/6">
-						<div className="rounded-lg shadow-2xl lg:grid lg:grid-cols-2 lg:flex-none flex flex-col bg-white">
-							<div className="rounded-l-lg px-6 py-4">
+					<div>
+						<div className="rounded-lg shadow-2xl lg:flex-none flex flex-col bg-white">
+
+							<div className="flex flex-col px-4 pb-4 py-4 rounded-r-lg lg:space-y-4">
+								<div className='flex flex-row justify-between pb-3 lg:pb-0 lg:px-10'>
+									<div className='content-center'>
+										<p className="font-light">Basadonos en tus preferencias</p>
+										<h2 className="text-xl font-extralight">Te recomendamos los siguientes destinos:</h2>
+									</div>
+
+								</div>
+								
+								<div className="rounded-l-lg lg:flex lg:flex-row lg:gap-3 grid grid-cols-1 gap-4 lg:px-6">
 								{recommendedLocation?.map(element => {
 									const { locationID, cityName, cheapestPrice, iataCode } = element;
 
 									return (
 										<RecommendationCard key={locationID} locationID={''} cityName={cityName} countryName={''} iataCode={iataCode} airportName={''} featured={false} cheapestPrice={cheapestPrice} />
 									)})}
-							</div>
+								</div>
 
-							<div className="flex flex-col px-4 pb-4 lg:py-4 rounded-r-lg place-self-center lg:space-y-8">
-								<div>
-									<p className="font-light">Basadonos en tus preferencias</p>
-									<h2 className="text-xl font-extralight">Te recomendamos</h2>
-									<h1 className="text-2xl mb-2 font-[500]">{name}!</h1>
-									<p className="font-light">
-										Porque es el destino que mas se asemeja a lo que estas
+								<div className='lg:px-7 px-4 pb-2 pt-4 lg:pt-0 flex lg:flex-row flex-col justify-between'>
+									<p className="font-light italic content-center lg:text-base text-sm">
+										Porque son lo que mas se asemeja a lo que estas
 										buscando!
 									</p>
-								</div>
 
-								<div className="justify-end pt-3 lg:pt-0">
-									<div className="flex flex-row gap-5 justify-center">
-										<div className="flex flex-col text-sm font-light text-gray-600 italic">
-											<p className="place-self-center">
-												No es lo que
-											</p>
-											<p className="place-self-center">
-												estas buscando?
-											</p>
-										</div>
+									<div className="justify-end pt-3 lg:pt-0 content-center">
+										<div className="flex flex-row lg:gap-5 lg:justify-center justify-between">
+											<div className="flex flex-col text-sm justify-center lg:justify-normal font-light text-gray-600 italic">
+												<p className="place-self-center">
+													No son lo que
+												</p>
+												<p className="place-self-center">
+													estas buscando?
+												</p>
+											</div>
 										
-										<button
-											onClick={reset}
-											className="bg-lilac rounded-lg hover:scale-105 duration-300 ease-in-out px-6 py-2 lg:text-base text-sm text-white hover:cursor-pointer">
-											Busca otro destino!
-										</button>
+											<button
+												onClick={reset}
+												className="bg-lilac rounded-lg hover:scale-105 duration-300 ease-in-out lg:px-6 px-3 lg:py-2 py-3 lg:text-base text-sm text-white hover:cursor-pointer">
+												Busca mas destinos!
+											</button>
+										</div>
 									</div>
 								</div>
-								
 							</div>
+
 						</div>
 					</div>
 				</motion.div>
