@@ -34,6 +34,7 @@ export default function Navbar() {
 
   const toggleDropdown = () => {
     setDropdownOpen(prevState => !prevState);
+    console.log("click")
   };
 
   // Funciones de navegación
@@ -95,6 +96,7 @@ export default function Navbar() {
           {isAuthenticated ? (
             <div className="group flex flex-row gap-2">
               <p className="mt-2">Hola, Viajer@!</p>
+
               <button
                 onClick={() => toggleDropdown}
                 className="flex items-center justify-center bg-purple-300 w-10 h-10 rounded-full text-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"

@@ -12,34 +12,15 @@ export default function oauthredirect () {
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
 
-        if (token) {
-            fetch(`${import.meta.env.VITE_BACKEND_URL}users/cookie`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ token })
+        setCookie('RoyalUserToken', token, {
+            path: '/',
+            secure: true,
+            sameSite: 'none',
+            maxAge: 3600,
+        });
 
-            }).then(response => {
-
-                if (response.ok) {
-                    const res = response.json();
-
-                    setCookie('RoyalUserToken', res, {
-                        path: '/',
-                        secure: true,
-                        sameSite: 'none',
-                        maxAge: 3600,
-                    });
-
-                    navigate("/");
-                    
-                } else {
-                    console.error('Error estableciendo cookie');
-                }
-            });
-        }
+        navigate("/");
+        
     }, []);
 
     return (
