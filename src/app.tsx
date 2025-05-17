@@ -29,6 +29,7 @@ import Contraseña from "./pages/help/contraseña.tsx";
 import CuentaRoyalPass from "./pages/help/cuentaroyalpass.tsx";
 import RoyalWallet from "./pages/help/royalwallet.tsx";
 import WalletRoyalHelp from "./pages/help/walletroyalhelp.tsx";
+import OauthRedirect from "./pages/oauthredirect.tsx";
 
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/payment-confirm" element={<ConfirmarPago />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/wallet" element={<Wallet />} />
+        <Route path="/oauth-success" element={<OauthRedirect />} />
 
         <Route path="/help-center" element={<CentroAyuda/>}/>
         <Route path="/help-center/cambiosydevoluciones"element={<CambiosYDevoluciones/>}/>
