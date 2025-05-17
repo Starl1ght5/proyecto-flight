@@ -4,6 +4,7 @@ import { Toaster, toast } from 'sonner';
 import Logo from "../assets/logoroyal.png";
 import GoogleButtonComponent from "./googlebuttoncomponent.tsx";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 type FormFields = {
   email: string;
@@ -17,6 +18,8 @@ interface ChildProps {
 const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
   
   const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm<FormFields>();
+  const [ , setCookie ] = useCookies(['RoyalUserToken']);
+
   const navigate = useNavigate();
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -30,6 +33,15 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
       });
 
       if (response.status === 202) {
+        const res = response.json();
+
+        setCookie('RoyalUserToken', res, {
+          path: '/',
+          secure: true,
+          sameSite: 'none',
+          maxAge: 3600,
+      });
+
         toast.success("Sesión iniciada correctamente!, en unos momentos seras redirigido a la pagina principal");
         await delay (3000);
         navigate("/");

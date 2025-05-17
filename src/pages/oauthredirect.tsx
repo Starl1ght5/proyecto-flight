@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 
 export default function oauthredirect () {
 
     const navigate = useNavigate();
+    const [ , setCookie ] = useCookies(['RoyalUserToken']);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -22,6 +24,15 @@ export default function oauthredirect () {
             }).then(response => {
 
                 if (response.ok) {
+                    const res = response.json();
+
+                    setCookie('RoyalUserToken', res, {
+                        path: '/',
+                        secure: true,
+                        sameSite: 'none',
+                        maxAge: 3600,
+                    });
+
                     navigate("/");
                     
                 } else {
