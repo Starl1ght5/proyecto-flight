@@ -69,21 +69,23 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
     }
 
     return (
-        <motion.div
-            className="shadow-xl rounded-3xl px-10 pb-10 w-full max-w-md text-center border bg-white border-purple-600"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-        >
+        <div className="min-h-screen w-full flex items-start justify-center md:items-center md:justify-center px-2">
             <Toaster richColors position="top-right" duration={4000} className="bg-white text-black" />
 
-            <div className="flex flex-row gap-2 items-center absolute lg:translate-y-8 lg:translate-x-0 translate-y-5 -translate-x-5 hover:cursor-pointer hover:text-lilac duration-150 hover:scale-110" onClick={origin}>
+            <motion.div
+                className="w-full h-full max-w-md text-center bg-white md:rounded-3xl md:shadow-xl md:border md:border-purple-600 px-4 py-6 md:px-10 md:pb-10 relative"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+            >
+
+            <div className="z-11 flex flex-row gap-2 items-center absolute lg:translate-y-8 lg:translate-x-0 translate-y-5 -translate-x-5 hover:cursor-pointer hover:text-lilac duration-150 hover:scale-110" onClick={origin}>
                 <span className="icon-[weui--back-filled]" />
                 <p>Volver</p>
             </div>
 
             {/* Logo */}
-            <div className="flex flex-row justify-center w-full pt-5">
+            <div className="flex flex-row justify-center w-full pt-5 relative">
                 <motion.img
                 src={Logo}
                 alt="logo"
@@ -93,7 +95,7 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
                 transition={{ duration: 0.4 }}
                 />
             </div>
-            <div className="bg-lilac z-0 absolute w-35 h-14 lg:translate-x-28 lg:-translate-y-13 translate-x-19 -translate-y-13 rounded-lg shadow-lg"></div>
+            <div className="bg-lilac z-0 absolute w-35 h-14 -top-2 left-1/2 -translate-x-1/2 translate-y-30 lg:translate-y-29 lg:w-40 lg:h-16 rounded-lg shadow-lg"></div>
             
             <h2 className="text-2xl font-bold text-black mt-4" >Tu proximo viaje te espera!</h2>
             <p className="font-extralight  mt-1">Crea tu cuenta ahora</p>
@@ -188,6 +190,7 @@ const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
             
 
         </motion.div>
+    </div>
     )
 }
 

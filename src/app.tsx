@@ -2,10 +2,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/home.tsx";
 import LoginPage from "./pages/login.tsx";
 import SearchResutls from "./pages/flightselection.tsx";
-import ConfirmarPago from "./components/confirmpayment.tsx";
+import ConfirmarPago from "./pages/confirmpayment.tsx";
 import SeatSelection from "./pages/seatselection.tsx";
 import UserProfile from "./pages/userprofile.tsx";
-import Wallet from "./pages/wallet.tsx";
 
 import CentroAyuda from "./pages/helpcenter.tsx";
 import CambiosYDevoluciones from "./pages/help/cambiosydevolu.tsx";
@@ -42,7 +41,6 @@ export default function App() {
         <Route path="/seat-selection" element={<SeatSelection />} />
         <Route path="/payment-confirm" element={<ConfirmarPago />} />
         <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/wallet" element={<Wallet />} />
         <Route path="/oauth-success" element={<OauthRedirect />} />
 
         <Route path="/help-center" element={<CentroAyuda/>}/>

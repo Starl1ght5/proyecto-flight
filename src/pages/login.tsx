@@ -12,7 +12,7 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-row justify-center my-6">
+    <div className="flex flex-row justify-center my-6 bg-white md:bg-bluemint">
       <Helmet>
         {LogginIn ? (
           <title>Inicia Sesion - Royal Airlines</title>
