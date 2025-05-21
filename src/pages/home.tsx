@@ -150,8 +150,8 @@ const HeroSection = () => {
         
         <div className="relative z-10 h-full flex flex-col justify-center items-center px-4">
           {/* Títulos */}
-          <div className="text-center lg:mb-12 mb-6">
-            <h1 className="lg:text-6xl text-4xl md:text-6xl font-bold mt-10 text-white mb-3 lg:mb-6 drop-shadow-xl">
+          <div className="text-center lg:mb-8 mb-4">
+            <h1 className="lg:text-6xl text-4xl md:text-6xl font-bold mt-2 text-white mb-3 lg:mb-6 drop-shadow-xl">
               ROYAL Airlines
             </h1>
             <h2 className="lg:text-2xl text-xl md:text-3xl text-purple-light mb-4 drop-shadow-lg">

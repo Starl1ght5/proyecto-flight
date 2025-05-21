@@ -66,6 +66,29 @@ export interface SeatInfo {
     returnInfo: (seat: Seat) => void;
 }
 
+
+export interface customPayload {
+    id: string;
+}
+
+export interface BoardingPassWrapper {
+    boardingPass: BoardingPass;
+}
+
+export interface BoardingPass {
+    boardingPassID: string;
+    passengerInfo: string;
+    seats: Array<string>;
+    seatClass: string;
+    gate: string;
+    group: string;
+    flightNumber: string;
+    airline: string;
+    departureIataCode: string;
+    arrivalIataCode: string;
+    departureDate: Array<number>;
+}
+
 export interface ReservedFlight {
     flight: FlightInfo;
     fee: Fee;

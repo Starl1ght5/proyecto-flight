@@ -10,7 +10,7 @@ export const FlightCard: React.FC<Flight> = ({ flight, returnInfo }) => {
     const formattedDepDate = depDate.toLocaleTimeString("es-CO", {
         hour: '2-digit',
         minute: '2-digit',
-        hour12: true
+        hour12: true 
     });
 
     const arrDate = new Date(flight.arrivalDate[0], flight.arrivalDate[1], flight.arrivalDate[2], flight.arrivalDate[3], flight.arrivalDate[4], flight.arrivalDate[5], flight.arrivalDate[6]);

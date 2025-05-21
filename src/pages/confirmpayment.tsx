@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmarPago = () => {
-  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
 
-  useEffect(() => {
-    setPaymentSuccess(true);
-  }, [])
+  const navigate = useNavigate();
+
+  const goToBoarding = () => {
+    navigate("/my-tickets");
+  }
 
   return (
     <div className="min-h-screen bg-bluemint flex flex-col items-center justify-center p-6">
       <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-3xl">
-      {paymentSuccess && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -20,9 +20,7 @@ const ConfirmarPago = () => {
         >
           Pago realizado exitosamente
         </motion.div>
-      )}
 
-{paymentSuccess && (
   <motion.div
     initial={{ opacity: 0, scale: 0 }}
     animate={{ opacity: 1, scale: 1 }}
@@ -103,10 +101,8 @@ const ConfirmarPago = () => {
       </motion.ul>
     </motion.div>
   </motion.div>
-)}
 
     {/* Botón para redirigir al Boarding Pass */}
-    {paymentSuccess && (
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -114,13 +110,13 @@ const ConfirmarPago = () => {
                 className="mt-6 text-center"
               >
                 <button
-                  className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition"
-                >
-                  Ver Boarding Pass
-                </button>
-              </motion.div>
-            )}
-    </div>
+                onClick={goToBoarding}
+                className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition"
+              >
+                Ver Boarding Pass
+              </button>
+            </motion.div>
+      </div>
     </div>
   );
 };

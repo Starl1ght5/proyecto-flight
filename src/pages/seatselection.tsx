@@ -32,6 +32,7 @@ export default function SeatSelection () {
     const [seatRowD, setSeatRowD] = useState([])
     const [seatRowE, setSeatRowE] = useState([])
     const [seatRowF, setSeatRowF] = useState([])
+    const [ disabled, setDisabled ] = useState<boolean>(false);
 
     const searchParams = new URLSearchParams(location.search);
     const flight = searchParams.get('flight') || '';
@@ -40,7 +41,7 @@ export default function SeatSelection () {
     var passangers = searchParams.get('passangers') || 1;
     var pNumber: number = Number(passangers);
 
-    const { handleSubmit, formState: { isSubmitting }} = useForm();
+    const { handleSubmit, formState: { }} = useForm();
 
     const onSubmit = handleSubmit( async () => {
         try {
@@ -84,6 +85,7 @@ export default function SeatSelection () {
                     if (response.status === 201) {
                         const res = await response.text();
                         initCheckout(res);
+                        setDisabled(true);
         
                     } else {
                         toast.error("Error del servidor" , {
@@ -324,7 +326,7 @@ export default function SeatSelection () {
                     <form onSubmit={onSubmit}>
                         <button 
                             className="px-4 py-3 bg-lilac text-white rounded-lg shadow-lg hover:cursor-pointer hover:bg-gold duration-200 mx-4 mt-4"
-                            disabled={isSubmitting} 
+                            disabled={disabled} 
                             type="submit"
                         >
                             Continuar

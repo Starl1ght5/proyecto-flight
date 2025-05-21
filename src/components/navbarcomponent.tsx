@@ -92,10 +92,10 @@ export default function Navbar() {
       {dropdownOpen && (
         <div className="absolute right-0 mt-11 w-56 bg-white rounded-lg shadow-xl overflow-hidden z-50 border border-gray-100">
           <div className="py-1">
-            <button onClick={goToProfile} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm">Mi Perfil</button>
-            <button onClick={goToMisTiquetes} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm">Mis Tiquetes</button>
+            <button onClick={goToProfile} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm hover:cursor-pointer">Mi Perfil</button>
+            <button onClick={goToMisTiquetes} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 text-sm hover:cursor-pointer">Mis Tiquetes</button>
             <div className="border-t border-gray-100"></div>
-            <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200 text-sm">Cerrar Sesión</button>
+            <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200 text-sm hover:cursor-pointer">Cerrar Sesión</button>
           </div>
         </div>
       )}
