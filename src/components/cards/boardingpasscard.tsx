@@ -1,10 +1,14 @@
-import { BoardingPassWrapper } from "../../types"
+import { BoardingPassWrapper } from "../../types";
+import { motion } from 'framer-motion';
 
 
 export const BoardingPassCard: React.FC<BoardingPassWrapper> = ({ boardingPass }) => {
 
     return (
-        <div className="bg-white flex flex-row rounded-lg shadow-lg w-auto">
+        <motion.div className="bg-white flex flex-row rounded-lg shadow-lg w-auto"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}>
 
             <div className="bg-lilac rounded-l-lg text-white h-auto">
                 <div className="-rotate-90 translate-y-18">
@@ -86,6 +90,6 @@ export const BoardingPassCard: React.FC<BoardingPassWrapper> = ({ boardingPass }
                 </div>
 
             </div>
-        </div>
+        </motion.div>
     )
 }

@@ -148,6 +148,7 @@ export default function ticketsmenu () {
             setSelected1(true);
             setSelected2(false);
             setSelected3(false);
+            setPassess([]);
             searchAllFromUser();
         }
     }
@@ -158,6 +159,7 @@ export default function ticketsmenu () {
             setSelected1(false);
             setSelected2(true);
             setSelected3(false);
+            setPassess([]);
             searchActive();
         }
     }
@@ -168,6 +170,7 @@ export default function ticketsmenu () {
             setSelected1(false);
             setSelected2(false);
             setSelected3(true);
+            setPassess([]);
             searchInactive();
         }   
     }
@@ -185,7 +188,7 @@ export default function ticketsmenu () {
 
                 <h1 className="lg:text-2-5xl text-2xl px-3 pb-3">Mis Ticketes</h1>
 
-                <div className="flex flex-row justify-between gap-2">
+                <div className="flex md:flex-row flex-col justify-between gap-2">
 
                     <div className="bg-white px-7 py-5 rounded-lg shadow-lg h-45">
 
@@ -233,7 +236,7 @@ export default function ticketsmenu () {
 
                     </div>
 
-                    <div className="grid grid-cols-2 space-y-3 space-x-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 space-y-3 space-x-2">
                         {passess?.map(element => {
                             return (
                                 <BoardingPassCard boardingPass={element} />
