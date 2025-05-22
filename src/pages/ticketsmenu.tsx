@@ -179,14 +179,14 @@ export default function ticketsmenu () {
     return (
         <div>
             <Helmet>
-                <title>Royal Airlines - Mis Ticketes</title>
+                <title>Mis Ticketes - Royal Airlines</title>
             </Helmet>
 
             <Navbar />
 
-            <div className="flex flex-col px-7 py-3">
+            <div className="flex flex-col px-3 md:px-7 py-3">
 
-                <h1 className="lg:text-2-5xl text-2xl px-3 pb-3">Mis Ticketes</h1>
+                <h1 className="lg:text-2-5xl text-2xl px-3 pb-3">Mis Tiquetes</h1>
 
                 <div className="flex md:flex-row flex-col justify-between gap-2">
 
@@ -200,7 +200,7 @@ export default function ticketsmenu () {
                                     ${ selected1 
                                     ? ''
                                     : ' hover:cursor-pointer hover:text-gold' }`} 
-                                    onClick={changeState1}>Todos los ticketes</p>
+                                    onClick={changeState1}>Todos los tiquetes</p>
 
                                 <span className={`icon-[ion--checkmark-circled]  
                                 ${ selected1 
@@ -236,7 +236,7 @@ export default function ticketsmenu () {
 
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 space-y-3 space-x-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {passess?.map(element => {
                             return (
                                 <BoardingPassCard boardingPass={element} />

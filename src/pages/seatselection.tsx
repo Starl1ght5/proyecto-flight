@@ -26,6 +26,7 @@ export default function SeatSelection () {
     const [ cookies ] = useCookies(['RoyalUserToken']);
     const [ jwt, setJwt ] = useState<TokenPayload | null>(null);
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
     
     const [seatRowA, setSeatRowA] = useState([])
     const [seatRowB, setSeatRowB] = useState([])
@@ -164,6 +165,8 @@ export default function SeatSelection () {
                 toast.error("Error del servidor" , {
                     className: "bg-red-500 text-white rounded-lg shadow-lg"
                 });
+            } finally {
+              setLoading(false);
             }
         };
 
@@ -252,27 +255,32 @@ export default function SeatSelection () {
             <Navbar />
 
             <div className="flex flex-row justify-center">
-                <div className="md:px-7 px-3 md:py-9 py-4 w-auto rounded-lg mt-16 bg-white/50 backdrop-blur-md shadow-2xl flex flex-col items-center">
-                    <div className="flex flex-row">
-                        <div className="flex flex-row justify-center md:gap-2">
-                            {renderSeatRow(seatRowA, 'A')}
-                            {renderSeatRow(seatRowB, 'B')}
-                            {renderSeatRow(seatRowC, 'C')}
-                        </div>
-                        
-                        <div className="md:mx-7 mx-2 flex flex-col text-center gap-10 mt-12 font-light">
-                            {Array.from({length: 30}).map((_, i) => (
-                                <p key={i}>{i + 1}</p>
-                            ))}
-                        </div>
+  <div className="md:px-7 px-3 md:py-9 py-4 w-auto rounded-lg mt-16 bg-white/50 backdrop-blur-md shadow-2xl flex flex-col items-center">
+    {loading ? (
+      <div className="text-xl text-gray-600 py-10 my-50">
+        <p>Cargando asientos...</p></div>
+    ) : (
+      <div className="flex flex-row">
+        <div className="flex flex-row justify-center md:gap-2">
+          {renderSeatRow(seatRowA, 'A')}
+          {renderSeatRow(seatRowB, 'B')}
+          {renderSeatRow(seatRowC, 'C')}
+        </div>
+        
+        <div className="md:mx-7 mx-2 flex flex-col text-center gap-10 mt-12 font-light">
+          {Array.from({length: 30}).map((_, i) => (
+            <p key={i}>{i + 1}</p>
+          ))}
+        </div>
 
-                        <div className="flex flex-row justify-center md:gap-2">
-                            {renderSeatRow(seatRowD, 'D')}
-                            {renderSeatRow(seatRowE, 'E')}
-                            {renderSeatRow(seatRowF, 'F')}
-                        </div>
-                    </div>
-                </div>
+        <div className="flex flex-row justify-center md:gap-2">
+          {renderSeatRow(seatRowD, 'D')}
+          {renderSeatRow(seatRowE, 'E')}
+          {renderSeatRow(seatRowF, 'F')}
+        </div>
+      </div>
+    )}
+  </div>
                 
         <button
           onClick={() => setMobileDrawerOpen(true)}

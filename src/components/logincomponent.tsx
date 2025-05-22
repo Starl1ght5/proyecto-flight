@@ -33,7 +33,7 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
       });
 
       if (response.status === 202) {
-        const res = response.json();
+        const res = await response.text();
 
         setCookie('RoyalUserToken', res, {
           path: '/',
