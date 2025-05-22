@@ -23,38 +23,39 @@ export const ReservedCard: React.FC<ReservedFlight> = ({ flight, fee, reset }) =
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-lg px-10 py-6" >
-
-            <div className="flex flex-row justify-between" >
-
-                <div className="flex flex-row gap-10 items-center">
-                    <div className="flex flex-col text-center" >
-                        <h3 className="text-xl" >{formattedDepDate}</h3>
-                        <p>{flight.departureLocation.cityName}</p>
+        <div className="bg-white rounded-lg shadow-lg md:px-10 px-3 py-4 md:py-6">
+            <div className="flex flex-col md:flex-row justify-between">
+                <div className="flex flex-row md:gap-10 justify-between md:justify-normal items-center w-full md:w-auto">
+                    <div className="flex flex-col text-center">
+                        <h3 className="text-sm md:text-xl">{formattedDepDate}</h3>
+                        <p className="text-sm md:text-base">{flight.departureLocation.cityName}</p>
                     </div>
 
-                    <div className="flex flex-col text-center text-sm" >
+                    <div className="flex flex-col text-center text-sm">
                         <p>Directo</p>
-                        <p className="font-light" >{flight.duration}</p>
+                        <p className="font-light">{flight.duration}</p>
                     </div>
 
-                    <div className="flex flex-col text-center" >
-                        <h3 className="text-xl" >{formattedArrDate}</h3>
-                        <p>{flight.arrivalLocation.cityName}</p>
+                    <div className="flex flex-col text-center">
+                        <h3 className="text-sm md:text-xl">{formattedArrDate}</h3>
+                        <p className="text-sm md:text-base">{flight.arrivalLocation.cityName}</p>
                     </div>
                 </div>
-                
-                <div className="flex flex-col text-center" >
-                    <p>Precio por pasajero</p>
-                    <p>COP {formattedFee}</p>
+    
+                <div className="flex flex-col text-center mt-4 md:mt-0">
+                    <p className="text-sm md:text-base">Precio por pasajero</p>
+                    <p className="text-sm md:text-base">COP {formattedFee}</p>
                 </div>
 
-                <button className="hover:cursor-pointer hover:underline" onClick={resetSelection}>
-                    Editar seleccion
-                </button>
-
+                <div className="flex justify-center md:justify-end mt-4 md:mt-0">
+                    <button 
+                        className="hover:cursor-pointer hover:underline text-sm md:text-base" 
+                        onClick={resetSelection}
+                    >
+                        Editar selección
+                    </button>
+                </div>
             </div>
-            
         </div>
     )
 }

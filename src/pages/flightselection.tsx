@@ -117,8 +117,7 @@ export default function SearchResults() {
         const num: number = +value;
         const cal = num * (percentage / 100);
         const round: number = Math.round(cal);
-        const ret: string = round.toString();
-        return ret.toLocaleString();
+        return round.toLocaleString('es-CO');
     }
 
 
@@ -160,7 +159,7 @@ export default function SearchResults() {
                             <svg className="animate-spin size-10" viewBox="0 0 24 24"/>
                         </div>
                     ) : (
-                        <div className="flex flex-col gap-4 py-6 px-4 items-center">
+                        <div className="flex flex-col gap-4 py-6 px-2 md:px-4 items-center">
                             {Flights?.map((element) => {
 
                             return (
@@ -172,29 +171,33 @@ export default function SearchResults() {
                     
                 </motion.div>
             ) : (
-                <motion.div className="px-10 pt-8"
+                <motion.div className="md:px-10 px-3 pt-8"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }} >
-                    <h1 className="text-2-5xl">Detalles de tu viaje</h1>
+                    <h1 className="lg:text-2-5xl text-2xl">Detalles de tu viaje</h1>
 
-                    <div className="mx-4" >
-                        <div className="flex flex-row gap-2 mt-4 items-center" >
-                            <h2>Vuelo de ida:</h2>
+                    <div className="md:mx-4" >
+                        <div className="flex flex-row md:gap-2 gap-1 mx-1 mt-4 justify-between md:justify-normal" >
 
-                            <div className="flex flex-row gap-2" >
-                                <p className="font-semibold" >{reservedFlight[0].flight.departureLocation.cityName}</p>
-                                <p>a</p>
-                                <p className="font-semibold" >{reservedFlight[0].flight.arrivalLocation.cityName}</p>
+                            <div className="flex md:flex-row flex-col md:gap-1 items-center text-sm md:text-base">
+                                <h2>Vuelo</h2>
+                                <h2>de ida</h2>
                             </div>
 
-                            <span className="icon-[icon-park-outline--dot]" />
+                            <div className="flex flex-row gap-2 items-center" >
+                                <p className="font-semibold text-sm md:text-base" >{reservedFlight[0].flight.departureLocation.cityName}</p>
+                                <p className="text-sm md:text-base">a</p>
+                                <p className="font-semibold text-sm md:text-base" >{reservedFlight[0].flight.arrivalLocation.cityName}</p>
+                            </div>
 
-                            <p>{reservedFlight[0].fee.feeName}</p>
+                            <span className="icon-[icon-park-outline--dot] size-3 md:size-4 place-self-center" />
 
-                            <span className="icon-[icon-park-outline--dot]" />
+                            <p className="text-sm md:text-base place-self-center" >{reservedFlight[0].fee.feeName}</p>
 
-                            <p>{formattedDate}</p>
+                            <span className="icon-[icon-park-outline--dot] size-3 md:size-4 place-self-center" />
+
+                            <p className="text-sm md:text-base w-1/5 place-self-center" >{formattedDate}</p>
                         
                         </div>
 
@@ -209,18 +212,25 @@ export default function SearchResults() {
                         </div>
                     </div>
 
-                    <div className="flex flex-row justify-end mx-4 mt-7" >
-                        <div className="flex flex-col w-96" >
-                            <div className="flex flex-col bg-white shadow-lg rounded-lg px-7 py-5" >
+                    <div className="flex flex-row justify-end md:mx-4 mt-7" >
+                        <div className="flex flex-col w-full md:w-96" >
+                            <div className="flex flex-col bg-white shadow-lg rounded-lg md:px-7 px-4 py-5" >
 
                                 <div className="flex flex-row font-light justify-between">
                                     <h3>Total reserva</h3>
-                                    <p>COP {calcAndFormat(reservedFlight[0].fee.price.amount, 95)}</p>
+                                    <div className="grid grid-cols-2">
+                                        <p className="place-self-center ml-2.5">COP</p>
+                                        <p>{calcAndFormat(reservedFlight[0].fee.price.amount, 95)}</p>
+                                    </div>
                                 </div>
 
                                 <div className="flex flex-row font-light justify-between">
                                     <h3>Impuestos, tasas y tarifas</h3>
-                                    <p>COP {calcAndFormat(reservedFlight[0].fee.price.amount, 5)}</p>
+                                    <div className="grid grid-cols-2">
+                                        <p>COP</p>
+                                        <p>{calcAndFormat(reservedFlight[0].fee.price.amount, 5)}</p>
+                                    </div>
+                                    
                                 </div>
 
                                 <hr className="my-3" />
