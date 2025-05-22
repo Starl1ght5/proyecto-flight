@@ -25,6 +25,7 @@ export default function SeatSelection () {
     const [ selectedSeats, setSelectedSeats ] = useState<Seat[]>([]);
     const [ cookies ] = useCookies(['RoyalUserToken']);
     const [ jwt, setJwt ] = useState<TokenPayload | null>(null);
+    const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
     
     const [seatRowA, setSeatRowA] = useState([])
     const [seatRowB, setSeatRowB] = useState([])
@@ -251,22 +252,21 @@ export default function SeatSelection () {
             <Navbar />
 
             <div className="flex flex-row justify-center">
-                <div className="px-7 py-9 w-lg rounded-lg mt-16 bg-white/50 backdrop-blur-md shadow-2xl flex flex-col items-center">
+                <div className="md:px-7 px-3 md:py-9 py-4 w-auto rounded-lg mt-16 bg-white/50 backdrop-blur-md shadow-2xl flex flex-col items-center">
                     <div className="flex flex-row">
-                        <div className="flex flex-row justify-center gap-2">
+                        <div className="flex flex-row justify-center md:gap-2">
                             {renderSeatRow(seatRowA, 'A')}
                             {renderSeatRow(seatRowB, 'B')}
                             {renderSeatRow(seatRowC, 'C')}
                         </div>
                         
-                        {/* Pasillo */}
-                        <div className="mx-7 flex flex-col text-center gap-10 mt-12 font-light">
+                        <div className="md:mx-7 mx-2 flex flex-col text-center gap-10 mt-12 font-light">
                             {Array.from({length: 30}).map((_, i) => (
                                 <p key={i}>{i + 1}</p>
                             ))}
                         </div>
 
-                        <div className="flex flex-row justify-center gap-2">
+                        <div className="flex flex-row justify-center md:gap-2">
                             {renderSeatRow(seatRowD, 'D')}
                             {renderSeatRow(seatRowE, 'E')}
                             {renderSeatRow(seatRowF, 'F')}
@@ -274,65 +274,98 @@ export default function SeatSelection () {
                     </div>
                 </div>
                 
-                {/* Selection div */}
-                <div className="bg-white rounded-lg shadow-lg flex flex-col absolute right-0 mt-16 px-3 py-5 gap-2 min-h-96 min-w-20 justify-between">
-                    <div className="flex flex-col gap-2">
-                        <h2 className="text-2xl text-extralight">Selección</h2>
-                        {selectedSeats.length > 0 ? (
-                            selectedSeats.map((element, index) => (
-                                <div key={element.seatNumber} className="bg-white min-h-20 w-sm shadow-lg flex flex-col rounded-lg px-5 py-4 items-center">
-                                    <div className="flex flex-row items-center justify-between w-full">
-                                        <div className="flex flex-row gap-2 items-center">
-                                            <div className="bg-lilac px-4.5 py-3 text-white rounded-lg shadow-lg">
-                                                <p>{element.seatNumber}</p>
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <h3>Pasajero {index + 1}</h3>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p>COP {element.seatPrice.amount}</p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p 
-                                            className="hover:cursor-pointer hover:underline hover:text-lilac text-sm font-light" 
-                                            onClick={() => removeSeat(element.seatNumber)}
-                                        >
-                                            Eliminar selección
-                                        </p>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            Array.from({ length: pNumber }).map((_, index) => (
-                                <div key={`placeholder-${index}`} className="bg-white min-h-20 w-sm shadow-lg flex flex-col rounded-lg px-5 py-4 items-center">
-                                    <div className="flex flex-row items-center justify-between w-full">
-                                        <div className="flex flex-row gap-2 items-center">
-                                            <div className="bg-lilac px-4.5 py-3 text-white rounded-lg shadow-lg">
-                                                <p>?</p>
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <h3>Pasajero {index + 1}</h3>
-                                                <p className="font-extralight text-sm">Sin selección</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
+        <button
+          onClick={() => setMobileDrawerOpen(true)}
+          className="fixed top-24 left-4 z-9 md:hidden bg-lilac text-white px-4 py-3 rounded-full shadow-lg"
+        >
+          Selección ({selectedSeats.length}/{pNumber})
+        </button>
+
+        <div
+          className={`
+            bg-white shadow-lg translate-x-2 flex justify-between flex-col z-11 transition-transform duration-300 md:max-w-100 h-80 md:rounded-lg md:absolute md:right-0 md:top-20 md:mt-16 md:min-w-20 md:min-h-96 w-full fixed bottom-0 left-0 rounded-t-lg px-3 py-3 md:py-5 gap-2
+            ${mobileDrawerOpen ? 'translate-y-0' : 'translate-y-full'}
+            md:translate-y-0
+          `}
+        >
+          <div className="flex flex-col gap-2">
+
+            <div className="flex flex-row justify-between">
+                <h2 className="md:text-2xl text-xl text-extralight">Selección</h2>
+                <button
+                    onClick={() => setMobileDrawerOpen(false)}
+                    className="md:hidden text-right text-sm text-gray-500 mb-2 hover:underline"
+                >
+                    Cerrar
+                </button>
+            </div>
+
+            {selectedSeats.length > 0 ? (
+              selectedSeats.map((element, index) => (
+                <div key={element.seatNumber} className="bg-white min-h-20 md:w-full w-90 shadow-lg flex flex-col rounded-lg px-5 py-4 items-center">
+                  
+                  <div className="flex flex-row items-center justify-between w-full">
                     
-                    <form onSubmit={onSubmit}>
-                        <button 
-                            className="px-4 py-3 bg-lilac text-white rounded-lg shadow-lg hover:cursor-pointer hover:bg-gold duration-200 mx-4 mt-4"
-                            disabled={disabled} 
-                            type="submit"
-                        >
-                            Continuar
-                        </button>
-                    </form>
+                    <div className="flex flex-row gap-2 items-center">
+                      
+                      <div className="bg-lilac px-4.5 py-3 text-white rounded-lg shadow-lg">
+                        <p>{element.seatNumber}</p>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <h3>Pasajero {index + 1}</h3>
+                      </div>
+
+                    </div>
+
+                    <div>
+                      <p>COP {element.seatPrice.amount}</p>
+                    </div>
+
+                  </div>
+
+                  <div>
+                    <p
+                      className="hover:cursor-pointer hover:underline hover:text-lilac text-sm font-light"
+                      onClick={() => removeSeat(element.seatNumber)}
+                    >
+                      Eliminar selección
+                    </p>
+                  </div>
                 </div>
+              ))
+            ) : (
+              Array.from({ length: pNumber }).map((_, index) => (
+                <div key={`placeholder-${index}`} className="bg-white min-h-20 md:w-full w-90 shadow-lg flex flex-col rounded-lg px-5 py-4 items-center">
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <div className="flex flex-row gap-2 items-center">
+                      <div className="bg-lilac px-4.5 py-3 text-white rounded-lg shadow-lg">
+                        <p>?</p>
+                      </div>
+                      <div className="flex flex-col">
+                        <h3>Pasajero {index + 1}</h3>
+                        <p className="font-extralight text-sm">Sin selección</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          <div className="flex flex-row justify-center -translate-y-7 md:translate-y-0">
+              <form onSubmit={onSubmit}>
+                <button
+                  className="px-20 py-3 bg-lilac text-white rounded-lg shadow-lg hover:cursor-pointer hover:bg-gold duration-200"
+                  disabled={disabled}
+                  type="submit"
+                >
+                  Continuar
+                </button>
+              </form>
+            </div>
+          
+        </div>
             </div>
 
             <Footer />

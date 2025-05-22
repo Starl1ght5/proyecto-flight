@@ -30,7 +30,6 @@ export const SeatCard: React.FC<SeatCardProps> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {/* Tooltip para asientos */}
           {hovered && (
         <motion.div
           className="absolute z-10 w-full flex justify-center"
@@ -59,15 +58,13 @@ export const SeatCard: React.FC<SeatCardProps> = ({
           </div>
         </motion.div>
       )}
-    
-          {/* Asiento visual */}
           <div
             className={`bg-white p-3 rounded-lg shadow-lg group border scale-90 ${
               isSelected
-                ? 'border-gold' // Seleccionado
+                ? 'border-gold'
                 : seat.reserved
-                  ? 'border-blackcursor-not-allowed' // Reservado
-                  : 'border-gray-500' // Disponible
+                  ? 'border-blackcursor-not-allowed'
+                  : 'border-gray-500'
             }`}
             onClick={handleClick}
             onMouseEnter={() => setHovered(true)}
@@ -76,10 +73,10 @@ export const SeatCard: React.FC<SeatCardProps> = ({
             <span
               className={`icon-[streamline--shopping-catergories-chair-design-lounge-furniture-chair-interior-decorate-armchair-decoration] size-7 duration-300 ${
                 isSelected
-                  ? 'bg-gold' // Seleccionado
+                  ? 'bg-gold'
                   : seat.reserved
-                    ? 'bg-black' // Reservado
-                    : 'bg-indigo-500 group-hover:bg-purple-400' // Disponible
+                    ? 'bg-black'
+                    : 'bg-indigo-500 group-hover:bg-purple-400'
               }`}
             />
           </div>
