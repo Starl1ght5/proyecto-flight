@@ -30,10 +30,12 @@ public class FlightService {
 
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public ResponseEntity<?> addNewFlight(String airlineName, double price, String departureID, String arrivalID) {
+    public ResponseEntity<?> addNewFlight(String airlineName, double price, String departureID, String arrivalID, String flightNumber) {
         Flight newFlight = new Flight();
+
         newFlight.setAirline(airlineName);
         newFlight.setTicketPrice(price);
+        newFlight.setFlightNumber(flightNumber);
         newFlight.setDepartureLocationID(departureID);
         newFlight.setArrivalLocationID(arrivalID);
         newFlight.setDepartureDate(LocalDateTime.now());
@@ -48,6 +50,7 @@ public class FlightService {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+
     public String calculateTimeDifference(LocalDateTime start, LocalDateTime finish) {
         Duration timeBetween = Duration.between(start, finish);
 
@@ -57,35 +60,37 @@ public class FlightService {
         return  hours + "h " + minutes + "m";
     }
 
+
+    /// Search Methods
+    public double searchCheapestFromFlight (String locationForFlight) {
+        List<Flight> flightsToSearch = flightRepository.searchFlightsForLocation(locationForFlight);
+        return searchCheapestFromList(flightsToSearch).getTicketPrice();
+    }
+
+
     public Flight searchCheapestFromList (List<Flight> listToSearch) {
         return listToSearch.stream()
                 .min(Comparator.comparingDouble(Flight::getTicketPrice))
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public List<Flight> searchFlights (String start, String end, LocalDateTime startOfDay, LocalDateTime endOfDay) {
-        logger.info("Search for flight in repository started");
-        return flightRepository.searchFlights(start, end, startOfDay, endOfDay);
-    }
-
-    public boolean checkFlightForDiscount (String flightToCheck) {
-        Flight check = flightRepository.searchByID(flightToCheck);
-        return check.isDiscounted();
-    }
 
     public Flight searchFlightByID (String requestedID) {
         return flightRepository.searchByID(requestedID);
     }
 
+
     public List<Flight> searchFlightsForLocation (String locationID) {
         return flightRepository.searchFlightsForLocation(locationID);
     }
+
 
     public FlightDTO searchAndConvertObject (String requestedID) {
         return objectToDto(searchFlightByID(requestedID));
     }
 
 
+    /// Conversion Methods
     public FlightDTO objectToDto (Flight requestedObject) {
         FlightDTO returnedDto = new FlightDTO();
 
@@ -93,15 +98,16 @@ public class FlightService {
         returnedDto.setAirline(requestedObject.getAirline());
         returnedDto.setTicketPrice(moneyExchange.convertUSDtoCOP(requestedObject.getTicketPrice()));
         returnedDto.setArrivalDate(requestedObject.getArrivalDate());
+        returnedDto.setFlightNumber(requestedObject.getFlightNumber());
         returnedDto.setDepartureDate(requestedObject.getDepartureDate());
         returnedDto.setDepartureLocation(locationService.findAndConvertObject(requestedObject.getDepartureLocationID()));
         returnedDto.setArrivalLocation(locationService.findAndConvertObject(requestedObject.getArrivalLocationID()));
-        returnedDto.setAvailableSeats(seatService.searchAndConvertList(requestedObject.getAvailableSeatIDs()));
         returnedDto.setAvailableFees(feeService.searchAndConvertList(requestedObject.getAvailableFeeIDs(), requestedObject.getTicketPrice()));
         returnedDto.setDuration(calculateTimeDifference(requestedObject.getDepartureDate(), requestedObject.getArrivalDate()));
 
         return returnedDto;
     }
+
 
     public List<FlightDTO> objectListToDto (List<Flight> requestedList) {
         List<FlightDTO> returnedList = new ArrayList<>();

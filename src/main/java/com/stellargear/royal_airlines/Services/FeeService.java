@@ -17,10 +17,12 @@ public class FeeService {
     private final FeeRepository feeRepository;
     private final MoneyExchange moneyExchange;
 
+
     public List<String> getFees () {
         List<Fee> repoFees = feeRepository.findAll();
         return getIDs(repoFees);
     }
+
 
     public List<String> getIDs (List<Fee> requestedList) {
         List<String> returnedList = new ArrayList<>();
@@ -32,9 +34,11 @@ public class FeeService {
         return returnedList;
     }
 
+
     public FeeDTO searchAndConvertObject (String requestedID) {
         return simpleObjectToDto(searchByID(requestedID));
     }
+
 
     public List<FeeDTO> searchAndConvertList (List<String> requestedList, double price) {
         List<Fee> objectList = new ArrayList<>();
@@ -46,9 +50,11 @@ public class FeeService {
         return objectListToDto(objectList, price);
     }
 
+
     public Fee searchByID (String requestedID) {
         return feeRepository.searchByID(requestedID);
     }
+
 
     public FeeDTO simpleObjectToDto (Fee requestedObject) {
         FeeDTO returnedDto = new FeeDTO();
@@ -60,6 +66,7 @@ public class FeeService {
         return returnedDto;
     }
 
+
     public FeeDTO objectToDto (Fee requestedObject, double ticketPrice) {
         FeeDTO returnedDto = new FeeDTO();
 
@@ -70,6 +77,7 @@ public class FeeService {
 
         return returnedDto;
     }
+
 
     public List<FeeDTO> objectListToDto (List<Fee> requestedList, double price) {
         List<FeeDTO> returnedList = new ArrayList<>();

@@ -27,7 +27,9 @@ public class BookingService {
     private final FlightService flightService;
     private final FeeService feeService;
     private final MoneyExchange moneyExchange;
+    private final BoardingPassService boardingPassService;
     private final static Logger logger = LoggerFactory.getLogger(BookingService.class);
+
 
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> bookFlight (BookingDTO bookingInfo) {
@@ -49,16 +51,29 @@ public class BookingService {
         return new ResponseEntity<>(newBooking.getBookingID(), HttpStatus.CREATED);
     }
 
+
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> confirmBooking(String requestingBookingID) {
         Booking bookingToConfirm = bookingRepository.searchByID(requestingBookingID);
 
         bookingToConfirm.setStatus("Confirmed");
         bookingRepository.save(bookingToConfirm);
+        seatService.updateSeats(bookingToConfirm.getBookedSeatIDs());
+        searchAndSendDataToBoarding(bookingToConfirm);
 
         logger.info("Booking completed, id: {}", bookingToConfirm.getBookingID());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+    public void searchAndSendDataToBoarding (Booking dataToSend) {
+        List<Seat> seats = seatService.searchForListOfIDs(dataToSend.getBookedSeatIDs());
+        Flight flight = flightService.searchFlightByID(dataToSend.getBookedFlightID());
+        Fee fee = feeService.searchByID(dataToSend.getSelectedFee());
+
+        boardingPassService.createBoardingPass(dataToSend.getUserID(), seats, flight, fee);
+    }
+
 
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> cancelBooking (String requestingBookingID) {
@@ -70,6 +85,7 @@ public class BookingService {
         logger.info("Booking canceled, id: {}", bookingToCancel.getBookingID());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     public double calculateTotalPrice (String flight, List<String> seats, String fee) {
         Flight requestedFlight = flightService.searchFlightByID(flight);
@@ -88,13 +104,16 @@ public class BookingService {
         return bigDecimalTotal.doubleValue();
     }
 
+
     public BookingDTO searchAndReturnObject (String requestedID) {
         return objectToDto(searchByID(requestedID));
     }
 
+
     public Booking searchByID (String requestedID) {
         return bookingRepository.searchByID(requestedID);
     }
+
 
     public BookingDTO objectToDto (Booking requestedObject) {
         BookingDTO returnedDTO = new BookingDTO();

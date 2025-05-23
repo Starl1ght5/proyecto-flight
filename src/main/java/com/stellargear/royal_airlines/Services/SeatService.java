@@ -1,6 +1,5 @@
 package com.stellargear.royal_airlines.Services;
 
-
 import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Models.Entities.Seat;
 import com.stellargear.royal_airlines.Repositories.SeatRepository;
@@ -19,6 +18,7 @@ public class SeatService {
 
     private final SeatRepository seatRepository;
     private final MoneyExchange moneyExchange;
+
 
     @Transactional(propagation = Propagation.REQUIRED)
     public List<String> generateSeats () {
@@ -55,6 +55,19 @@ public class SeatService {
         return returnedList;
     }
 
+
+    @Transactional( propagation = Propagation.REQUIRED)
+    public void updateSeats (List<String> requestedIDs) {
+        for (String requestedID : requestedIDs) {
+            Seat objectToUpdate = seatRepository.searchByID(requestedID);
+
+            objectToUpdate.setReserved(true);
+
+            seatRepository.save(objectToUpdate);
+        }
+    }
+
+
     public List<SeatDTO> searchAndConvertList (List<String> requestedList) {
         List<Seat> objectList = new ArrayList<>();
 
@@ -65,9 +78,11 @@ public class SeatService {
         return objectListToDto(objectList);
     }
 
+
     public Seat searchByID (String requestedID) {
         return seatRepository.searchByID(requestedID);
     }
+
 
     public List<Seat> searchForListOfIDs (List<String> requestedIDs) {
         List<Seat> returnedList = new ArrayList<>();
@@ -79,6 +94,7 @@ public class SeatService {
         return returnedList;
     }
 
+
     public SeatDTO objectToDto (Seat requestedObject) {
         SeatDTO returnedDto = new SeatDTO();
 
@@ -89,6 +105,7 @@ public class SeatService {
 
         return returnedDto;
     }
+
 
     public List<SeatDTO> objectListToDto (List<Seat> requestedList) {
         List<SeatDTO> returnedList = new ArrayList<>();

@@ -16,7 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +28,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final EmailService emailService;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
@@ -48,6 +50,7 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> registerGoogleUser (UserDTO registeringUserInfo) {
 
@@ -66,19 +69,23 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<?> login (UserDTO loginInfo) {
+
+    public ResponseEntity<?> login(UserDTO loginInfo) {
         Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPassword()));
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPassword())
+                );
 
         if (authentication.isAuthenticated()) {
             User user = searchForUser(loginInfo.getEmail());
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.SET_COOKIE, jwtService.generateCookie(user).toString());
-            return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
+            String token = jwtService.generateToken(user);
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
 
     public ResponseEntity<?> loginGoogleUser(UserDTO loginInfo) {
         try {
@@ -88,18 +95,22 @@ public class UserService {
 
             if (authentication.isAuthenticated()) {
                 User user = searchForUser(loginInfo.getEmail());
-                ResponseCookie jwtCookie = jwtService.generateCookie(user);
+                String token = jwtService.generateToken(user);
 
+                URI redirectUri = URI.create("https://royalairlines.netlify.app/oauth-success?token=" + token);
                 return ResponseEntity.status(HttpStatus.SEE_OTHER)
-                        .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                        .header(HttpHeaders.LOCATION, "https://royalairlines.netlify.app")
+                        .location(redirectUri)
                         .build();
             }
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
 
     public ResponseEntity<?> loginWithGoogle (String email, String sub) {
         boolean taken = isEmailTaken(email);
@@ -116,6 +127,7 @@ public class UserService {
         }
 
     }
+
 
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseEntity<?> verifyUser (String token) {
@@ -139,9 +151,11 @@ public class UserService {
         return userRepository.isEmailTaken(requestedEmail) != null;
     }
 
+
     public User searchForUser (String requestedEmail) {
         return userRepository.searchByEmail(requestedEmail);
     }
+
 
     public UserDTO objectToDto (User requestedObject) {
         UserDTO returnedDto = new UserDTO();

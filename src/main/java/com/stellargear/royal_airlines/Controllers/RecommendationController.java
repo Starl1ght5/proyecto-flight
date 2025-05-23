@@ -13,6 +13,7 @@ public class RecommendationController {
 
     private final InformationService informationService;
 
+
     @PostMapping(path = "/recommend")
     public ResponseEntity<?> recommendBasedOnParameters (@RequestBody ModelDataDTO data) throws Exception {
         return informationService.searchAndRecommend(data);

@@ -14,20 +14,24 @@ public class BookingController {
 
     private final BookingService bookingService;
 
+
     @PostMapping( path = "/create")
     public ResponseEntity<?> bookNewFlight (@RequestBody BookingDTO bookingDTO) {
         return bookingService.bookFlight(bookingDTO);
     }
+
 
     @GetMapping( path = "/{id}" )
     public BookingDTO getBookingInfo (@PathVariable String id) {
         return bookingService.searchAndReturnObject(id);
     }
 
+
     @PatchMapping( path = "/confirm" )
     public ResponseEntity<?> confirmBooking (@RequestParam String id) {
         return bookingService.confirmBooking(id);
     }
+
 
     @PatchMapping( path = "/cancel" )
     public ResponseEntity<?> cancelBooking (@RequestParam String id) {

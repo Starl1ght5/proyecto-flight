@@ -15,6 +15,7 @@ public class FlightDTO {
     private String airline;
     private Money ticketPrice;
     private String duration;
+    private String flightNumber;
 
     private LocationDTO departureLocation;
     private LocationDTO arrivalLocation;

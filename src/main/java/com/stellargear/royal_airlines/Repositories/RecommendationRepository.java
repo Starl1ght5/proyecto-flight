@@ -7,7 +7,4 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface RecommendationRepository extends MongoRepository<Recommendation, String> {
-
-    @Query("{ 'userID' : ?0 }")
-    List<Recommendation> getRecommendedForUser(String userID);
 }

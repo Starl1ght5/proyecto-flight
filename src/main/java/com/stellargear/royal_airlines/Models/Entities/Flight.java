@@ -17,6 +17,7 @@ public class Flight {
     private String flightID;
     private String airline;
     private double ticketPrice;
+    private String flightNumber;
 
     private String departureLocationID;
     private String arrivalLocationID;

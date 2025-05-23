@@ -3,7 +3,6 @@ package com.stellargear.royal_airlines.Services;
 import com.stellargear.royal_airlines.Models.DTOs.FlightDTO;
 import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
 import com.stellargear.royal_airlines.Models.DTOs.ModelDataDTO;
-import com.stellargear.royal_airlines.Models.DTOs.SeatDTO;
 import com.stellargear.royal_airlines.Models.Entities.Flight;
 import com.stellargear.royal_airlines.Models.Entities.Location;
 import com.stellargear.royal_airlines.Models.Entities.Recommendation;
@@ -17,9 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -35,22 +33,15 @@ public class InformationService {
     private final ClassifierUtils classifierUtils;
     private final static Logger logger = LoggerFactory.getLogger(InformationService.class);
 
+
     /// FlightService Methods
-
-    public ResponseEntity<?> searchFlights (String departureIataCode, String arrivalIataCode, String date) {
+    public ResponseEntity<?> searchFlights (String arrivalIataCode) {
         logger.info("Flight search request started!");
-        LocalDate convertedDate = LocalDate.parse(date);
 
-        LocalDateTime startOfDay = convertedDate.atStartOfDay();
-        LocalDateTime endOfDay = convertedDate.atTime(23, 59, 59, 999999999);
-
-        logger.info("Dates converted successfully!");
-
-        String start = locationService.searchByIataCode(departureIataCode);
         String end = locationService.searchByIataCode(arrivalIataCode);
         logger.info("Locations found successfully");
 
-        List<FlightDTO> returnedList = flightService.objectListToDto(flightService.searchFlights(start, end, startOfDay, endOfDay));
+        List<FlightDTO> returnedList = flightService.objectListToDto(flightService.searchFlightsForLocation(end));
 
         if (returnedList.isEmpty()) {
             logger.warn("List returned Empty");
@@ -63,10 +54,13 @@ public class InformationService {
 
     }
 
-    public List<LocationDTO> searchXLocations (int number) {
+
+    public ResponseEntity<?> searchXLocations (int number) {
         List<Location> locations = locationService.searchAll();
         List<Location> returnedList = new ArrayList<>();
         Random numberPicker = new Random();
+
+        locations.removeIf(location -> location.getLocationID().equals("67f5e9480977642481ce25e5"));
 
         for (Location location : locations) {
 
@@ -90,139 +84,32 @@ public class InformationService {
                 }
             }
         }
-        return locationService.objectListToDto(returnedList);
+        return new ResponseEntity<>(locationService.objectListToDto(returnedList), HttpStatus.OK);
     }
 
-    /// LocationService Methods
-
-    /*public List<LocationDTO> searchXLocationsWithRecommended (int number, String userID) {
-        List<Location> locations = locationService.searchAll();
-        List<LocationDTO> recommendedLocations = searchRecommendedForUser(userID);
-        List<LocationDTO> returnedList = new ArrayList<>();
-        Random numberPicker = new Random();
-
-        for (LocationDTO recommendedLocation : recommendedLocations) {
-            if (returnedList.size() < number / 2) {
-                returnedList.add(recommendedLocation);
-            } else {
-                break;
-            }
-        }
-
-        for (Location location : locations) {
-            if (location.isFeatured()) {
-                if (returnedList.size() < number) {
-                    if (!returnedList.contains(locationService.objectToDto(location))) {
-                        returnedList.add(locationService.objectToDto(location));
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (returnedList.size() < number) {
-            int missingEntries = number - returnedList.size();
-
-            for (int i = 0; i < missingEntries; i++) {
-                LocationDTO newEntry = locationService.objectToDto(locations.remove(numberPicker.nextInt(1, locations.size() - 1)));
-
-                if (!returnedList.contains(newEntry)) {
-                    returnedList.add(newEntry);
-                }
-            }
-        }
-        return returnedList;
-    }*/
-
-    public List<LocationDTO> searchRecommendedForUser (String userID) {
-        List<Recommendation> recommendations = recommendationService.searchRecommendationForUser(userID);
-        List<LocationDTO> locationsForUser = new ArrayList<>();
-
-        for (Recommendation recommendation : recommendations) {
-            LocationDTO returned = locationService.findAndConvertObject(recommendation.getLocationID());
-            returned.setRecommended(true);
-            locationsForUser.add(returned);
-        }
-
-        return locationsForUser;
-    }
-
-    public ResponseEntity<?> searchLocationsWithCheapestPrice (int nOfLocations) {
-
-        List<LocationDTO> locationsToSearch = searchXLocations(nOfLocations);
-        List<LocationDTO> returnedList = new ArrayList<>();
-
-        for (LocationDTO toSearch : locationsToSearch) {
-            List<Flight> flightsToSearch = flightService.searchFlightsForLocation(toSearch.getLocationID());
-
-            if (!flightsToSearch.isEmpty()) {
-                Flight cheapestFlightForLocation = flightService.searchCheapestFromList(flightsToSearch);
-
-                Location locationInfo = locationService.searchByID(cheapestFlightForLocation.getArrivalLocationID());
-                LocationDTO returnedInfo = locationService.objectToDto(locationInfo);
-                returnedInfo.setCheapestPrice(moneyExchange.convertUSDtoCOP(cheapestFlightForLocation.getTicketPrice()));
-
-                returnedList.add(returnedInfo);
-
-            } else {
-                logger.error("No flights were found for location: {}", toSearch.getCityName());
-            }
-
-        }
-
-        return new ResponseEntity<>(returnedList, HttpStatus.OK);
-    }
-
-    /*public ResponseEntity<?> searchLocationsWithCheapestPriceAndRecommended (int nOfLocations, String userID) {
-        List<LocationDTO> locationsToSearch = searchXLocationsWithRecommended(nOfLocations, userID);
-        List<LocationDTO> returnedList = new ArrayList<>();
-
-        for (LocationDTO toSearch : locationsToSearch) {
-            List<Flight> flightsToSearch = flightService.searchFlightsForLocation(toSearch.getLocationID());
-
-            if (!flightsToSearch.isEmpty()) {
-                Flight cheapestFlightForLocation = flightService.calculateCheapest(flightsToSearch);
-
-                Location locationInfo = locationService.searchByID(cheapestFlightForLocation.getArrivalLocationID());
-                LocationDTO returnedInfo = locationService.objectToDto(locationInfo);
-                returnedInfo.setCheapestPrice(moneyExchange.convertUSDtoCOP(cheapestFlightForLocation.getTicketPrice()));
-
-                returnedList.add(returnedInfo);
-
-            } else {
-                logger.error("No flights were found for location: {}", toSearch.getCityName());
-            }
-
-        }
-
-        return new ResponseEntity<>(returnedList, HttpStatus.OK);
-    }*/
 
     /// RecommendationService Methods
-
     public ResponseEntity<?> searchAndRecommend (ModelDataDTO requestingData) throws Exception {
         double usdValue = moneyExchange.getAmountFromMoney(requestingData.getPrice());
         requestingData.setPrice(usdValue);
 
         List<LocationDTO> locations = new ArrayList<>();
+
         ModelData data = classifierUtils.dtoToObject(requestingData);
         Recommendation recommendationData = recommendationService.recommendDestination(data, "");
-        logger.info(recommendationData.getRecommendation());
 
-        List<Flight> flights = flightService.searchFlightsForLocation(recommendationData.getLocationID());
-        Flight cheapest = flightService.searchCheapestFromList(flights);
+        for (int i = 0; i < recommendationData.getLocationIDs().size(); i++) {
 
-        LocationDTO recommended = locationService.findAndConvertObject(recommendationData.getLocationID());
-        recommended.setRecommended(true);
-        recommended.setCheapestPrice(moneyExchange.convertUSDtoCOP(cheapest.getTicketPrice()));
+            LocationDTO recommended = locationService.findAndConvertObject(recommendationData.getLocationIDs().get(i));
+            recommended.setRecommended(true);
+            locations.add(recommended);
+        }
 
-        locations.add(recommended);
         return new ResponseEntity<>(locations, HttpStatus.OK);
     }
 
-    ///  SeatService Methods
 
+    ///  SeatService Methods
     public ResponseEntity<?> getSeatsForFlight (String flightID) {
         Flight searchedFlight = flightService.searchFlightByID(flightID);
 
