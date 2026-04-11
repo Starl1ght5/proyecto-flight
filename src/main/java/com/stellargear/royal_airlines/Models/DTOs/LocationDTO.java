@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.joda.money.Money;
 
+import java.util.ArrayList;
+
 @Setter
 @Getter
 public class LocationDTO {
@@ -15,7 +17,10 @@ public class LocationDTO {
     private String airportName;
     private Money cheapestPrice;
     private boolean featured;
-    private boolean recommended;
+    private String climate;
+    private String bestDate;
+    private ArrayList<String> activities;
+    private double rating;
 
     public LocationDTO () {}
 

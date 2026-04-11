@@ -7,6 +7,9 @@ import com.stellargear.royal_airlines.Utils.MoneyExchange;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,7 +53,7 @@ public class LocationService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateLocationCheapest (String locationID, double cheapest) {
-        Location locationToUpdate = locationRepository.searchByID(locationID);
+        Location locationToUpdate = locationRepository.findByLocationID(locationID);
 
         if (locationToUpdate.getCheapestPrice() != cheapest) {
             locationToUpdate.setCheapestPrice(cheapest);
@@ -68,18 +71,28 @@ public class LocationService {
 
 
     public Location searchByID (String requestedID) {
-        return locationRepository.searchByID(requestedID);
+        return locationRepository.findByLocationID(requestedID);
     }
 
 
     public String searchByIataCode (String requestedCode) {
-        Location returnedLocation = locationRepository.searchByIataCode(requestedCode);
+        Location returnedLocation = locationRepository.findByIataCode(requestedCode);
         return returnedLocation.getLocationID();
     }
 
 
-    public List<Location> searchAll () {
-        return locationRepository.findAll();
+    public Page<LocationDTO> getLocations(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Location> locations = locationRepository.findBySecretFalse(pageable);
+
+        return locations.map(this::objectToDto);
+    }
+
+    public Page<LocationDTO> getFeaturedLocations(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Location> locations = locationRepository.findBySecretFalseAndFeaturedTrue(pageable);
+
+        return locations.map(this::objectToDto);
     }
 
 
@@ -110,6 +123,10 @@ public class LocationService {
         returnedDto.setAirportName(requestedObject.getAirportName());
         returnedDto.setFeatured(requestedObject.isFeatured());
         returnedDto.setCheapestPrice(moneyExchange.convertUSDtoCOP(requestedObject.getCheapestPrice()));
+        returnedDto.setActivities(requestedObject.getActivities());
+        returnedDto.setBestDate(requestedObject.getBestDate());
+        returnedDto.setClimate(requestedObject.getClimate());
+        returnedDto.setRating(requestedObject.getRating());
 
         return returnedDto;
     }
@@ -132,7 +149,7 @@ public class LocationService {
             }
         }
 
-        Location searchedLocation = locationRepository.searchByCityName(cityName);
+        Location searchedLocation = locationRepository.findByCityName(cityName);
         return searchedLocation.getLocationID();
     }
 }

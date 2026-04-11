@@ -4,6 +4,7 @@ import com.stellargear.royal_airlines.Models.DTOs.LocationDTO;
 import com.stellargear.royal_airlines.Services.InformationService;
 import com.stellargear.royal_airlines.Services.LocationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +23,11 @@ public class LocationController {
     }
 
 
-    @GetMapping(path = "/search")
-    public ResponseEntity<?> searchLocations (@RequestParam String number) {
-        int n = Integer.parseInt(number);
-        return informationService.searchXLocations(n);
+    @GetMapping(path = "/")
+    public ResponseEntity<?> searchLocations (@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "false") String featured) {
+        if (featured.equals("true")) {
+            return new ResponseEntity<>(locationService.getFeaturedLocations(page, size), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(locationService.getLocations(page, size), HttpStatus.OK);
     }
 }
