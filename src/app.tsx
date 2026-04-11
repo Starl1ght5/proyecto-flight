@@ -39,6 +39,9 @@ import CuentaRoyalPass from "./pages/help/cuentaroyalpass";
 import RoyalWallet from "./pages/help/royalwallet";
 import WalletRoyalHelp from "./pages/help/walletroyalhelp";
 
+//ChatBox
+import Chatbox from "./components/chatbox";
+
 export default function App() {
   return (
     <Router>
@@ -102,6 +105,7 @@ export default function App() {
         <Route path="/help-center/royalwallet" element={<RoyalWallet />} />
         <Route path="/help-center/wallethelp" element={<WalletRoyalHelp />} />
       </Routes>
+      <Chatbox/>
     </Router>
   );
 }
