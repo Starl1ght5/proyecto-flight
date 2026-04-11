@@ -16,47 +16,60 @@ interface ChildProps {
 }
 
 const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
-  
   const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm<FormFields>();
   const [ , setCookie ] = useCookies(['RoyalUserToken']);
 
   const navigate = useNavigate();
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+
   const onSubmit = handleSubmit(async (data: FieldValues) => {
     try {
+      console.log(data)
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: 'include',
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify(data),
       });
 
-      if (response.status === 202) {
-        const res = await response.text();
+      console.log(response)
 
-        setCookie('RoyalUserToken', res, {
+      if (response.ok) {
+        const resData = await response;
+        const token = typeof resData === 'string' ? resData : resData.body;
+
+        setCookie('RoyalUserToken', token, {
           path: '/',
-          secure: true,
-          sameSite: 'none',
+          secure: window.location.protocol === 'https:',
+          sameSite: 'lax',
           maxAge: 3600,
-      });
-
-        toast.success("Sesión iniciada correctamente!, en unos momentos seras redirigido a la pagina principal");
-        await delay (3000);
-        navigate("/");
-
-      } else {
-        toast.error("Correo y/o contraseña incorrectos", {
-          className: "bg-red-500 text-white rounded-lg shadow-lg",
         });
+
+        toast.success("¡Sesión iniciada correctamente!", {
+          description: "En unos momentos serás redirigido a la página principal"
+        });
+
+        await delay(2000);
+        navigate("/");
+      
+      } else {
+        const errorMsg = response.status === 401 
+          ? "Correo y/o contraseña incorrectos" 
+          : "Error en la autenticación";
+
+        toast.error(errorMsg, {
+          className: "bg-red-500 text-white rounded-lg shadow-lg",
+          });
       }
 
     } catch (error) {
-      toast.error("Error del servidor", {
+      toast.error("Error de conexión con el servidor", {
         className: "bg-red-500 text-white rounded-lg shadow-lg",
       });
-      console.error(error);
+      console.error("Login Error:", error);
     }
   });
 
@@ -65,118 +78,102 @@ const LoginComponent: React.FC<ChildProps> = ({ changeState }) => {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-start justify-center md:items-center md:justify-center px-2 py-4">
+    <div className="min-h-screen w-full flex bg-white">
       <Toaster position="top-right" duration={4000} />
 
-      <motion.div
-        className="w-full h-full max-w-md text-center bg-white md:rounded-3xl md:shadow-xl md:border md:border-purple-600 px-4 py-6 md:px-10 md:pb-10 relative"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }} >
-
-        <div className="z-11 flex flex-row gap-2 items-center absolute lg:translate-y-8 lg:translate-x-0 translate-y-2 -translate-x-5 hover:cursor-pointer hover:text-lilac duration-150 hover:scale-110" onClick={origin}>
-          <span className="icon-[weui--back-filled]" />
-          <p>Volver</p>
-        </div>
-
-        {/* Logo */}
-        <div className="flex flex-row justify-center w-full pt-5 relative">
-            <motion.img
-              src={Logo}
-              alt="logo"
-              className="size-30 z-1 mx-auto"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.4 }}
-            />
-        </div>
-        <div className="bg-lilac z-0 absolute w-35 h-14 -top-2 left-1/2 -translate-x-1/2 translate-y-30 lg:translate-y-29 lg:w-40 lg:h-16 rounded-lg shadow-lg"></div>
-        
-        
-        {/* Título */}
-        <h2 className="text-2xl font-bold text-black mt-4">¡Bienvenid@ de vuelta!</h2>
-        <p className="text-gray-600 mt-1">Ingresa tus datos para continuar</p>
-
-        {/* Formulario */}
-        <form onSubmit={onSubmit} className="mt-6 space-y-4">
-          {/* Email */}
-          <div className="text-left">
-            <label className="block text-black-300 font-medium">Correo Electrónico</label>
-            <input
-              type="email"
-              placeholder="Email..."
-              className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
-              {...register("email", { required: "Este campo es obligatorio" })}
-            />
-            {errors.email && (
-              <motion.p
-                className="text-red-400 text-sm mt-1"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                {errors.email.message}
-              </motion.p>
-            )}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-400 to-blue-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+          <div className="relative z-10 flex flex-col justify-center items-center text-white px-12 w-full">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} >
+              <h1 className="text-5xl font-bold mb-6">Tu próxima aventura comienza aquí</h1>
+              <p className="text-xl text-blue-100">Vuela a más de 100 destinos en todo el mundo</p>
+            </motion.div>
           </div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
+      </div>
 
-          {/* Contraseña */}
-          <div className="text-left">
-            <label className="block text-black font-medium">Contraseña</label>
-            <input
-              type="password"
-              placeholder="Contraseña..."
-              className="w-full px-4 py-3 border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
-              {...register("password", { required: "Este campo es obligatorio" })}
-            />
-            {errors.password && (
-              <motion.p
-                className=" text-sm mt-1"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                {errors.password.message}
-              </motion.p>
-            )}
-          </div>
-
-          {/* Botón de enviar */}
-          <motion.button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-indigo-600 hover:bg-purple-dark text-white py-3 rounded-lg text-lg font-semibold shadow-md transition-all duration-300 hover:cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Iniciar Sesión
-          </motion.button>
-        </form>
-
-        {/* Línea divisoria */}
-        <div className="relative flex items-center mt-6">
-          <hr className="w-full border-purple-600" />
-          <span className="absolute left-1/2 transform -translate-x-1/2 bg-purple-800 px-2 text-white text-sm">
-            O
-          </span>
-        </div>
-
-        {/* Botón de Google - AHORA PERFECTAMENTE CENTRADO */}
-        <div className="mt-4 flex justify-center">
-          <GoogleButtonComponent />
-        </div>
-
-        {/* Registro */}
-        <div className="mt-6 text-center text-sm">
-          <p className="text-gray-600">¿No tienes una cuenta?</p>
-          <button
-            className="text-indigo-600 hover:text-indigo-300 hover:cursor-pointer font-medium transition-all"
-            onClick={() => changeState(false)}
-          >
-            Regístrate
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12">
+        
+        <motion.div className="w-full max-w-md" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
+          
+          <button onClick={origin} className="mb-8 text-gray-600 hover:text-gray-900 transition-colors duration-200 flex items-center gap-2">
+            <span className="icon-[weui--back-filled] text-xl" />
+            <span className="text-sm font-medium">Volver</span>
           </button>
-        </div>
-      </motion.div>
+          
+          <div className="flex justify-center mb-8">
+            <img src={Logo} alt="logo" className="h-16 w-auto" />
+          </div>
+
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">¡Bienvenido de vuelta!</h2>
+            <p className="text-gray-500">Ingresa a tu cuenta</p>
+          </div>
+
+          <form onSubmit={onSubmit} className="space-y-5">
+            <div>
+              <label className="block text-gray-700 font-medium mb-2 text-sm">
+                Correo Electrónico
+              </label>
+              <input
+                type="email"
+                placeholder="correo@ejemplo.com"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition-all"
+                {...register("email", { required: "Este campo es obligatorio" })}
+              />
+              {errors.email && (
+                <motion.p className="text-red-500 text-xs mt-1.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  {errors.email.message}
+                </motion.p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-2 text-sm">
+                Contraseña
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition-all"
+                {...register("password", { required: "Este campo es obligatorio" })}
+              />
+              {errors.password && (
+                <motion.p className="text-red-500 text-xs mt-1.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  {errors.password.message}
+                </motion.p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3.5 rounded-lg font-semibold transition-all duration-200 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "Iniciando sesión..." : "Iniciar Sesión"}
+            </button>
+          </form>
+
+          <div className="relative flex items-center my-6">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="px-4 text-gray-400 text-sm">O</span>
+            <div className="flex-grow border-t border-gray-300"></div>
+          </div>
+
+          <div className="flex justify-center">
+            <GoogleButtonComponent />
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-gray-600 text-sm">
+              ¿No tienes una cuenta?{" "}
+              <button className="text-gray-900 font-semibold hover:underline transition-all"onClick={() => changeState(false)}>
+                Regístrate
+              </button>
+            </p>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };

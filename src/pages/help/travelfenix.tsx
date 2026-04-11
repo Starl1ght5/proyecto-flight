@@ -3,36 +3,20 @@ import Navbar from "../../components/navbarcomponent";
 import Footer from "../../components/footercomponent";
 
 const ChevronDown = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+  <svg className="w-5 h-5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
   </svg>
 );
 
-const ChevronUp = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-  </svg>
-);
-
-export default function Devoluciones() {
-  const [ openIndex, setOpenIndex ] = useState<number | null>(null);
+export default function TravelFlex() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const preguntas = [
     {
-        pregunta: "Mi vuelo fue cancelado o reprogramado",
-        respuesta:
-          "Si quieres cambiar la fecha o la hora de tu vuelo, podrás hacer el cambio sin costo, siempre que viajes al mismo destino y en la misma cabina que el vuelo original.Tienes plazo para cambiar tu pasaje hasta 12 meses desde la fecha de tu primer vuelo original comprado, solo en aquellos viajes que no hayas realizado. Por ejemplo, si tu viaje se iniciaba el 10 de junio del 2022, tienes hasta el 10 de junio de 2023 para realizar el cambio.",
-      },
-      {
-        pregunta: "Tengo un pasaje para volar en los próximos días",
-        respuesta:
-          "Revisa el estado del vuelo y si existen restricciones de viaje o entrada a tu destino.",
-      },
-      {
-        pregunta: "Tengo un pasaje y me diagnosticaron con COVID-19",
-        respuesta:
-          "Si necesitas cambiar tu pasaje porque te diagnosticaron con COVID-19 o eres contacto estrecho confirmado, no es necesario que vayas al aeropuerto, comunícate con nuestro Contact Center y te ayudaremos.",
-      },
+      pregunta: "¿Cómo funciona la flexibilidad de viaje?",
+      respuesta:
+        "Nuestra política de flexibilidad te permite modificar tus planes de viaje sin penalizaciones adicionales. Consulta las condiciones específicas de tu tarifa.",
+    },
   ];
 
   const toggleDropdown = (index: number) => {
@@ -40,60 +24,65 @@ export default function Devoluciones() {
   };
 
   return (
-    <div>
+    <div className="bg-white">
       <Navbar />
-    <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Encabezado */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="bg-clip-text text-purple2">
-              Viaja con Flexibilidad
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Gestiona tus reembolsos con nuestra política flexible
-          </p>
-        </div>
-
-        {/* Acordeón de Preguntas */}
-        <div className="bg-white bg-opacity-80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-purple">
-          {preguntas.map((item, index) => (
-            <div 
-              key={index} 
-              className={`border-b border-purple-400 last:border-b-0 transition-all duration-300 ${openIndex === index ? 'bg-white bg-opacity-50' : ''}`}
-            >
-              <button
-                className={`w-full flex justify-between items-center p-6 text-left ${openIndex === index ? 'text-purple-400' : 'text-[#002147] hover:text-[#4B0082]'}`}
-                onClick={() => toggleDropdown(index)}
-              >
-                <span className="text-lg md:text-xl font-semibold pr-4">{item.pregunta}</span>
-                {openIndex === index ? <ChevronUp /> : <ChevronDown />}
-              </button>
-              
-              {openIndex === index && (
-                <div className="px-6 pb-6 pt-2 text-gray-600">
-                  <div className="border-l-4 border-purple-dark pl-4">
-                    <p className="text-base md:text-lg">{item.respuesta}</p>
-                  </div>
-                </div>
-              )}
+      
+      <div className="bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+          
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-900 rounded-2xl mb-6">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
             </div>
-          ))}
-        </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 mb-6">
+              Flexibilidad de Viaje
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Viaja con tranquilidad y flexibilidad
+            </p>
+          </div>
 
-        {/* Contacto */}
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center px-6 py-3 rounded-full bg-white shadow-md border border-purple">
-            <span className="mr-3 text-[#4B0082]">📞</span>
-            <span className="text-lg font-medium text-[#002147]">
-              Asistencia inmediata: <span className="text-purple-dark font-extrabold">+1 234 567 890</span>
-            </span>
+          <div className="space-y-4 mb-16">
+            {preguntas.map((item, index) => (
+              <div key={index} className="bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md">
+                <button className="w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition-colors duration-200 group" onClick={() => toggleDropdown(index)}>
+                  <span className="text-base md:text-lg font-semibold text-gray-900 pr-4">{item.pregunta}</span>
+                  <div className={`flex-shrink-0 text-gray-400 group-hover:text-gray-900 transition-all duration-200 ${openIndex === index ? 'rotate-180' : ''}`}>
+                    <ChevronDown />
+                  </div>
+                </button>
+                {openIndex === index && (
+                  <div className="px-6 pb-6 pt-2">
+                    <div className="border-l-4 border-gray-900 pl-4 py-2">
+                      <p className="text-gray-600 leading-relaxed">{item.respuesta}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-14 h-14 bg-gray-900 rounded-xl flex items-center justify-center">
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">¿Necesitas más información?</h3>
+                <p className="text-gray-600 mb-4">Contacta con nuestro equipo disponible 24/7</p>
+                <a href="tel:+1234567890" className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg transition-all duration-200">Llamar ahora</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <Footer />
+      <Footer />
     </div>
   );
 }

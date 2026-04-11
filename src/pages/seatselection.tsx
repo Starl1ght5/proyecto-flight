@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Footer from "../components/footercomponent.tsx";
 import Navbar from "../components/navbarcomponent.tsx";
 import { Seat, CheckoutAttemptInfo, CheckoutInfo } from "../types.tsx";
@@ -18,14 +19,13 @@ interface TokenPayload extends JwtPayload {
     iat: number;
 }
 
-
 export default function SeatSelection () {
 
     const [ seats, setSeats ] = useState<Seat[]>([]);
     const [ selectedSeats, setSelectedSeats ] = useState<Seat[]>([]);
     const [ cookies ] = useCookies(['RoyalUserToken']);
     const [ jwt, setJwt ] = useState<TokenPayload | null>(null);
-    const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+    const [] = useState(false);
     const [loading, setLoading] = useState(true);
     
     const [seatRowA, setSeatRowA] = useState([])
@@ -154,7 +154,7 @@ export default function SeatSelection () {
         
         const fetchSeats = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}flights/seats/search?flightID=${flight}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flights/seats/search?flightID=${flight}`, {
                     method: 'GET'
                 });
                 const res = await response.json();
@@ -233,8 +233,8 @@ export default function SeatSelection () {
     };
 
     const renderSeatRow = (row: Seat[], rowLetter: string) => (
-        <div className="flex flex-col justify-center gap-1">
-            <p className="text-center font-light text-lg -translate-x-0.5">{rowLetter}</p>
+        <div className="flex flex-col justify-center gap-0.5">
+            <p className="text-center font-medium text-xs text-gray-500 mb-0.5">{rowLetter}</p>
             {row?.map(element => (
                 <SeatCard 
                     key={element.seatNumber}
@@ -247,133 +247,165 @@ export default function SeatSelection () {
     );
 
     return (
-        <div>
-            <Toaster richColors position="top-right" duration={4000} className="bg-white text-black" />
+        <div className="bg-gray-50 min-h-screen">
+            <Toaster richColors position="top-right" duration={4000} />
             <Helmet>
-                <title>Seleccion de asiento - Royal Airlines</title>
+                <title>Selección de asiento - Royal Airlines</title>
             </Helmet>
             <Navbar />
 
-            <div className="flex flex-row justify-center">
-  <div className="md:px-7 px-3 md:py-9 py-4 w-auto rounded-lg mt-16 bg-white/50 backdrop-blur-md shadow-2xl flex flex-col items-center">
-    {loading ? (
-      <div className="text-xl text-gray-600 py-10 my-50">
-        <p>Cargando asientos...</p></div>
-    ) : (
-      <div className="flex flex-row">
-        <div className="flex flex-row justify-center md:gap-2">
-          {renderSeatRow(seatRowA, 'A')}
-          {renderSeatRow(seatRowB, 'B')}
-          {renderSeatRow(seatRowC, 'C')}
-        </div>
-        
-        <div className="md:mx-7 mx-2 flex flex-col text-center gap-10 mt-12 font-light">
-          {Array.from({length: 30}).map((_, i) => (
-            <p key={i}>{i + 1}</p>
-          ))}
-        </div>
-
-        <div className="flex flex-row justify-center md:gap-2">
-          {renderSeatRow(seatRowD, 'D')}
-          {renderSeatRow(seatRowE, 'E')}
-          {renderSeatRow(seatRowF, 'F')}
-        </div>
-      </div>
-    )}
-  </div>
-                
-        <button
-          onClick={() => setMobileDrawerOpen(true)}
-          className="fixed top-24 left-4 z-9 md:hidden bg-lilac text-white px-4 py-3 rounded-full shadow-lg"
-        >
-          Selección ({selectedSeats.length}/{pNumber})
-        </button>
-
-        <div
-          className={`
-            bg-white shadow-lg translate-x-2 flex justify-between flex-col z-11 transition-transform duration-300 md:max-w-100 h-80 md:rounded-lg md:absolute md:right-0 md:top-20 md:mt-16 md:min-w-20 md:min-h-96 w-full fixed bottom-0 left-0 rounded-t-lg px-3 py-3 md:py-5 gap-2
-            ${mobileDrawerOpen ? 'translate-y-0' : 'translate-y-full'}
-            md:translate-y-0
-          `}
-        >
-          <div className="flex flex-col gap-2">
-
-            <div className="flex flex-row justify-between">
-                <h2 className="md:text-2xl text-xl text-extralight">Selección</h2>
-                <button
-                    onClick={() => setMobileDrawerOpen(false)}
-                    className="md:hidden text-right text-sm text-gray-500 mb-2 hover:underline"
-                >
-                    Cerrar
-                </button>
-            </div>
-
-            {selectedSeats.length > 0 ? (
-              selectedSeats.map((element, index) => (
-                <div key={element.seatNumber} className="bg-white min-h-20 md:w-full w-90 shadow-lg flex flex-col rounded-lg px-5 py-4 items-center">
-                  
-                  <div className="flex flex-row items-center justify-between w-full">
+            <div className="py-8">
+                <div className="max-w-7xl mx-auto px-4">
                     
-                    <div className="flex flex-row gap-2 items-center">
-                      
-                      <div className="bg-lilac px-4.5 py-3 text-white rounded-lg shadow-lg">
-                        <p>{element.seatNumber}</p>
-                      </div>
-
-                      <div className="flex flex-col">
-                        <h3>Pasajero {index + 1}</h3>
-                      </div>
-
+                    {/* Header Simple */}
+                    <div className="mb-8">
+                        <h1 className="text-2xl font-semibold text-gray-800 mb-1">Elige tus asientos</h1>
+                        <p className="text-sm text-gray-500">Selecciona los mejores asientos para tu viaje</p>
                     </div>
 
-                    <div>
-                      <p>COP {element.seatPrice.amount}</p>
+                    {/* Legend Minimalista */}
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6 max-w-2xl">
+                        <div className="flex flex-wrap items-center gap-6 text-xs">
+                            <div className="flex items-center gap-2">
+                                <div className="w-5 h-5 bg-slate-100 border border-slate-300 rounded"></div>
+                                <span className="text-gray-600">Disponible</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-5 h-5 bg-blue-50 border border-blue-300 rounded"></div>
+                                <span className="text-gray-600">Seleccionado</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-5 h-5 bg-gray-200 border border-gray-300 rounded"></div>
+                                <span className="text-gray-600">Ocupado</span>
+                            </div>
+                        </div>
                     </div>
 
-                  </div>
+                    <div className="flex flex-col lg:flex-row gap-6 justify-center items-start">
+                        
+                        {/* Seat Map Container - Minimalista */}
+                        <motion.div 
+                            className="bg-white rounded-xl shadow-sm border border-gray-200 p-8"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            {loading ? (
+                                <div className="flex flex-col items-center justify-center py-20 gap-3">
+                                    <div className="animate-spin rounded-full h-12 w-12 border-2 border-gray-200 border-t-gray-400"></div>
+                                    <p className="text-sm text-gray-500">Cargando asientos...</p>
+                                </div>
+                            ) : (
+                                <div className="flex flex-row items-start justify-center">
+                                    {/* Left side */}
+                                    <div className="flex flex-row gap-1">
+                                        {renderSeatRow(seatRowA, 'A')}
+                                        {renderSeatRow(seatRowB, 'B')}
+                                        {renderSeatRow(seatRowC, 'C')}
+                                    </div>
+                                    
+                                    {/* Aisle */}
+                                    <div className="mx-4 flex flex-col text-center gap-[21px] mt-6 font-normal text-gray-400 text-xs">
+                                        {Array.from({length: 30}).map((_, i) => (
+                                            <p key={i}>{i + 1}</p>
+                                        ))}
+                                    </div>
 
-                  <div>
-                    <p
-                      className="hover:cursor-pointer hover:underline hover:text-lilac text-sm font-light"
-                      onClick={() => removeSeat(element.seatNumber)}
-                    >
-                      Eliminar selección
-                    </p>
-                  </div>
+                                    {/* Right side */}
+                                    <div className="flex flex-row gap-1">
+                                        {renderSeatRow(seatRowD, 'D')}
+                                        {renderSeatRow(seatRowE, 'E')}
+                                        {renderSeatRow(seatRowF, 'F')}
+                                    </div>
+                                </div>
+                            )}
+                        </motion.div>
+
+                        {/* Selection Panel - Minimalista */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="lg:w-80 w-full"
+                        >
+                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 lg:sticky lg:top-24">
+                                {/* Header */}
+                                <div className="flex items-center justify-between mb-5 pb-4 border-b border-gray-100">
+                                    <h2 className="text-lg font-semibold text-gray-800">Tu selección</h2>
+                                    <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md text-xs font-medium">
+                                        {selectedSeats.length}/{pNumber}
+                                    </span>
+                                </div>
+
+                                {/* Selected Seats */}
+                                <div className="space-y-2.5 mb-5 max-h-64 overflow-y-auto">
+                                    {selectedSeats.length > 0 ? (
+                                        selectedSeats.map((element, index) => (
+                                            <div key={element.seatNumber} className="bg-blue-50 border border-blue-100 rounded-lg p-3">
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <div className="flex items-center gap-2.5">
+                                                        <div className="bg-blue-500 text-white px-2.5 py-1 rounded-md font-semibold text-sm">
+                                                            {element.seatNumber}
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-medium text-sm text-gray-800">Pasajero {index + 1}</p>
+                                                        </div>
+                                                    </div>
+                                                    <p className="font-semibold text-sm text-gray-800">
+                                                        ${element.seatPrice.amount.toLocaleString()}
+                                                    </p>
+                                                </div>
+                                                <button
+                                                    className="text-xs text-gray-500 hover:text-red-500 transition-colors"
+                                                    onClick={() => removeSeat(element.seatNumber)}
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        Array.from({ length: pNumber }).map((_, index) => (
+                                            <div key={`placeholder-${index}`} className="bg-slate-50 border border-dashed border-slate-200 rounded-lg p-3">
+                                                <div className="flex items-center gap-2.5">
+                                                    <div className="bg-slate-200 text-slate-500 px-2.5 py-1 rounded-md font-semibold text-sm">?</div>
+                                                    <div>
+                                                        <p className="font-medium text-sm text-gray-600">Pasajero {index + 1}</p>
+                                                        <p className="text-xs text-gray-400">Sin asiento</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+
+                                {/* Total */}
+                                {selectedSeats.length > 0 && (
+                                    <div className="bg-slate-50 rounded-lg p-3 mb-4">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-gray-600">Total</span>
+                                            <span className="text-xl font-semibold text-gray-800">
+                                                ${selectedSeats.reduce((acc, seat) => acc + seat.seatPrice.amount, "")
+}
+                                            </span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="flex flex-row justify-center -translate-y-7 md:translate-y-0">
+                                        <form onSubmit={onSubmit}>
+                                          <button
+                                            className="px-20 py-3 bg-gradient-to-r from-gray-900 to-gray-700 text-white rounded-lg shadow-lg hover:cursor-pointer hover:bg-gold duration-200"
+                                            disabled={disabled}
+                                            type="submit"
+                                          >
+                                            Continuar
+                                          </button>
+                                        </form>
+                                </div>
+                              </div>
+                        </motion.div>
+                    </div>
                 </div>
-              ))
-            ) : (
-              Array.from({ length: pNumber }).map((_, index) => (
-                <div key={`placeholder-${index}`} className="bg-white min-h-20 md:w-full w-90 shadow-lg flex flex-col rounded-lg px-5 py-4 items-center">
-                  <div className="flex flex-row items-center justify-between w-full">
-                    <div className="flex flex-row gap-2 items-center">
-                      <div className="bg-lilac px-4.5 py-3 text-white rounded-lg shadow-lg">
-                        <p>?</p>
-                      </div>
-                      <div className="flex flex-col">
-                        <h3>Pasajero {index + 1}</h3>
-                        <p className="font-extralight text-sm">Sin selección</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-
-          <div className="flex flex-row justify-center -translate-y-7 md:translate-y-0">
-              <form onSubmit={onSubmit}>
-                <button
-                  className="px-20 py-3 bg-lilac text-white rounded-lg shadow-lg hover:cursor-pointer hover:bg-gold duration-200"
-                  disabled={disabled}
-                  type="submit"
-                >
-                  Continuar
-                </button>
-              </form>
-            </div>
-          
-        </div>
             </div>
 
             <Footer />

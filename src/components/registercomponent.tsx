@@ -17,180 +17,184 @@ interface ChildProps {
 const RegisterComponent: React.FC<ChildProps> = ({ changeState }) => {
 
     const navigate = useNavigate();
-
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormFields>();
     
-    const onSubmit = handleSubmit( async (data: FieldValues) => {
-        try {
-
-            if (data.password === data.confirmPassword ) {
-
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-    
-                const res = await response;
-    
-                if (res.status === 201) {
-                    toast.success("Cuenta creada exitosamente!, en unos momentos sera redirigido al inicio de sesion");
-                    await delay(3000);
-                    changeParentState()
-                    
-                } else if (res.status === 400) {
-                    toast.error("Este correo ya esta en uso", {
-                        className: "bg-red-500 text-white rounded-lg shadow-lg"
-                    });
-                }
-
-            } else {
-                toast.error("Las contraseñas no coinciden", {
-                    className: "bg-red-500 text-white rounded-lg shadow-lg"
-                });
-            }
-    
-        } catch (error) {
-            console.log(error)
-            toast.error("Error del servidor" , {
-                className: "bg-red-500 text-white rounded-lg shadow-lg"
-            });
-        }
-    })
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
     const changeParentState = () => {
         changeState(true);
     }
 
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    const onSubmit = handleSubmit(async (data: FieldValues) => {
+        try {
+            if (data.password !== data.confirmPassword) {
+                toast.error("Las contraseñas no coinciden", {
+                    className: "bg-red-500 text-white rounded-lg shadow-lg"
+                });
+                return;
+            }
+
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: data.email,
+                    password: data.password
+                })
+            });
+
+            if (response.status === 201 || response.ok) {
+                toast.success("¡Cuenta creada exitosamente!", {
+                    description: "En unos momentos serás redirigido al inicio de sesión"
+                });
+                await delay(2500);
+                changeParentState();
+                
+            } else if (response.status === 400 || response.status === 409) {
+                toast.error("Este correo ya está en uso o los datos son inválidos", {
+                    className: "bg-red-500 text-white rounded-lg shadow-lg"
+                });
+            } else {
+                throw new Error("Error inesperado en el servidor");
+            }
+
+        } catch (error) {
+            console.error("Register Error:", error);
+            toast.error("Error de conexión con el servidor", {
+                className: "bg-red-500 text-white rounded-lg shadow-lg"
+            });
+        }
+    });
 
     const origin = () => {
         navigate("/");
     }
 
     return (
-        <div className="min-h-screen w-full flex items-start justify-center md:items-center md:justify-center px-2">
-            <Toaster richColors position="top-right" duration={4000} className="bg-white text-black" />
+        <div className="min-h-screen w-full flex bg-white">
+            <Toaster richColors position="top-right" duration={4000} />
 
-            <motion.div
-                className="w-full h-full max-w-md text-center bg-white md:rounded-3xl md:shadow-xl md:border md:border-purple-600 px-4 py-6 md:px-10 md:pb-10 relative"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-            >
-
-            <div className="z-11 flex flex-row gap-2 items-center absolute lg:translate-y-8 lg:translate-x-0 translate-y-5 -translate-x-5 hover:cursor-pointer hover:text-lilac duration-150 hover:scale-110" onClick={origin}>
-                <span className="icon-[weui--back-filled]" />
-                <p>Volver</p>
+            {/* Lado izquierdo - Imagen */}
+            <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-400 to-blue-600 relative overflow-hidden">
+                <div className="absolute inset-0 bg-black/20"></div>
+                <div className="relative z-10 flex flex-col justify-center items-center text-white px-12 w-full">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center"
+                    >
+                        <h1 className="text-5xl font-bold mb-6">Descubre el mundo con nosotros</h1>
+                        <p className="text-xl text-blue-100">Únete a miles de viajeros que confían en ROYAL Airlines</p>
+                    </motion.div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
             </div>
 
-            {/* Logo */}
-            <div className="flex flex-row justify-center w-full pt-5 relative">
-                <motion.img
-                src={Logo}
-                alt="logo"
-                className="size-30 z-1 mx-auto"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.4 }}
-                />
-            </div>
-            <div className="bg-lilac z-0 absolute w-35 h-14 -top-2 left-1/2 -translate-x-1/2 translate-y-30 lg:translate-y-29 lg:w-40 lg:h-16 rounded-lg shadow-lg"></div>
-            
-            <h2 className="text-2xl font-bold text-black mt-4" >Tu proximo viaje te espera!</h2>
-            <p className="font-extralight  mt-1">Crea tu cuenta ahora</p>
+            {/* Lado derecho - Formulario */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12">
+                <motion.div
+                    className="w-full max-w-md"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <button 
+                        onClick={origin}
+                        className="mb-8 text-gray-600 hover:text-gray-900 transition-colors duration-200 flex items-center gap-2"
+                    >
+                        <span className="icon-[weui--back-filled] text-xl" />
+                        <span className="text-sm font-medium">Volver</span>
+                    </button>
 
-            <form onSubmit={onSubmit} className="mt-6 space-y-4">
-
-                <div className="text-left">
-                    <label className="block text-black-300 font-medium">Correo Electrónico</label>
-                    <input
-                        type="email"
-                        placeholder="Email..."
-                        className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
-                        {...register("email", { required: "Este campo es obligatorio" })}
-                    />
-                    {errors.email && (
-                        <motion.p
-                            className="text-red-400 text-sm mt-1"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            {errors.email.message}
-                        </motion.p>
-                    )}
-                </div>
-
-                <div className="text-left">
-                    <label className="block text-black-300 font-medium">Contraseña</label>
-                    <input
-                        type="password"
-                        placeholder="Contraseña..."
-                        className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
-                        {...register("password", { 
-                            required: "Este campo es obligatorio",
-                            minLength: { value: 6, message: "La contraseña debe contener al menos 6 caracteres"},
-                            maxLength: { value: 14, message: "La contraseña no debe sobrepasar los 14 caracteres"}
-                             })} /> 
-                    {errors.email && (
-                        <motion.p
-                            className="text-red-400 text-sm mt-1"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            {errors.password?.message}
-                        </motion.p>
-                    )}
-                </div>
-
-                <div className="text-left">
-                    <label className="block text-black-300 font-medium">Confirmar Contraseña</label>
-                    <input
-                        type="password"
-                        placeholder="Contraseña..."
-                        className="w-full px-4 py-3  border border-purple-600 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 outline-none"
-                        {...register("confirmPassword", { 
-                            required: "Este campo es obligatorio",
-                            minLength: { value: 6, message: "La contraseña debe contener al menos 6 caracteres"},
-                            maxLength: { value: 14, message: "La contraseña no debe sobrepasar los 14 caracteres"}
-                             })} /> 
-                    {errors.email && (
-                        <motion.p
-                            className="text-red-400 text-sm mt-1"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                           {errors?.confirmPassword && (
-                                <motion.p className="text-red text-center text-sm font-[350] mt-1"
-                                    initial={{ opacity: 0}}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.5 }} >{errors.confirmPassword.message}</motion.p>
-                            )}
-                        </motion.p>
-                    )}
-                </div>
-
-                    <div className="flex justify-center py-2">
-                        <motion.button type="submit" disabled={isSubmitting} className="hover:cursor-pointer duration-200 hover:bg-gold bg-lilac text-bluemint py-3 w-5/6 rounded-lg text-lg font-semibold" >Continuar</motion.button>
+                    <div className="flex justify-center mb-8">
+                        <img src={Logo} alt="logo" className="h-16 w-auto" />
                     </div>
-            </form>
 
-            <div className="inline-flex items-center justify-center w-full">
-                <hr className="w-64 h-px my-7 bg-gray-400 border-0" />
-                <span className="absolute px-3 font-medium text-gray-400 italic -translate-x-1/2 bg-white left-1/2">O</span>
+                    <div className="text-center mb-8">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-2">¡Tu próximo viaje te espera!</h2>
+                        <p className="text-gray-500">Crea tu cuenta ahora</p>
+                    </div>
+
+                    <form onSubmit={onSubmit} className="space-y-5">
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-2 text-sm">
+                                Correo Electrónico
+                            </label>
+                            <input
+                                type="email"
+                                placeholder="correo@ejemplo.com"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition-all"
+                                {...register("email", { required: "Este campo es obligatorio" })}
+                            />
+                            {errors.email && (
+                                <motion.p className="text-red-500 text-xs mt-1.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                    {errors.email.message}
+                                </motion.p>
+                            )}
+                        </div>
+
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-2 text-sm">
+                                Contraseña
+                            </label>
+                            <input
+                                type="password"
+                                placeholder="••••••••"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition-all"
+                                {...register("password", { 
+                                    required: "Este campo es obligatorio",
+                                    minLength: { value: 6, message: "Mínimo 6 caracteres"},
+                                    maxLength: { value: 14, message: "Máximo 14 caracteres"}
+                                })}
+                            />
+                            {errors.password && (
+                                <motion.p className="text-red-500 text-xs mt-1.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                    {errors.password.message}
+                                </motion.p>
+                            )}
+                        </div>
+
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-2 text-sm">
+                                Confirmar Contraseña
+                            </label>
+                            <input
+                                type="password"
+                                placeholder="••••••••"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition-all"
+                                {...register("confirmPassword", { required: "Este campo es obligatorio" })}
+                            />
+                            {errors.confirmPassword && (
+                                <motion.p className="text-red-500 text-xs mt-1.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                    {errors.confirmPassword.message}
+                                </motion.p>
+                            )}
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            disabled={isSubmitting} 
+                            className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3.5 rounded-lg font-semibold transition-all duration-200 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isSubmitting ? "Creando cuenta..." : "Crear Cuenta"}
+                        </button>
+                    </form>
+
+                    <div className="mt-8 text-center">
+                        <p className="text-gray-600 text-sm">
+                            ¿Ya tienes una cuenta?{" "}
+                            <button 
+                                className="text-gray-900 font-semibold hover:underline transition-all" 
+                                onClick={changeParentState}
+                            >
+                                Inicia Sesión
+                            </button>
+                        </p>
+                    </div>
+                </motion.div>
             </div>
-
-            <div className="flex flex-row text-sm justify-center mt-5 gap-2" >
-                <p className="italic text-gray-600">Ya tienes una cuenta?</p>
-                <p className="text-lilac underline hover:cursor-pointer" onClick={changeParentState} >Inicia Sesion</p>
-            </div>
-            
-
-        </motion.div>
-    </div>
+        </div>
     )
 }
 

@@ -12,12 +12,12 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-row justify-center my-6 bg-white md:bg-bluemint">
+    <div className="flex flex-row justify-center bg-white">
       <Helmet>
         {LogginIn ? (
-          <title>Inicia Sesion - Royal Airlines</title>
+          <title>Inicia Sesión - Royal Airlines</title>
         ) : (
-          <title>Registrate - Royal Airlines</title>
+          <title>Regístrate - Royal Airlines</title>
         )}
       </Helmet>
 

@@ -3,18 +3,12 @@ import Navbar from "../../components/navbarcomponent";
 import Footer from "../../components/footercomponent";
 
 const ChevronDown = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+  <svg className="w-5 h-5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
   </svg>
 );
 
-const ChevronUp = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-  </svg>
-);
-
-export default function Devoluciones() {
+export default function DevolucionesHelp() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const preguntas = [
@@ -49,60 +43,65 @@ export default function Devoluciones() {
   };
 
   return (
-    <div>
-     <Navbar />
-    <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Encabezado */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="bg-clip-text text-purple2">
-              Devoluciones
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Gestiona tus reembolsos con nuestra política flexible
-          </p>
-        </div>
-
-        {/* Acordeón de Preguntas */}
-        <div className="bg-white bg-opacity-80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-purple">
-          {preguntas.map((item, index) => (
-            <div 
-              key={index} 
-              className={`border-b border-purple-400 last:border-b-0 transition-all duration-300 ${openIndex === index ? 'bg-white bg-opacity-50' : ''}`}
-            >
-              <button
-                className={`w-full flex justify-between items-center p-6 text-left ${openIndex === index ? 'text-purple-400' : 'text-[#002147] hover:text-[#4B0082]'}`}
-                onClick={() => toggleDropdown(index)}
-              >
-                <span className="text-lg md:text-xl font-semibold pr-4">{item.pregunta}</span>
-                {openIndex === index ? <ChevronUp /> : <ChevronDown />}
-              </button>
-              
-              {openIndex === index && (
-                <div className="px-6 pb-6 pt-2 text-gray-600">
-                  <div className="border-l-4 border-purple-dark pl-4">
-                    <p className="text-base md:text-lg">{item.respuesta}</p>
-                  </div>
-                </div>
-              )}
+    <div className="bg-white">
+      <Navbar />
+      
+      <div className="bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+          
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-900 rounded-2xl mb-6">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+              </svg>
             </div>
-          ))}
-        </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 mb-6">
+              Devoluciones
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Gestiona tus reembolsos con nuestra política flexible
+            </p>
+          </div>
 
-        {/* Contacto */}
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center px-6 py-3 rounded-full bg-white shadow-md border border-purple">
-            <span className="mr-3 text-[#4B0082]">📞</span>
-            <span className="text-lg font-medium text-[#002147]">
-              Asistencia inmediata: <span className="text-purple-dark font-extrabold">+1 234 567 890</span>
-            </span>
+          <div className="space-y-4 mb-16">
+            {preguntas.map((item, index) => (
+              <div key={index} className="bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md">
+                <button className="w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition-colors duration-200 group" onClick={() => toggleDropdown(index)}>
+                  <span className="text-base md:text-lg font-semibold text-gray-900 pr-4">{item.pregunta}</span>
+                  <div className={`flex-shrink-0 text-gray-400 group-hover:text-gray-900 transition-all duration-200 ${openIndex === index ? 'rotate-180' : ''}`}>
+                    <ChevronDown />
+                  </div>
+                </button>
+                {openIndex === index && (
+                  <div className="px-6 pb-6 pt-2">
+                    <div className="border-l-4 border-gray-900 pl-4 py-2">
+                      <p className="text-gray-600 leading-relaxed">{item.respuesta}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-14 h-14 bg-gray-900 rounded-xl flex items-center justify-center">
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">¿Necesitas ayuda con tu devolución?</h3>
+                <p className="text-gray-600 mb-4">Nuestro equipo está disponible 24/7 para asistirte</p>
+                <a href="tel:+1234567890" className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg transition-all duration-200">Llamar ahora</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <Footer />
+      <Footer />
     </div>
   );
 }

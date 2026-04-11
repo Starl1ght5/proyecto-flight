@@ -138,20 +138,24 @@ export interface FlightInfo {
     duration: string;
     arrivalLocation: Location;
     departureLocation: Location;
-    arrivalDate: Array<number>;
-    departureDate: Array<number>;
+    arrivalDate: Date;
+    departureDate: Date;
     seatList: Array<Seat>;
     availableFees: Array<Fee>;
 }
 
 export interface Location {
+    featured: boolean;
+    airportName: string;
     locationID: string;
     cityName: string;
-    countryName: string;
     iataCode: string;
-    airportName: string;
-    featured: boolean;
+    countryName?: string;
     cheapestPrice: Money;
+    bestDate: string;
+    climate: string;
+    activities: string[];
+    rating: number;
 }
 
 export interface Fee {

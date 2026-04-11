@@ -23,33 +23,40 @@ export const ReservedCard: React.FC<ReservedFlight> = ({ flight, fee, reset }) =
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-lg md:px-10 px-3 py-4 md:py-6">
-            <div className="flex flex-col md:flex-row justify-between">
-                <div className="flex flex-row md:gap-10 justify-between md:justify-normal items-center w-full md:w-auto">
-                    <div className="flex flex-col text-center">
-                        <h3 className="text-sm md:text-xl">{formattedDepDate}</h3>
-                        <p className="text-sm md:text-base">{flight.departureLocation.cityName}</p>
+        <div className="bg-white rounded-xl border-2 border-gray-200 shadow-sm md:px-8 px-4 py-5 md:py-6 hover:border-gray-900 transition-all duration-200">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                
+                {/* Flight Info */}
+                <div className="flex flex-row md:gap-8 gap-4 justify-between md:justify-normal items-center w-full md:w-auto">
+                    <div className="flex flex-col">
+                        <h3 className="text-lg md:text-2xl font-bold text-gray-900">{formattedDepDate}</h3>
+                        <p className="text-sm md:text-base text-gray-600">{flight.departureLocation.cityName}</p>
                     </div>
 
-                    <div className="flex flex-col text-center text-sm">
-                        <p>Directo</p>
-                        <p className="font-light">{flight.duration}</p>
+                    <div className="flex flex-col items-center px-3">
+                        <svg className="w-5 h-5 text-gray-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                        <p className="text-xs text-gray-500">Directo</p>
+                        <p className="text-xs text-gray-500">{flight.duration}</p>
                     </div>
 
-                    <div className="flex flex-col text-center">
-                        <h3 className="text-sm md:text-xl">{formattedArrDate}</h3>
-                        <p className="text-sm md:text-base">{flight.arrivalLocation.cityName}</p>
+                    <div className="flex flex-col">
+                        <h3 className="text-lg md:text-2xl font-bold text-gray-900">{formattedArrDate}</h3>
+                        <p className="text-sm md:text-base text-gray-600">{flight.arrivalLocation.cityName}</p>
                     </div>
                 </div>
     
-                <div className="flex flex-col text-center mt-4 md:mt-0">
-                    <p className="text-sm md:text-base">Precio por pasajero</p>
-                    <p className="text-sm md:text-base">COP {formattedFee}</p>
+                {/* Price */}
+                <div className="flex flex-col text-left md:text-right w-full md:w-auto">
+                    <p className="text-xs text-gray-500 mb-1">Precio por pasajero</p>
+                    <p className="text-xl md:text-2xl font-bold text-gray-900">COP {formattedFee}</p>
                 </div>
 
-                <div className="flex justify-center md:justify-end mt-4 md:mt-0">
+                {/* Edit Button */}
+                <div className="flex justify-start md:justify-end w-full md:w-auto">
                     <button 
-                        className="hover:cursor-pointer hover:underline text-sm md:text-base" 
+                        className="px-5 py-2 text-gray-900 font-semibold hover:bg-gray-100 rounded-lg border-2 border-gray-900 transition-all duration-200" 
                         onClick={resetSelection}
                     >
                         Editar selección
