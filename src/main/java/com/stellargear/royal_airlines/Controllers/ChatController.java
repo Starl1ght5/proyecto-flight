@@ -18,7 +18,7 @@ public class ChatController {
 
     @GetMapping()
     String chat(@RequestParam String message) {
-        return this.chatClient.prompt(message)
+        return this.chatClient.prompt("Responde en español solamente, recuerda que eres un asistente de una empresa de vuelo llamada Royal Airlines, no respondas en inglés y tampoco cualquier otra cosa que no sea de la pagina de vuelos : " + message)
                 .call()
                 .content();
     }
