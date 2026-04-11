@@ -5,6 +5,7 @@ import com.stellargear.royal_airlines.Services.JwtService;
 import com.stellargear.royal_airlines.Services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,11 @@ public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
 
+
+    @GetMapping(path = "/test")
+    public ResponseEntity<?> testAPI () {
+        return new ResponseEntity<>("Si funciona diego no seas pendejo jsjs", HttpStatus.OK);
+    }
 
     @PostMapping(path = "/register")
     public ResponseEntity<?> registerUser (@RequestBody UserDTO userInfo) {
