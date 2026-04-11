@@ -4,6 +4,7 @@ import com.stellargear.royal_airlines.Models.Entities.User;
 import com.stellargear.royal_airlines.Models.Utils.UserPrincipal;
 import com.stellargear.royal_airlines.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +18,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
         User user = userRepository.searchByEmail(email);
         if (user == null) {
             System.out.println("User Not Found");
