@@ -20,7 +20,7 @@ interface Message {
 export default function Chatbox(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, text: "Hola, ¿en qué puedo ayudarte?", sender: "bot" }
+    { id: 1, text: "¡ Te damos la bienvenida a Royal Airlines! Donde tus vuelos son unicos y nuestro servicio es excepcional. ¿En qué puedo ayudarte?", sender: "bot" }
   ]);
   const [input, setInput] = useState<string>("");
 
@@ -85,7 +85,7 @@ export default function Chatbox(): JSX.Element {
         >
           {/* HEADER */}
           <div className="p-3 border-b font-semibold">
-            Chat
+            Atención al Cliente✈️🤖
           </div>
 
           {/* MENSAJES */}
