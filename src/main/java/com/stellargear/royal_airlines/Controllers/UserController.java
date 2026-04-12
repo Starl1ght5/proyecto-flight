@@ -20,12 +20,6 @@ public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
 
-
-    @GetMapping(path = "/test")
-    public ResponseEntity<?> testAPI () {
-        return new ResponseEntity<>("Si funciona diego no seas pendejo jsjs", HttpStatus.OK);
-    }
-
     @PostMapping(path = "/register")
     public ResponseEntity<?> registerUser (@RequestBody UserDTO userInfo) {
         return userService.registerNewUser(userInfo);
