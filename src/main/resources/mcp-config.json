@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--mount", "type=bind,src=./info,dst=/projects/Desktop",
+        "mcp/filesystem",
+        "/projects"
+      ]
+    },
+
+    "MongoDB": {
+      "command": "npx",
+      "args": ["-y", "mongodb-mcp-server@latest"],
+      "env": {
+        "MDB_MCP_CONNECTION_STRING": "string de conexion de mongo (en el env)"
+      }
+    }
+  }
+}
