@@ -11,13 +11,24 @@
         "/projects"
       ]
     },
-
-    "MongoDB": {
-      "command": "npx",
-      "args": ["-y", "mongodb-mcp-server@latest"],
-      "env": {
-        "MDB_MCP_CONNECTION_STRING": "string de conexion de mongo (en el env)"
-      }
+    "dbhub": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--init",
+        "--add-host", "host.docker.internal:host-gateway",
+        "--publish",
+        "9080:9080",
+        "bytebase/dbhub",
+        "--transport",
+        "stdio",
+        "--port",
+        "9080",
+        "--dsn",
+        "mysql://root:estajoda@host.docker.internal:3306/RoyalDB"
+      ]
     }
   }
 }
