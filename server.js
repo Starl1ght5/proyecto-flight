@@ -44,13 +44,13 @@ router.get("/confirm-payment", async (req, res) => {
 
     const booking_id = req.query.bookingID;
 
-    const response = await fetch(`https://royal-airlines-latest.onrender.com/api/v1/booking/confirm?id=${booking_id}`, {
+    const response = await fetch(`${process.env.BACKEND_URL}booking/confirm?id=${booking_id}`, {
        method: 'PATCH'  
     });
 
     if (response.status === 200) {
         console.log(`Payment completed! id:${booking_id}`)
-        res.redirect(`https://royalairlines.netlify.app/payment-confirm`)
+        res.redirect(`${process.env.FRONTEND_URL}payment-confirm`)
 
     }
 
@@ -61,13 +61,13 @@ router.get("/cancel-payment", async (req, res) => {
 
     const booking_id = req.query.bookingID;
 
-    const response = await fetch(`https://royal-airlines-latest.onrender.com/api/v1/booking/cancel?id=${booking_id}`, {
+    const response = await fetch(`${process.env.BACKEND_URL}booking/cancel?id=${booking_id}`, {
        method: 'PATCH'  
     });
 
     if (response.status === 200) {
         console.log(`Payment intent canceled! id:${booking_id}`)
-        res.redirect(`https://royalairlines.netlify.app/payment-canceled`)
+        res.redirect(`${process.env.FRONTEND_URL}payment-canceled`)
     }
 
 });
