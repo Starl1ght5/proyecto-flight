@@ -22,7 +22,13 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, selected, isOpen, o
     <motion.button
       onClick={onToggle}
       type="button"
-      className="flex items-center justify-between gap-3 px-4 py-2.5 bg-white text-gray-700 hover:bg-gray-50 rounded-xl transition-all duration-200 border-2 border-gray-200 hover:border-blue-400 min-w-[140px] text-sm font-semibold shadow-sm hover:shadow-md"
+      className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200"
+      style={{
+        background: isOpen ? 'rgba(29,78,216,0.2)' : 'rgba(255,255,255,0.05)',
+        border: isOpen ? '1px solid rgba(37,99,235,0.5)' : '1px solid rgba(255,255,255,0.1)',
+        color: isOpen ? '#93c5fd' : 'rgba(255,255,255,0.6)',
+        minWidth: '130px',
+      }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
@@ -30,7 +36,7 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, selected, isOpen, o
       <motion.svg
         animate={{ rotate: isOpen ? 180 : 0 }}
         transition={{ duration: 0.3 }}
-        className="w-4 h-4"
+        className="w-3.5 h-3.5"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -38,26 +44,35 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, selected, isOpen, o
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
       </motion.svg>
     </motion.button>
+
     {isOpen && (
       <motion.ul
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
+        exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.2 }}
-        className="absolute mt-2 w-full bg-white text-gray-900 shadow-2xl rounded-xl z-20 border-2 border-gray-200 overflow-hidden"
+        className="absolute mt-2 w-full z-20 overflow-hidden"
+        style={{
+          background: '#0f1117',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: '12px',
+          boxShadow: '0 16px 40px rgba(0,0,0,0.6)',
+        }}
       >
         {options.map((option, index) => (
           <motion.li
             key={option}
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.05 }}
+            transition={{ delay: index * 0.04 }}
             onClick={() => { onSelect(option); onToggle(); }}
-            className={`px-4 py-3 cursor-pointer text-sm font-semibold transition-all ${
-              selected === option
-                ? 'bg-gray-900 text-white'
-                : 'hover:bg-blue-50 hover:text-blue-600'
-            }`}
+            className="px-4 py-2.5 cursor-pointer text-sm font-semibold transition-all"
+            style={{
+              color: selected === option ? '#3b82f6' : 'rgba(255,255,255,0.6)',
+              background: selected === option ? 'rgba(29,78,216,0.15)' : 'transparent',
+            }}
+            onMouseEnter={e => { if (selected !== option) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; }}
+            onMouseLeave={e => { if (selected !== option) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
           >
             {option}
           </motion.li>
@@ -72,7 +87,7 @@ const HeroSection = () => {
   const [selectedTripType, setSelectedTripType] = useState<string>('Ida y Vuelta');
   const [selectedClass, setSelectedClass] = useState<string>('Basic');
   const [selectedPassenger, setSelectedPassenger] = useState<string>('1 Adulto');
-  
+
   const [locations, setLocations] = useState<Location[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -80,7 +95,6 @@ const HeroSection = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Parallax effect
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -91,7 +105,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    
+
     const fetchLocations = async () => {
       try {
         setIsLoading(true);
@@ -101,7 +115,7 @@ const HeroSection = () => {
           `${import.meta.env.VITE_BACKEND_URL}locations/?size=6&featured=true`,
           { signal: controller.signal }
         );
-        
+
         if (!response.ok) {
           throw new Error(`Error de servidor: ${response.status}`);
         }
@@ -151,7 +165,7 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="bg-white overflow-x-hidden">
+    <div style={{ background: '#0a0c12' }} className="overflow-x-hidden">
       <Helmet><title>Royal Airlines - Reserva tu vuelo</title></Helmet>
       <Navbar />
 
@@ -170,29 +184,47 @@ const HeroSection = () => {
             style={{ backgroundImage: `url(${fondo})` }}
           />
         </motion.div>
-        
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
-        
+
+        {/* Overlay oscuro premium */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(10,12,18,0.82) 0%, rgba(13,16,24,0.65) 50%, rgba(10,12,18,0.92) 100%)',
+          }}
+        />
+
         <motion.div
           style={{ opacity }}
           className="relative z-10 h-full flex flex-col justify-center items-center px-4 lg:px-8"
         >
-          {/* Título animado */}
+          {/* Título */}
           <motion.div
-            className="text-center mb-12"
+            className="text-center mb-10"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
+            <motion.p
+              className="text-xs font-semibold tracking-widest uppercase mb-3"
+              style={{ color: '#3b82f6' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              Tu próximo destino te espera
+            </motion.p>
+
             <motion.h1
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4"
+              className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4"
+              style={{ color: '#fff', lineHeight: 1.1 }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               Descubre el mundo con{" "}
               <motion.span
-                className="text-blue-400 inline-block"
+                style={{ color: '#3b82f6' }}
+                className="inline-block"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
@@ -200,9 +232,10 @@ const HeroSection = () => {
                 Royal Airlines
               </motion.span>
             </motion.h1>
-            
+
             <motion.p
-              className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto"
+              className="text-lg md:text-xl max-w-2xl mx-auto"
+              style={{ color: 'rgba(255,255,255,0.5)' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1 }}
@@ -211,17 +244,24 @@ const HeroSection = () => {
             </motion.p>
           </motion.div>
 
-          {/* Formulario de búsqueda animado */}
+          {/* Formulario de búsqueda */}
           <motion.div
             className="w-full max-w-5xl"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <div className="bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-6 lg:p-8 border-2 border-white/20">
-              {/* Dropdowns */}
+            <div
+              className="backdrop-blur-xl rounded-3xl p-6 lg:p-8"
+              style={{
+                background: 'rgba(15,17,23,0.95)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                boxShadow: '0 24px 64px rgba(0,0,0,0.6)',
+              }}
+            >
+              {/* Pills de opciones */}
               <motion.div
-                className="flex flex-wrap gap-3 mb-6"
+                className="flex flex-wrap gap-2.5 mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
@@ -252,7 +292,7 @@ const HeroSection = () => {
                 />
               </motion.div>
 
-              {/* Form inputs */}
+              {/* Inputs */}
               <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -263,7 +303,20 @@ const HeroSection = () => {
                     name="origen"
                     type="text"
                     placeholder="Origen (Ciudad)"
-                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-semibold hover:border-gray-300"
+                    className="w-full p-4 rounded-xl font-semibold outline-none transition-all"
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      color: 'rgba(255,255,255,0.75)',
+                    }}
+                    onFocus={e => {
+                      e.currentTarget.style.borderColor = 'rgba(37,99,235,0.5)';
+                      e.currentTarget.style.background = 'rgba(29,78,216,0.06)';
+                    }}
+                    onBlur={e => {
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                    }}
                     required
                   />
                 </motion.div>
@@ -277,7 +330,20 @@ const HeroSection = () => {
                     name="destino"
                     type="text"
                     placeholder="Destino (Ciudad)"
-                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-semibold hover:border-gray-300"
+                    className="w-full p-4 rounded-xl font-semibold outline-none transition-all"
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      color: 'rgba(255,255,255,0.75)',
+                    }}
+                    onFocus={e => {
+                      e.currentTarget.style.borderColor = 'rgba(37,99,235,0.5)';
+                      e.currentTarget.style.background = 'rgba(29,78,216,0.06)';
+                    }}
+                    onBlur={e => {
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                    }}
                     required
                   />
                 </motion.div>
@@ -288,11 +354,26 @@ const HeroSection = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1 }}
                 >
-                  <label className="text-xs font-bold text-gray-600 mb-2 ml-1">Fecha de Ida</label>
+                  <label className="text-xs font-bold mb-2 ml-1" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.06em' }}>
+                    Fecha de Ida
+                  </label>
                   <input
                     name="ida"
                     type="date"
-                    className="p-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-semibold"
+                    className="w-full p-4 rounded-xl font-semibold outline-none transition-all"
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      color: 'rgba(255,255,255,0.75)',
+                    }}
+                    onFocus={e => {
+                      e.currentTarget.style.borderColor = 'rgba(37,99,235,0.5)';
+                      e.currentTarget.style.background = 'rgba(29,78,216,0.06)';
+                    }}
+                    onBlur={e => {
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                    }}
                     required
                   />
                 </motion.div>
@@ -303,30 +384,51 @@ const HeroSection = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1 }}
                 >
-                  <label className="text-xs font-bold text-gray-600 mb-2 ml-1">Fecha de Vuelta</label>
+                  <label className="text-xs font-bold mb-2 ml-1" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.06em' }}>
+                    Fecha de Vuelta
+                  </label>
                   <input
                     name="vuelta"
                     type="date"
                     disabled={selectedTripType === 'Solo Ida'}
-                    className="p-4 border-2 border-gray-200 rounded-xl disabled:bg-gray-100 disabled:cursor-not-allowed focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-semibold"
+                    className="p-4 rounded-xl font-semibold outline-none transition-all"
+                    style={{
+                      background: selectedTripType === 'Solo Ida' ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      color: selectedTripType === 'Solo Ida' ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.75)',
+                      cursor: selectedTripType === 'Solo Ida' ? 'not-allowed' : 'auto',
+                    }}
+                    onFocus={e => {
+                      if (selectedTripType !== 'Solo Ida') {
+                        e.currentTarget.style.borderColor = 'rgba(37,99,235,0.5)';
+                        e.currentTarget.style.background = 'rgba(29,78,216,0.06)';
+                      }
+                    }}
+                    onBlur={e => {
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                      e.currentTarget.style.background = selectedTripType === 'Solo Ida' ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)';
+                    }}
                   />
                 </motion.div>
 
                 <motion.button
                   type="submit"
-                  className="md:col-span-2 bg-gradient-to-r from-gray-900 to-gray-700 text-white py-4 rounded-xl font-bold hover:from-blue-600 hover:to-blue-800 transform active:scale-[0.98] transition-all shadow-lg hover:shadow-xl"
+                  className="md:col-span-2 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
+                  style={{
+                    background: '#1d4ed8',
+                    color: '#fff',
+                    boxShadow: '0 4px 24px rgba(29,78,216,0.4)',
+                  }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.1 }}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.02, background: '#2563eb' }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    Buscar vuelos disponibles
-                  </span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  Buscar vuelos disponibles
                 </motion.button>
               </form>
             </div>
@@ -339,15 +441,59 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5, repeat: Infinity, repeatType: "reverse", duration: 1.5 }}
           >
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+            >
+              <svg className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.5)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Sección de Destinos con animaciones */}
-      <div className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white" id="destinos">
+      {/* Stats Band */}
+      <div style={{ background: '#0f1117', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="grid grid-cols-2 md:grid-cols-4"
+          >
+            {[
+              { number: "50+", label: "Destinos" },
+              { number: "1M+", label: "Pasajeros" },
+              { number: "99%", label: "Satisfacción" },
+              { number: "24/7", label: "Soporte" }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="text-center py-8 px-4"
+                style={{ borderRight: index < 3 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
+              >
+                <motion.h3
+                  className="text-3xl md:text-4xl font-bold mb-1"
+                  style={{ color: '#3b82f6' }}
+                  whileHover={{ scale: 1.08 }}
+                >
+                  {stat.number}
+                </motion.h3>
+                <p className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.4)' }}>{stat.label}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Destinos Populares */}
+      <div style={{ background: '#0a0c12' }} className="py-20 px-4" id="destinos">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -356,36 +502,43 @@ const HeroSection = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#3b82f6' }}>
+              Explora el mundo
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: 'rgba(255,255,255,0.9)' }}>
               Destinos Populares
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
               Explora los destinos más increíbles con las mejores tarifas
             </p>
           </motion.div>
-          
+
           {isLoading && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="flex justify-center py-10"
             >
-              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
+              <div
+                className="animate-spin rounded-full h-12 w-12"
+                style={{ borderTop: '2px solid #3b82f6', borderBottom: '2px solid rgba(59,130,246,0.2)', borderLeft: '2px solid rgba(59,130,246,0.2)', borderRight: '2px solid rgba(59,130,246,0.2)' }}
+              />
             </motion.div>
           )}
-          
+
           {apiError && (
             <motion.p
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center text-red-600 font-semibold bg-red-50 p-6 rounded-2xl border-2 border-red-200"
+              className="text-center font-semibold p-6 rounded-2xl"
+              style={{ color: '#f87171', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)' }}
             >
               {apiError}
             </motion.p>
           )}
-          
+
           {!isLoading && !apiError && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {locations.length > 0 ? (
                 locations.map((loc, index) => (
                   <motion.div
@@ -409,7 +562,8 @@ const HeroSection = () => {
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="col-span-full text-center text-gray-400 py-10 text-lg"
+                  className="col-span-full text-center py-10 text-lg"
+                  style={{ color: 'rgba(255,255,255,0.3)' }}
                 >
                   No encontramos destinos disponibles en este momento.
                 </motion.p>
@@ -419,42 +573,6 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Stats Section - Nueva sección animada */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white"
-      >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { number: "50+", label: "Destinos" },
-              { number: "1M+", label: "Pasajeros" },
-              { number: "99%", label: "Satisfacción" },
-              { number: "24/7", label: "Soporte" }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <motion.h3
-                  className="text-4xl md:text-5xl font-bold text-blue-400 mb-2"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  {stat.number}
-                </motion.h3>
-                <p className="text-gray-300 font-semibold">{stat.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
       <Footer />
     </div>
   );

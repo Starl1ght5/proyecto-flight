@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/logoroyalimagotipo.png";
+import logo from "../assets/logoroyal.png";
 
 export default function Navbar() {
   const [cookies, , removeCookie] = useCookies(["RoyalUserToken"]);
@@ -16,11 +16,8 @@ export default function Navbar() {
     setIsAuthenticated(Boolean(cookies.RoyalUserToken));
   }, [cookies]);
 
-  // Efecto de scroll para cambiar el navbar
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -40,197 +37,219 @@ export default function Navbar() {
   };
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-lg shadow-lg border-b-2 border-gray-100"
-          : "bg-white border-b border-gray-200"
-      } px-6 lg:px-12 py-4`}
-    >
-      <div className="flex justify-between items-center max-w-7xl mx-auto">
-        
-        {/* LOGO con animación */}
-        <motion.div
-          onClick={() => navigateTo("/")}
-          className="flex items-center gap-3 cursor-pointer group"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <motion.img
-            src={logo}
-            alt="Royal Airlines Logo"
-            className="w-10 lg:w-12"
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.6 }}
-          />
-          <span className="hidden sm:block font-bold text-lg text-gray-900 group-hover:text-blue-600 transition-colors">
-            Royal Airlines
-          </span>
-        </motion.div>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap');
+        .ra-nav { font-family: 'DM Sans', sans-serif; }
+        .ra-nav-link:hover { background: rgba(255,255,255,0.07) !important; color: rgba(255,255,255,0.9) !important; }
+        .ra-user-btn:hover { border-color: rgba(37,99,235,0.5) !important; background: rgba(29,78,216,0.1) !important; }
+        .ra-login-btn:hover { background: #2563eb !important; }
+        .ra-dd-item:hover { background: rgba(255,255,255,0.05) !important; }
+        .ra-dd-logout:hover { background: rgba(248,113,113,0.08) !important; }
+        .ra-mobile-item:hover { background: rgba(255,255,255,0.06) !important; color: rgba(255,255,255,0.9) !important; }
+      `}</style>
 
-        {/* NAV DESKTOP - Mejorado */}
-        <div className="hidden md:flex items-center gap-2">
-          <NavLink onClick={() => navigateTo("/#recommendation")}>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            ¿No sabes a dónde ir?
-          </NavLink>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="ra-nav sticky top-0 z-50"
+        style={{
+          background: scrolled ? "rgba(10,12,18,0.96)" : "rgba(10,12,18,0.85)",
+          backdropFilter: "blur(16px)",
+          borderBottom: scrolled
+            ? "1px solid rgba(255,255,255,0.08)"
+            : "1px solid rgba(255,255,255,0.05)",
+          boxShadow: scrolled ? "0 4px 32px rgba(0,0,0,0.5)" : "none",
+          padding: "0 32px",
+          height: 64,
+          display: "flex",
+          alignItems: "center",
+          transition: "all 0.3s ease",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: 1280, margin: "0 auto", width: "100%" }}>
 
-          <NavLink onClick={() => navigateTo("/explore")}>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-            </svg>
-            Explorar
-          </NavLink>
-          
-          <NavLink onClick={() => navigateTo("/help-center")}>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Centro de Ayuda
-          </NavLink>
+          {/* LOGO */}
+          <motion.div
+            onClick={() => navigateTo("/")}
+            className="flex items-center gap-3 cursor-pointer group"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <motion.img
+              src={logo}
+              alt="Royal Airlines Logo"
+              className="w-10 lg:w-12"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.6 }}
+            />
+            <span
+              className="hidden sm:block font-bold text-lg transition-colors"
+              style={{ color: 'rgba(255,255,255,0.9)', fontFamily: "'Cormorant Garamond', serif", letterSpacing: '0.01em' }}
+            >
+              Royal <span style={{ color: '#3b82f6' }}>Airlines</span>
+            </span>
+          </motion.div>
 
-        </div>
+          {/* NAV DESKTOP */}
+          <div className="hidden md:flex" style={{ alignItems: "center", gap: 2 }}>
+            <NavLink onClick={() => navigateTo("/#recommendation")}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3c-2 2.5-3 5-3 9s1 6.5 3 9M12 3c2 2.5 3 5 3 9s-1 6.5-3 9"/></svg>
+              ¿No sabes a dónde ir?
+            </NavLink>
+            <NavLink onClick={() => navigateTo("/explore")}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path strokeLinecap="round" d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+              Explorar
+            </NavLink>
+            <NavLink onClick={() => navigateTo("/help-center")}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path strokeLinecap="round" d="M12 17v.01M12 13a2 2 0 0 0 .914-3.782 1.98 1.98 0 0 0-2.414.483"/></svg>
+              Centro de Ayuda
+            </NavLink>
+          </div>
 
-        {/* PERFIL / LOGIN */}
-        <div className="flex items-center gap-4">
-          <div className="hidden md:block">
-            {isAuthenticated ? (
-              <div className="relative">
-                {/* Botón de usuario mejorado */}
-                <motion.button  
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="group flex items-center gap-3 px-4 py-2 rounded-full border-2 border-gray-200 hover:border-blue-500 bg-white hover:bg-blue-50 transition-all duration-200 shadow-sm hover:shadow-md"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <div className="bg-gradient-to-br from-gray-900 to-gray-700 w-9 h-9 rounded-full text-white flex items-center justify-center group-hover:from-blue-600 group-hover:to-blue-800 transition-all duration-200 shadow-md">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
-                  <span className="text-sm font-semibold text-gray-700 group-hover:text-blue-600 hidden lg:block">
-                    Mi Cuenta
-                  </span>
-                  <motion.svg
-                    animate={{ rotate: dropdownOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-4 h-4 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+          {/* RIGHT */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div className="hidden md:block">
+              {isAuthenticated ? (
+                <div style={{ position: "relative" }}>
+                  <motion.button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="ra-user-btn"
+                    style={{
+                      display: "flex", alignItems: "center", gap: 8,
+                      padding: "6px 14px 6px 6px", borderRadius: 24,
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      background: "rgba(255,255,255,0.05)",
+                      cursor: "pointer", transition: "all 0.15s",
+                      fontFamily: "'DM Sans', sans-serif",
+                    }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </motion.svg>
-                </motion.button>
+                    <div style={{ width: 30, height: 30, background: '#1d4ed8', borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                      </svg>
+                    </div>
+                    <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,0.75)" }}>Mi Cuenta</span>
+                    <motion.svg
+                      animate={{ rotate: dropdownOpen ? 180 : 0 }}
+                      transition={{ duration: 0.25 }}
+                      width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                    >
+                      <path d="M19 9l-7 7-7-7"/>
+                    </motion.svg>
+                  </motion.button>
 
-                {/* Dropdown Menu con animación */}
-                <AnimatePresence>
-                  {dropdownOpen && (
-                    <>
-                      <div
-                        className="fixed inset-0 z-10"
-                        onClick={() => setDropdownOpen(false)}
-                      />
-                      <motion.div
-                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border-2 border-gray-100 overflow-hidden z-20"
-                      >
-                        {/* Header del dropdown */}
-                        <div className="px-5 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-b-2 border-gray-100">
-                          <p className="text-xs font-bold text-gray-600 uppercase tracking-wider">Mi Gestión</p>
-                          <p className="text-sm text-gray-500 mt-0.5">Royal Airlines</p>
-                        </div>
+                  <AnimatePresence>
+                    {dropdownOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setDropdownOpen(false)} />
+                        <motion.div
+                          initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                          transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
+                          style={{
+                            position: "absolute", right: 0, marginTop: 8, width: 240,
+                            background: "#0f1117",
+                            borderRadius: 14,
+                            border: "1px solid rgba(255,255,255,0.08)",
+                            boxShadow: "0 16px 48px rgba(0,0,0,0.6)",
+                            padding: 6, zIndex: 20,
+                            fontFamily: "'DM Sans', sans-serif",
+                          }}
+                        >
+                          {/* Header */}
+                          <div style={{ padding: "10px 12px 8px", borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 4 }}>
+                            <p style={{ fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.35)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Mi gestión</p>
+                            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 2 }}>
+                              Royal <span style={{ color: '#3b82f6' }}>Airlines</span>
+                            </p>
+                          </div>
 
-                        {/* Menu items */}
-                        <div className="py-2">
                           <DropdownItem
-                            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}
+                            icon={<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>}
                             onClick={() => navigateTo("/user-profile")}
-                            color="gray"
                           >
                             Mi Perfil
                           </DropdownItem>
 
                           <DropdownItem
-                            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>}
+                            icon={<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>}
                             onClick={() => navigateTo("/my-tickets")}
-                            color="gray"
                           >
                             Mis Tiquetes
                           </DropdownItem>
 
-                          <DropdownItem
-                            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 3a6.75 6.75 0 100 13.5A6.75 6.75 0 009.75 3zM21 21l-6-6" /></svg>}
-                            onClick={() => navigateTo("/travel-optimizer")}
-                            color="indigo"
-                          >
-                            Optimizar Viaje
-                          </DropdownItem>
+                          {/* Logout */}
+                          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", marginTop: 4, paddingTop: 4 }}>
+                            <motion.button
+                              onClick={handleLogout}
+                              className="ra-dd-logout"
+                              style={{
+                                display: "flex", alignItems: "center", gap: 10,
+                                padding: "8px 12px", borderRadius: 8, width: "100%",
+                                border: "none", background: "none", cursor: "pointer",
+                                fontFamily: "'DM Sans', sans-serif", transition: "background 0.12s",
+                              }}
+                              whileHover={{ x: 3 }}
+                            >
+                              <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(248,113,113,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                              </div>
+                              <span style={{ fontSize: 13, fontWeight: 500, color: "#f87171" }}>Cerrar Sesión</span>
+                            </motion.button>
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <motion.button
+                  onClick={() => navigateTo("/login")}
+                  className="ra-login-btn"
+                  style={{
+                    background: "#1d4ed8", color: "#fff", border: "none",
+                    borderRadius: 10, padding: "9px 20px", fontSize: 13,
+                    fontWeight: 500, cursor: "pointer",
+                    fontFamily: "'DM Sans', sans-serif",
+                    letterSpacing: "0.01em", transition: "background 0.15s",
+                    boxShadow: "0 4px 16px rgba(29,78,216,0.35)",
+                  }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Iniciar Sesión
+                </motion.button>
+              )}
+            </div>
 
-                          <DropdownItem
-                            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>}
-                            onClick={() => navigateTo("/carbon-tracker")}
-                            color="emerald"
-                          >
-                            Sostenibilidad
-                          </DropdownItem>
-                        </div>
-
-                        {/* Logout section */}
-                        <div className="border-t-2 border-gray-100 bg-gradient-to-r from-red-50/50 to-pink-50/50">
-                          <motion.button
-                            onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-5 py-4 text-sm font-bold text-red-600 hover:bg-red-100 transition-all group"
-                            whileHover={{ x: 5 }}
-                          >
-                            <div className="w-9 h-9 rounded-xl bg-red-100 group-hover:bg-red-200 flex items-center justify-center transition-colors">
-                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                              </svg>
-                            </div>
-                            <span>Cerrar Sesión</span>
-                          </motion.button>
-                        </div>
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <motion.button
-                onClick={() => navigateTo("/login")}
-                className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-6 py-2.5 rounded-xl font-bold hover:from-blue-600 hover:to-blue-800 transition-all shadow-md hover:shadow-lg"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Iniciar Sesión
-              </motion.button>
-            )}
+            {/* HAMBURGER */}
+            <motion.button
+              className="md:hidden"
+              style={{
+                padding: 8, borderRadius: 8, cursor: "pointer",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+              onClick={() => setMobileMenuOpen(true)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round">
+                <path d="M4 6h16M4 12h16m-7 6h7"/>
+              </svg>
+            </motion.button>
           </div>
-
-          {/* HAMBURGER mejorado */}
-          <motion.button
-            className="md:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors"
-            onClick={() => setMobileMenuOpen(true)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-          </motion.button>
         </div>
-      </div>
+      </motion.nav>
 
-      {/* MOBILE MENU con animación */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <div className="fixed inset-0 z-[100] md:hidden">
@@ -238,164 +257,170 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)" }}
               onClick={() => setMobileMenuOpen(false)}
             />
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-0 h-full w-[85%] max-w-sm bg-white shadow-2xl"
+              transition={{ type: "spring", damping: 28, stiffness: 220 }}
+              style={{
+                position: "fixed", right: 0, top: 0, height: "100%",
+                width: "85%", maxWidth: 340,
+                background: "#0f1117",
+                border: "1px solid rgba(255,255,255,0.07)",
+                boxShadow: "-8px 0 48px rgba(0,0,0,0.7)",
+                display: "flex", flexDirection: "column",
+                fontFamily: "'DM Sans', sans-serif",
+              }}
             >
-              <div className="flex flex-col h-full">
-                {/* Header */}
-                <div className="flex justify-between items-center p-6 border-b-2 border-gray-100 bg-gradient-to-r from-gray-50 to-blue-50">
-                  <span className="font-bold text-xl text-gray-900">Menú</span>
-                  <motion.button
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors"
-                    whileHover={{ rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              {/* Mobile header */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 34, height: 34, background: "#1d4ed8", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                     </svg>
-                  </motion.button>
+                  </div>
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>
+                    Royal <span style={{ color: "#3b82f6" }}>Airlines</span>
+                  </span>
                 </div>
-
-                {/* Menu items */}
-                <nav className="flex flex-col gap-2 p-6 flex-1 overflow-y-auto">
-                  <MobileMenuItem
-                    icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-                    onClick={() => navigateTo("/#recommendation")}
-                  >
-                    ¿No sabes a dónde ir?
-                  </MobileMenuItem>
-
-                  <MobileMenuItem
-                    icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>}
-                    onClick={() => navigateTo("/explore")}
-                  >
-                    Explorar
-                  </MobileMenuItem>
-
-                  <MobileMenuItem
-                    icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-                    onClick={() => navigateTo("/help-center")}
-                  >
-                    Centro de Ayuda
-                  </MobileMenuItem>
-
-                  <div className="border-t-2 border-gray-200 my-4" />
-
-                  {isAuthenticated ? (
-                    <>
-                      <MobileMenuItem
-                        icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}
-                        onClick={() => navigateTo("/user-profile")}
-                      >
-                        Mi Perfil
-                      </MobileMenuItem>
-
-                      <MobileMenuItem
-                        icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>}
-                        onClick={() => navigateTo("/my-tickets")}
-                      >
-                        Mis Tiquetes
-                      </MobileMenuItem>
-
-                      <MobileMenuItem
-                        icon={<svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>}
-                        onClick={() => navigateTo("/carbon-tracker")}
-                        highlighted
-                      >
-                        Sostenibilidad
-                      </MobileMenuItem>
-
-                      <motion.button
-                        onClick={handleLogout}
-                        className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors mt-4"
-                        whileHover={{ x: 5 }}
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        Cerrar Sesión
-                      </motion.button>
-                    </>
-                  ) : (
-                    <motion.button
-                      onClick={() => navigateTo("/login")}
-                      className="bg-gradient-to-r from-gray-900 to-gray-700 text-white py-4 rounded-xl font-bold mt-4 shadow-lg hover:from-blue-600 hover:to-blue-800 transition-all"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Iniciar Sesión
-                    </motion.button>
-                  )}
-                </nav>
+                <motion.button
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    width: 36, height: 36, borderRadius: 8,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "rgba(255,255,255,0.05)",
+                    cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                  }}
+                  whileHover={{ rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.5" strokeLinecap="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                </motion.button>
               </div>
+
+              {/* Mobile links */}
+              <nav style={{ display: "flex", flexDirection: "column", gap: 4, padding: "16px 16px", flex: 1, overflowY: "auto" }}>
+                <MobileMenuItem icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3c-2 2.5-3 5-3 9s1 6.5 3 9M12 3c2 2.5 3 5 3 9s-1 6.5-3 9"/></svg>} onClick={() => navigateTo("/#recommendation")}>
+                  ¿No sabes a dónde ir?
+                </MobileMenuItem>
+                <MobileMenuItem icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path strokeLinecap="round" d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>} onClick={() => navigateTo("/explore")}>
+                  Explorar
+                </MobileMenuItem>
+                <MobileMenuItem icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path strokeLinecap="round" d="M12 17v.01M12 13a2 2 0 0 0 .914-3.782 1.98 1.98 0 0 0-2.414.483"/></svg>} onClick={() => navigateTo("/help-center")}>
+                  Centro de Ayuda
+                </MobileMenuItem>
+
+                <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "8px 0" }} />
+
+                {isAuthenticated ? (
+                  <>
+                    <MobileMenuItem icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>} onClick={() => navigateTo("/user-profile")}>
+                      Mi Perfil
+                    </MobileMenuItem>
+                    <MobileMenuItem icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>} onClick={() => navigateTo("/my-tickets")}>
+                      Mis Tiquetes
+                    </MobileMenuItem>
+                    <motion.button
+                      onClick={handleLogout}
+                      style={{
+                        display: "flex", alignItems: "center", gap: 12,
+                        padding: "10px 14px", borderRadius: 10,
+                        border: "none", background: "none", cursor: "pointer",
+                        fontFamily: "'DM Sans', sans-serif", fontSize: 14,
+                        fontWeight: 500, color: "#f87171",
+                        marginTop: 8, transition: "background 0.12s",
+                        width: "100%", textAlign: "left",
+                      }}
+                      whileHover={{ x: 4 }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                      </svg>
+                      Cerrar Sesión
+                    </motion.button>
+                  </>
+                ) : (
+                  <motion.button
+                    onClick={() => navigateTo("/login")}
+                    style={{
+                      background: "#1d4ed8", color: "#fff", border: "none",
+                      borderRadius: 10, padding: "13px", fontSize: 14,
+                      fontWeight: 500, cursor: "pointer",
+                      fontFamily: "'DM Sans', sans-serif",
+                      marginTop: 8, width: "100%",
+                      boxShadow: "0 4px 20px rgba(29,78,216,0.35)",
+                      transition: "background 0.15s",
+                    }}
+                    whileHover={{ scale: 1.02, background: '#2563eb' }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Iniciar Sesión
+                  </motion.button>
+                )}
+              </nav>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 }
 
-// Componentes auxiliares
 const NavLink: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ onClick, children }) => (
   <motion.button
     onClick={onClick}
-    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
-    whileHover={{ scale: 1.05, y: -2 }}
-    whileTap={{ scale: 0.95 }}
+    className="ra-nav-link"
+    style={{
+      display: "flex", alignItems: "center", gap: 6,
+      padding: "7px 14px", borderRadius: 8,
+      fontSize: 13, fontWeight: 500,
+      color: "rgba(255,255,255,0.5)",
+      border: "none", background: "none", cursor: "pointer",
+      fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
+    }}
+    whileHover={{ scale: 1.02, y: -1 }}
+    whileTap={{ scale: 0.97 }}
   >
     {children}
   </motion.button>
 );
 
-const DropdownItem: React.FC<{
-  icon: React.ReactNode;
-  onClick: () => void;
-  children: React.ReactNode;
-  color?: "gray" | "indigo" | "emerald";
-}> = ({ icon, onClick, children, color = "gray" }) => {
-  const colorClasses = {
-    gray: "text-gray-700 hover:bg-blue-50 hover:text-blue-600 bg-gray-100 group-hover:bg-blue-100",
-    indigo: "text-indigo-700 hover:bg-indigo-50 bg-indigo-100 group-hover:bg-indigo-200",
-    emerald: "text-emerald-700 hover:bg-emerald-50 bg-emerald-100 group-hover:bg-emerald-200",
-  };
-
-  return (
-    <motion.button
-      onClick={onClick}
-      className={`w-full flex items-center gap-3 px-5 py-3 text-sm font-semibold ${colorClasses[color]} transition-all group rounded-lg`}
-      whileHover={{ x: 5 }}
-    >
-      <div className={`w-9 h-9 rounded-xl ${colorClasses[color]} flex items-center justify-center transition-colors`}>
-        {icon}
-      </div>
-      <span>{children}</span>
-    </motion.button>
-  );
-};
-
-const MobileMenuItem: React.FC<{
-  icon: React.ReactNode;
-  onClick: () => void;
-  children: React.ReactNode;
-  highlighted?: boolean;
-}> = ({ icon, onClick, children, highlighted = false }) => (
+const DropdownItem: React.FC<{ icon: React.ReactNode; onClick: () => void; children: React.ReactNode }> = ({ icon, onClick, children }) => (
   <motion.button
     onClick={onClick}
-    className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all ${
-      highlighted
-        ? "text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
-        : "text-gray-700 hover:bg-gray-50"
-    }`}
-    whileHover={{ x: 5 }}
+    className="ra-dd-item"
+    style={{
+      display: "flex", alignItems: "center", gap: 10,
+      padding: "8px 12px", borderRadius: 8, width: "100%",
+      border: "none", background: "none", cursor: "pointer",
+      fontFamily: "'DM Sans', sans-serif", transition: "background 0.12s",
+    }}
+    whileHover={{ x: 3 }}
+  >
+    <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+      {icon}
+    </div>
+    <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,0.7)" }}>{children}</span>
+  </motion.button>
+);
+
+const MobileMenuItem: React.FC<{ icon: React.ReactNode; onClick: () => void; children: React.ReactNode }> = ({ icon, onClick, children }) => (
+  <motion.button
+    onClick={onClick}
+    className="ra-mobile-item"
+    style={{
+      display: "flex", alignItems: "center", gap: 12,
+      padding: "10px 14px", borderRadius: 10,
+      border: "none", background: "none", cursor: "pointer",
+      fontFamily: "'DM Sans', sans-serif", fontSize: 14,
+      fontWeight: 500, color: "rgba(255,255,255,0.55)",
+      transition: "background 0.12s", width: "100%", textAlign: "left",
+    }}
+    whileHover={{ x: 4 }}
     whileTap={{ scale: 0.98 }}
   >
     {icon}

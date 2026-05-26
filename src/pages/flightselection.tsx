@@ -97,8 +97,8 @@ export default function SearchResults() {
       <Navbar />
 
       {!selected ? (
-        <div className="px-4 lg:px-10 pt-10 flex-1">
-          <h1 className="text-3xl lg:text-4xl font-extrabold text-gray-900">
+        <div className=" bg-[#0f1117] px-4 lg:px-10 pt-10 flex-1">
+          <h1 className="text-3xl lg:text-4xl font-extrabold text-white">
             Elige tu vuelo de ida
           </h1>
           <p className="text-gray-500 mt-1">
@@ -127,8 +127,8 @@ export default function SearchResults() {
           )}
         </div>
       ) : (
-        <div className="px-4 lg:px-10 pt-10 flex-1">
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-6">
+        <div className="bg-[#0f1117] px-4 lg:px-10 pt-10 flex-1">
+          <h1 className="text-3xl font-extrabold text-white mb-6">
             Detalles de tu viaje
           </h1>
 
@@ -195,7 +195,7 @@ export default function SearchResults() {
                 onClick={next}
                 className="
                   mt-8 w-full py-4
-                  bg-lilac text-black
+                  bg-[#1d4ed8] text-white
                   text-lg font-bold
                   rounded-xl
                   shadow-lg
